@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<dashboard stylesheet="dashboard.css" script="dashboard.js">
+  <label>DNS Threat Detections</label>
+  <description>View of detected potential malicious DNS activities</description>
+  <row>
+    <panel>
+      <title>Detection Summary (Last 24 Hours)</title>
+      <single>
+        <search>
+          <query>`dns_data` | search (isOutlier=1 OR predicted_class=1 OR txt_score>0.7 OR query_count>upper95) | stats count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="rangeColors">["0x53a051","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="rangeValues">[0,1,5,10]</option>
+        <option name="useColors">1</option>
+        <option name="unitPosition">after</option>
+        <option name="unit">detections</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Detections by Type</title>
+      <chart>
+        <search>
+          <query>`dns_data` | eval detection_type=case(
+            isOutlier=1, "Outlier Detection",
+            predicted_class=1, "DGA Detection",
+            txt_score>0.7, "TXT Record Analysis",
+            query_count>upper95, "Volume Anomaly",
+            cluster="1" OR cluster="3", "Suspicious Cluster"
+          ) | stats count by detection_type</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Detection Timeline</title>
+      <chart>
+        <search>
+          <query>`dns_data` | eval detection_type=case(
+            isOutlier=1, "Outlier Detection",
+            predicted_class=1, "DGA Detection",
+            txt_score>0.7, "TXT Record Analysis",
+            query_count>upper95, "Volume Anomaly",
+            cluster="1" OR cluster="3", "Suspicious Cluster"
+          ) | timechart span=1h count by detection_type</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Outlier Detection Results</title>
+      <table>
+        <search>
+          <query>`dns_data` | search isOutlier=1 | table _time, src_ip, query, record_type | sort -_time | head 10 | rename src_ip as "Source IP" | rename query as "Domain" | rename record_type as "Record Type"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>DGA Domain Detection Results</title>
+      <table>
+        <search>
+          <query>`dns_data` | search predicted_class=1 | table _time, src_ip, query, probability | sort -probability | head 10 | rename src_ip as "Source IP" | rename query as "Domain" | rename probability as "Probability"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>DNS TXT Record C2 Detection</title>
+      <table>
+        <search>
+          <query>`dns_data` record_type=TXT | search txt_score>0.7 | table _time, src_ip, query, txt_content, txt_score | sort -txt_score | head 10 | rename src_ip as "Source IP" | rename query as "Domain" | rename txt_content as "TXT Content" | rename txt_score as "Suspicion Score"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>DNS Volume Anomalies</title>
+      <table>
+        <search>
+          <query>`dns_data` | bin _time span=1h | stats count as query_count by _time, src_ip | search query_count>upper95 | table _time, src_ip, query_count, upper95 | sort -query_count | head 10 | rename src_ip as "Source IP" | rename query_count as "Query Count" | rename upper95 as "Upper Threshold"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Detailed DNS Detection Table</title>
+      <table>
+        <search>
+          <query>`dns_data` | eval detection_type=case(
+            isOutlier=1, "Outlier Detection",
+            predicted_class=1, "DGA Detection",
+            txt_score>0.7, "TXT Record Analysis",
+            query_count>upper95, "Volume Anomaly",
+            cluster="1" OR cluster="3", "Suspicious Cluster",
+            1=1, null()
+          ) | search detection_type!="" | table _time, src_ip, dest_host, query, record_type, detection_type | sort -_time | rename src_ip as "Source IP" | rename dest_host as "Hostname" | rename query as "Domain" | rename record_type as "Record Type" | rename detection_type as "Detection Method"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+  </row>
+</dashboard> 

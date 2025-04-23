@@ -1,0 +1,16 @@
+domain,description,added_by,added_on
+google.com,Google search engine,admin,2024-04-15
+microsoft.com,Microsoft corporate domain,admin,2024-04-15
+office365.com,Microsoft Office 365 services,admin,2024-04-15
+github.com,GitHub code repository,admin,2024-04-15
+apple.com,Apple corporate domain,admin,2024-04-15
+amazonaws.com,Amazon Web Services,admin,2024-04-15
+azure.com,Microsoft Azure cloud,admin,2024-04-15
+zoom.us,Zoom video conferencing,admin,2024-04-15
+teams.microsoft.com,Microsoft Teams,admin,2024-04-15
+salesforce.com,Salesforce CRM,admin,2024-04-15
+dropbox.com,Dropbox file sharing,admin,2024-04-15
+slack.com,Slack messaging,admin,2024-04-15
+adobe.com,Adobe software,admin,2024-04-15
+cdn.example.org,Company CDN,admin,2024-04-15
+mail.example.org,Company mail server,admin,2024-04-15 

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<dashboard stylesheet="dashboard.css" script="dashboard.js">
+  <label>DNS Traffic Overview</label>
+  <description>Overview of DNS traffic and malicious activity detection</description>
+  <row>
+    <panel>
+      <title>DNS Query Volume Over Time</title>
+      <chart>
+        <search>
+          <query>`dns_data` | timechart span=1h count as queries</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top DNS Queries by Domain</title>
+      <chart>
+        <search>
+          <query>`dns_data` | top limit=10 query</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>DNS Record Types</title>
+      <chart>
+        <search>
+          <query>`dns_data` | stats count by record_type</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Hosts Making DNS Requests</title>
+      <table>
+        <search>
+          <query>`dns_data` | stats count as request_count by src_ip | sort -request_count | rename src_ip as "Source IP" | rename request_count as "Request Count" | head 10</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>Recent Detected Anomalies</title>
+      <table>
+        <search>
+          <query>sourcetype=dns | search (isOutlier=1 OR predicted_class=1 OR txt_score>0.7) | table _time, src_ip, query, record_type, detection_type | sort -_time | rename src_ip as "Source IP" | rename query as "Domain" | rename record_type as "Record Type" | rename detection_type as "Detection Method"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Domain Length Distribution</title>
+      <chart>
+        <search>
+          <query>`dns_data` | eval domain_length=length(query) | stats count by domain_length | sort domain_length</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Domain Entropy Distribution</title>
+      <chart>
+        <search>
+          <query>`dns_data` | eval entropy=entropy(query) | stats count by entropy | sort entropy</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard> 
