@@ -31,7 +31,7 @@ Splunk-DNSGuard-AI/
 
 | DNS Anomaly                             | Description                                                   | Implemented |
 |-----------------------------------------|---------------------------------------------------------------|:-----------:|
-| Volume and Frequency Anomalies          | Identifies hosts making an unusually high number of DNS queries | ❌          |
+| Volume and Frequency Anomalies          | Identifies hosts making an unusually high number of DNS queries | ✅          |
 | Beaconing Detection                     | Detects regular, periodic DNS queries typical of C2 communication | ✅          |
 | Burst Activity Detection                | Identifies sudden spikes in DNS query volume                   | ❌          |
 | TXT Record Type Anomalies               | Detects unusual use of TXT records for data exfiltration       | ❌          |
@@ -48,7 +48,7 @@ Splunk-DNSGuard-AI/
 
 | Detection Method                  | Description                                                   | Implemented |
 |-----------------------------------|---------------------------------------------------------------|:-----------:|
-| Volume/Frequency Anomalies        | DensityFunction on query count by source                      | ❌          |
+| Volume/Frequency Anomalies        | DensityFunction on query count by source                      | ✅          |
 | Beaconing                         | Calculate gaps between queries and check for low standard deviation | ✅          |
 | Burst Activity                    | Use streamstats time_window to detect sudden spikes            | ❌          |
 | TXT Record Anomalies              | Monitor for abnormal usage of TXT records by source           | ❌          |
