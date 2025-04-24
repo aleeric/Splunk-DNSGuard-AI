@@ -11,14 +11,14 @@ import time
 from collections import defaultdict
 
 # Configuration parameters
-TOTAL_EVENTS = 10000000  # Increased for 90 days of data
+TOTAL_EVENTS = 1  # Increased for 90 days of data
 OUTPUT_FILE = "dns_events.json"
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
-TIME_PERIOD_DAYS = 90  # Extended from 7 to 90 days
+TIME_PERIOD_DAYS = 14  # Extended from 7 to 90 days
 
 # Organization infrastructure simulation
-NUM_INTERNAL_HOSTS = 500  # Number of internal hosts making DNS queries
-LINUX_HOSTS_PERCENTAGE = 30  # Percentage of hosts that are Linux servers
+NUM_INTERNAL_HOSTS = 25  # Number of internal hosts making DNS queries
+LINUX_HOSTS_PERCENTAGE = 5  # Percentage of hosts that are Linux servers
 
 # Anomaly configuration
 NUM_ANOMALIES_PER_TYPE = 3  # Number of instances of each anomaly type to generate
