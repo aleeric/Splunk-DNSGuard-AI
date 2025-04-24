@@ -17,11 +17,11 @@ TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 TIME_PERIOD_DAYS = 14  # Extended from 7 to 90 days
 
 # Organization infrastructure simulation
-NUM_INTERNAL_HOSTS = 25  # Number of internal hosts making DNS queries
+NUM_INTERNAL_HOSTS = 50  # Number of internal hosts making DNS queries
 LINUX_HOSTS_PERCENTAGE = 5  # Percentage of hosts that are Linux servers
 
 # Anomaly configuration
-NUM_ANOMALIES_PER_TYPE = 3  # Number of instances of each anomaly type to generate
+NUM_ANOMALIES_PER_TYPE = 1  # Number of instances of each anomaly type to generate
 
 # Domain lists
 TOP_DOMAINS = [
