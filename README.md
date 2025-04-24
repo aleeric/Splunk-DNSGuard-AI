@@ -1,6 +1,7 @@
 # Splunk DNS Guard AI
 
 ![](imgs/banner.gif)
+![](imgs/banner_features.png)
 
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/Author-Riccardo%20Alesci-blue.svg" alt="Author: Riccardo Alesci"/></a>
@@ -27,39 +28,22 @@ Splunk-DNSGuard-AI/
 └── README.md                  # Documentation file
 ```
 
-## Features
+## Features & Detection Methods
 
-| DNS Anomaly                             | Description                                                   | Implemented |
-|-----------------------------------------|---------------------------------------------------------------|:-----------:|
-| Volume and Frequency Anomalies          | Identifies hosts making an unusually high number of DNS queries | ✅          |
-| Beaconing Detection                     | Detects regular, periodic DNS queries typical of C2 communication | ✅          |
-| Burst Activity Detection                | Identifies sudden spikes in DNS query volume                   | ❌          |
-| TXT Record Type Anomalies               | Detects unusual use of TXT records for data exfiltration       | ❌          |
-| ANY Record Type Anomalies               | Identifies reconnaissance activity using ANY queries            | ❌          |
-| Record Type Rarity Analysis             | Detects use of rare DNS record types                            | ❌          |
-| Query Length Anomalies                  | Identifies unusually long DNS queries (potential data exfiltration) | ❌          |
-| Domain Shadowing Detection              | Detects many unique subdomains for a legitimate domain          | ❌          |
-| Behavioral Clustering                   | Groups hosts with similar abnormal DNS behavior                 | ❌          |
-| High Priority Combined Anomalies        | Correlates multiple anomaly indicators                          | ❌          |
-| DNS C2 Comprehensive Detection          | Identifies full C2 communication patterns                      | ❌          |
-| DNS Tunneling Detection                 | Detects data exfiltration via DNS tunneling                    | ❌          |
-
-## Detection Methods
-
-| Detection Method                  | Description                                                   | Implemented |
-|-----------------------------------|---------------------------------------------------------------|:-----------:|
-| Volume/Frequency Anomalies        | DensityFunction on query count by source                      | ✅          |
-| Beaconing                         | Calculate gaps between queries and check for low standard deviation | ✅          |
-| Burst Activity                    | Use streamstats time_window to detect sudden spikes            | ❌          |
-| TXT Record Anomalies              | Monitor for abnormal usage of TXT records by source           | ❌          |
-| ANY Record Anomalies              | Look for hosts using ANY queries (often used in recon)        | ❌          |
-| Record Type Rarity                | Find hosts using statistically rare record types              | ❌          |
-| Query Length Anomalies            | Calculate query length and use DensityFunction to find outliers | ❌          |
-| Domain Shadowing                  | Count unique subdomains per parent domain and look for anomalies | ❌          |
-| Behavioral Clustering             | Apply KMeans clustering to multiple DNS behavior metrics      | ❌          |
-| High Priority Combined            | Correlate multiple anomaly indicators for high confidence      | ❌          |
-| DNS C2                            | Look for beaconing combined with data exchange through DNS     | ❌          |
-| DNS Tunneling                     | Identify excessively long queries, high volume, and data transfer | ❌          |
+| Detection Method                  | DNS Anomaly                             |
+|-----------------------------------|-----------------------------------------|
+| Volume/Frequency Anomalies        | Volume and Frequency Anomalies          |
+| Beaconing                         | Beaconing Detection                     |
+| Burst Activity                    | Burst Activity Detection                |
+| TXT Record Anomalies              | TXT Record Type Anomalies               |
+| ANY Record Anomalies              | ANY Record Type Anomalies               |
+| Record Type Rarity                | Record Type Rarity Analysis             |
+| Query Length Anomalies            | Query Length Anomalies                  |
+| Domain Shadowing                  | Domain Shadowing Detection              |
+| Behavioral Clustering             | Behavioral Clustering                   |
+| High Priority Combined            | High Priority Combined Anomalies        |
+| DNS C2                            | DNS C2 Comprehensive Detection          |
+| DNS Tunneling                     | DNS Tunneling Detection                 |
 
 ## Getting Started
 
