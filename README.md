@@ -73,7 +73,7 @@ Splunk-DNSGuard-AI/
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/Splunk-DNSGuard-AI.git
+   git clone https://github.com/aleeric/Splunk-DNSGuard-AI.git
    cd Splunk-DNSGuard-AI
    ```
 
