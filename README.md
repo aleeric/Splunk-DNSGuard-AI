@@ -1,8 +1,6 @@
 # Splunk DNS Guard AI
 
-<p align="center">
-  <img src="/imgs/banner.png" alt="Splunk DNS Guard AI Banner" />
-</p>
+![](imgs/banner.gif)
 
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/Author-Riccardo%20Alesci-blue.svg" alt="Author: Riccardo Alesci"/></a>
