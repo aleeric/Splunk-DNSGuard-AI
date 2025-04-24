@@ -1,13 +1,13 @@
 # Splunk DNS Guard AI
+A comprehensive DNS anomaly detection system using Splunk and machine learning to identify malicious DNS activity in enterprise networks.
 
 ![](imgs/banner.gif)
-![](imgs/banner_features.png)
 
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/Author-Riccardo%20Alesci-blue.svg" alt="Author: Riccardo Alesci"/></a>
 </p>
 
-A comprehensive DNS anomaly detection system using Splunk and machine learning to identify malicious DNS activity in enterprise networks.
+
 
 ## Overview
 
@@ -16,34 +16,30 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 ## Project Structure
 
 ```
-Splunk-DNSGuard-AI/
 ├── poc/                       # Contains the Proof of Concept implementation
 │   └── generate_dns_events.py # Script to generate synthetic DNS data
 ├── Splunk-DNSGuard-AI/        # Main application directory
 │   ├── default/               # Default configuration files
 │   └── lookups/               # Lookup tables for data enrichment
-├── .gitignore                 # Git ignore file
-├── dns_events_summary.txt     # Summary of generated DNS events
-├── dns_events.json            # Main dataset with DNS events
-└── README.md                  # Documentation file
 ```
 
-## Features & Detection Methods
+## Features
 
-| Detection Method                  | DNS Anomaly                             |
-|-----------------------------------|-----------------------------------------|
-| Volume/Frequency Anomalies        | Volume and Frequency Anomalies          |
-| Beaconing                         | Beaconing Detection                     |
-| Burst Activity                    | Burst Activity Detection                |
-| TXT Record Anomalies              | TXT Record Type Anomalies               |
-| ANY Record Anomalies              | ANY Record Type Anomalies               |
-| Record Type Rarity                | Record Type Rarity Analysis             |
-| Query Length Anomalies            | Query Length Anomalies                  |
-| Domain Shadowing                  | Domain Shadowing Detection              |
-| Behavioral Clustering             | Behavioral Clustering                   |
-| High Priority Combined            | High Priority Combined Anomalies        |
-| DNS C2                            | DNS C2 Comprehensive Detection          |
-| DNS Tunneling                     | DNS Tunneling Detection                 |
+| Detection Method                  | DNS Anomaly                             | Implemented |
+|-----------------------------------|-----------------------------------------|:-----------:|
+| Volume/Frequency Anomalies        | Identifies hosts making an unusually high number of DNS queries         | ✅          |
+| Beaconing                         | Detects regular, periodic DNS queries typical of C2 communication                     | ✅          |
+| Burst Activity                    | Identifies sudden spikes in DNS query volume                | ❌          |
+| TXT Record Anomalies              | Detects unusual use of TXT records for data exfiltration               | ❌          |
+| ANY Record Anomalies              | Identifies reconnaissance activity using ANY queries               | ❌          |
+| Record Type Rarity                | Detects use of rare DNS record types             | ❌          |
+| Query Length Anomalies            | Identifies unusually long DNS queries (potential data exfiltration)                  | ❌          |
+| Domain Shadowing                  | Detects many unique subdomains for a legitimate domain              | ❌          |
+| Behavioral Clustering             | Groups hosts with similar abnormal DNS behavior                   | ❌          |
+| High Priority Combined            | Correlates multiple anomaly indicators        | ❌          |
+| DNS C2                            | Identifies full C2 communication patterns          | ❌          |
+| DNS Tunneling                     | Detects data exfiltration via DNS tunneling                 | ❌          |
+
 
 ## Getting Started
 
