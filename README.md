@@ -31,7 +31,7 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 | Beaconing                         | Detects regular, periodic DNS queries typical of C2 communication                     | ✅          |
 | Burst Activity                    | Identifies sudden spikes in DNS query volume                | ✅          |
 | TXT Record Anomalies              | Detects unusual use of TXT records for data exfiltration               | ✅          |
-| ANY Record Anomalies              | Identifies reconnaissance activity using ANY queries               | ❌          |
+| ANY Record Anomalies              | Identifies reconnaissance activity using ANY queries               | ✅          |
 | Record Type Rarity                | Detects use of rare DNS record types             | ❌          |
 | Query Length Anomalies            | Identifies unusually long DNS queries (potential data exfiltration)                  | ❌          |
 | Domain Shadowing                  | Detects many unique subdomains for a legitimate domain              | ❌          |
