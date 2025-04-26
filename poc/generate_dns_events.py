@@ -11,17 +11,15 @@ import time
 from collections import defaultdict
 
 # Configuration parameters
-TOTAL_EVENTS = 1  # Increased for 90 days of data
+MAX_EVENTS = 1000000  # Maximum number of events to generate (under 1 million)
 OUTPUT_FILE = "dns_events.json"
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
-TIME_PERIOD_DAYS = 14  # Extended from 7 to 90 days
+TIME_PERIOD_DAYS = 30  # 1 month of data
 
 # Organization infrastructure simulation
-NUM_INTERNAL_HOSTS = 50  # Number of internal hosts making DNS queries
-LINUX_HOSTS_PERCENTAGE = 5  # Percentage of hosts that are Linux servers
-
-# Anomaly configuration
-NUM_ANOMALIES_PER_TYPE = 1  # Number of instances of each anomaly type to generate
+NUM_INTERNAL_HOSTS = 100  # Realistic number of hosts in a medium-sized organization
+LINUX_HOSTS_PERCENTAGE = 20  # 20% of hosts are Linux servers
+TOTAL_ANOMALIES = 10  # Total number of anomalies to distribute
 
 # Domain lists
 TOP_DOMAINS = [
@@ -86,43 +84,99 @@ REPLY_CODES = {
     "REFUSED": 0.001,  # 0.1% query refused
 }
 
+# Departmental segmentation for more realistic network simulation
+DEPARTMENTS = [
+    {"name": "IT", "subnet": "10.1.1.0/24", "host_count": 15, "query_rate_range": (20, 150)},
+    {"name": "Engineering", "subnet": "10.1.2.0/24", "host_count": 25, "query_rate_range": (15, 120)},
+    {"name": "Sales", "subnet": "10.1.3.0/24", "host_count": 20, "query_rate_range": (10, 80)},
+    {"name": "Marketing", "subnet": "10.1.4.0/24", "host_count": 15, "query_rate_range": (10, 90)},
+    {"name": "Finance", "subnet": "10.1.5.0/24", "host_count": 10, "query_rate_range": (5, 70)},
+    {"name": "HR", "subnet": "10.1.6.0/24", "host_count": 5, "query_rate_range": (5, 60)},
+    {"name": "Servers", "subnet": "10.2.0.0/24", "host_count": 10, "query_rate_range": (50, 250)},
+]
 
-# Generate internal hosts
-def generate_internal_hosts(num_hosts, linux_percentage):
+# Define workday patterns for realistic activity cycles
+WORKDAY_HOURS = {
+    0: 0.1,  # 12am: 10% of normal activity (maintenance, etc)
+    1: 0.05, # 1am: 5% of normal activity
+    2: 0.05, # 2am: 5% of normal activity
+    3: 0.05, # 3am: 5% of normal activity
+    4: 0.1,  # 4am: 10% of normal activity
+    5: 0.2,  # 5am: 20% of normal activity
+    6: 0.3,  # 6am: 30% of normal activity
+    7: 0.6,  # 7am: 60% of normal activity
+    8: 0.9,  # 8am: 90% of normal activity
+    9: 1.0,  # 9am: 100% of normal activity (peak)
+    10: 1.0, # 10am: 100% of normal activity
+    11: 1.0, # 11am: 100% of normal activity
+    12: 0.8, # 12pm: 80% of normal activity (lunch)
+    13: 0.9, # 1pm: 90% of normal activity
+    14: 1.0, # 2pm: 100% of normal activity
+    15: 1.0, # 3pm: 100% of normal activity
+    16: 1.0, # 4pm: 100% of normal activity
+    17: 0.8, # 5pm: 80% of normal activity
+    18: 0.5, # 6pm: 50% of normal activity
+    19: 0.3, # 7pm: 30% of normal activity
+    20: 0.2, # 8pm: 20% of normal activity
+    21: 0.2, # 9pm: 20% of normal activity
+    22: 0.15, # 10pm: 15% of normal activity
+    23: 0.1, # 11pm: 10% of normal activity
+}
+
+WEEKEND_HOURS = {hour: rate * 0.3 for hour, rate in WORKDAY_HOURS.items()}
+
+# Anomaly types that match the detection methods in Splunk
+ANOMALY_TYPES = [
+    "C2_TUNNELING",        # High volume of DNS queries
+    "BEACONING",           # Regular, periodic queries
+    "BURST_ACTIVITY",      # Sudden spikes in query volume
+    "TXT_RECORD_ANOMALY",  # Unusual use of TXT records
+    "ANY_RECORD_ANOMALY",  # Reconnaissance using ANY queries
+    "HINFO_RECORD_ANOMALY", # Reconnaissance using HINFO queries
+    "AXFR_RECORD_ANOMALY", # Reconnaissance using AXFR queries
+    "QUERY_LENGTH_ANOMALY", # Unusually long queries
+    "DOMAIN_SHADOWING",    # Many unique subdomains
+    "BEHAVIORAL_CLUSTER"   # Similar abnormal DNS behavior
+]
+
+# Generate internal hosts based on departmental structure
+def generate_internal_hosts():
     hosts = []
-    linux_hosts = int(num_hosts * linux_percentage / 100)
-    windows_hosts = num_hosts - linux_hosts
-
-    # Generate Windows hosts
-    for i in range(windows_hosts):
-        ip = f"10.1.{random.randint(0, 255)}.{random.randint(1, 254)}"
-        hostname = f"WIN-{random.choice(['WSTN', 'USRPC', 'LAPTOP'])}-{random.randint(1000, 9999)}"
-        hosts.append(
-            {
+    
+    # Generate hosts for each department
+    for dept in DEPARTMENTS:
+        subnet = ipaddress.ip_network(dept["subnet"])
+        ip_list = list(subnet.hosts())
+        
+        for i in range(min(dept["host_count"], len(ip_list))):
+            ip = str(ip_list[i])
+            
+            # Determine OS type
+            if dept["name"] == "Servers":
+                os_type = "linux" if random.random() < 0.8 else "windows"  # 80% Linux servers
+                hostname_prefix = f"{random.choice(['srv', 'app', 'db', 'web', 'api'])}"
+                hostname = f"{hostname_prefix}-{random.randint(100, 999)}.internal"
+            else:
+                os_type = "linux" if random.random() < (LINUX_HOSTS_PERCENTAGE / 100) else "windows"
+                if os_type == "windows":
+                    hostname_prefix = f"{random.choice(['WSTN', 'USRPC', 'LAPTOP'])}"
+                    hostname = f"{hostname_prefix}-{dept['name']}-{random.randint(1000, 9999)}"
+                else:
+                    hostname_prefix = f"{random.choice(['ws', 'pc', 'lt'])}"
+                    hostname = f"{hostname_prefix}-{dept['name'].lower()}-{random.randint(100, 999)}"
+            
+            # Query rate varies by department and has day/night patterns
+            min_rate, max_rate = dept["query_rate_range"]
+            query_rate = random.randint(min_rate, max_rate)
+            
+            hosts.append({
                 "ip": ip,
                 "hostname": hostname,
-                "os": "windows",
-                "query_rate": random.randint(10, 100),  # Queries per hour (average)
-            }
-        )
-
-    # Generate Linux hosts
-    for i in range(linux_hosts):
-        ip = f"10.2.{random.randint(0, 255)}.{random.randint(1, 254)}"
-        hostname = (
-            f"{random.choice(['srv', 'app', 'db', 'web'])}-{random.randint(100, 999)}"
-        )
-        hosts.append(
-            {
-                "ip": ip,
-                "hostname": hostname,
-                "os": "linux",
-                "query_rate": random.randint(
-                    20, 200
-                ),  # Servers typically make more DNS queries
-            }
-        )
-
+                "os": os_type,
+                "department": dept["name"],
+                "query_rate": query_rate
+            })
+    
     return hosts
 
 
@@ -132,9 +186,7 @@ def generate_subdomain(domain, length=None, entropy="normal"):
         if entropy == "normal":
             length = random.randint(1, 3)  # Normal subdomains are relatively short
         elif entropy == "high":
-            length = random.randint(
-                3, 8
-            )  # More complex subdomains for shadowing/malicious
+            length = random.randint(3, 8)  # More complex subdomains for shadowing/malicious
         elif entropy == "extreme":
             length = random.randint(5, 15)  # Extremely long for data exfiltration
 
@@ -143,22 +195,11 @@ def generate_subdomain(domain, length=None, entropy="normal"):
         if entropy == "normal":
             # Normal subdomains often have meaningful words
             part_options = [
-                "www",
-                "mail",
-                "ftp",
-                "smtp",
-                "pop",
-                "api",
-                "cdn",
-                "dev",
-                "test",
-                "prod",
-                "stage",
-                "uat",
+                "www", "mail", "ftp", "smtp", "pop", "api", "cdn", "dev", "test", "prod",
+                "stage", "uat", "auth", "login", "secure", "shop", "store", "blog", "docs",
+                "support", "help", "admin", "portal", "mobile", "app", "m", "vpn", "remote"
             ]
-            if (
-                random.random() < 0.7 and part_options
-            ):  # 70% chance of using common subdomain
+            if random.random() < 0.7 and part_options:  # 70% chance of using common subdomain
                 part = random.choice(part_options)
             else:
                 part_length = random.randint(3, 8)
@@ -186,15 +227,26 @@ def generate_subdomain(domain, length=None, entropy="normal"):
     return ".".join(subdomain_parts) + "." + domain
 
 
-# Generate normal DNS event
+# Generate normal DNS event with more realistic patterns
 def generate_normal_dns_event(host, timestamp):
-    domain = random.choice(TOP_DOMAINS)
+    # Select domain based on a realistic distribution (frequent sites more common)
+    domain_weights = [100, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 5, 5, 5, 5, 5]
+    domain = random.choices(TOP_DOMAINS[:len(domain_weights)], weights=domain_weights[:len(TOP_DOMAINS)], k=1)[0]
 
-    # 80% chance of querying the domain directly, 20% chance of querying a subdomain
-    if random.random() < 0.8:
-        query = domain
+    # Query pattern based on host type and time of day
+    is_server = host["department"] == "Servers"
+    
+    # Servers more likely to query direct domains and have consistent patterns
+    if is_server:
+        if random.random() < 0.9:  # 90% direct domain for servers
+            query = domain
+        else:
+            query = generate_subdomain(domain)
     else:
-        query = generate_subdomain(domain)
+        if random.random() < 0.7:  # 70% direct domain for workstations
+            query = domain
+        else:
+            query = generate_subdomain(domain)
 
     # Choose record type based on weighted probabilities
     record_type = random.choices(
@@ -226,6 +278,10 @@ def generate_normal_dns_event(host, timestamp):
         elif record_type == "ANY":
             answer = "Multiple records returned"
 
+    # Select a DNS server - Most companies have 2-3 internal DNS servers
+    dns_servers = ["10.0.0.1", "10.0.0.2", "10.0.0.3"]
+    dns_server = random.choice(dns_servers)
+
     # Generate DNS event following Splunk's CIM for Network Resolution
     event = {
         "timestamp": timestamp.strftime(TIMESTAMP_FORMAT),
@@ -236,45 +292,60 @@ def generate_normal_dns_event(host, timestamp):
         "src": host["ip"],
         "src_host": host["hostname"],
         "dest_port": 53,
-        "dest": f"10.0.0.{random.randint(1, 5)}",  # Internal DNS server
+        "dest": dns_server,  # Internal DNS server
         "record_type": record_type,
         "query": query,
         "answer": answer,
         "message_type": "QUERY",
         "reply_code": reply_code,
-        "user": f"user_{random.randint(1, 50)}",  # Random user
+        "user": f"user_{host['department'].lower()}_{random.randint(1, 50)}",  # Department-based user
         "duration": random.uniform(0.001, 0.05),  # Query duration in seconds
         "transport": "UDP" if random.random() < 0.95 else "TCP",
         "vendor_product": "Microsoft DNS" if host["os"] == "windows" else "BIND",
+        "department": host["department"]  # Adding department info for analysis
     }
 
     return event
 
 
-# Anomaly generation functions
+# Anomaly generation functions - updated to match Splunk detection methods
 
-
-# 1. Volume and Frequency Anomaly Detection
-def generate_volume_anomaly(base_host, start_time, num_events=500):
+# 1. C2 Tunneling - High volume of DNS queries
+def generate_c2_tunneling(base_host, start_time, num_events=200):
     """
     Generate events with anomalously high query volumes
     This simulates Command and Control or data exfiltration
     """
     events = []
     host = base_host.copy()
+    c2_domain = random.choice(MALICIOUS_DOMAINS)
 
-    # This host will generate many more queries than normal in a short time frame
+    # This will generate a higher than normal volume of DNS queries in a short period
+    # Typically happens over several hours to evade simple rate-based detection
     for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(seconds=random.randint(0, 3600))
+        timestamp = start_time + datetime.timedelta(
+            hours=random.randint(0, 4),
+            minutes=random.randint(0, 59),
+            seconds=random.randint(0, 59)
+        )
+        
         event = generate_normal_dns_event(host, timestamp)
-        event["tag"] = "volume_anomaly"
+        
+        # C2 traffic has distinct patterns
+        event["query"] = generate_subdomain(c2_domain, entropy="high")
+        event["record_type"] = random.choices(
+            ["A", "AAAA", "TXT"],
+            weights=[60, 20, 20],
+            k=1
+        )[0]
+        
+        event["anomaly_type"] = "C2_TUNNELING"
         events.append(event)
 
     return events
 
-
-# 2. Beaconing Detection
-def generate_beaconing(base_host, start_time, num_events=50, interval_seconds=60):
+# 2. Beaconing Detection - Regular, periodic DNS queries 
+def generate_beaconing(base_host, start_time, num_events=60, interval_minutes=15):
     """
     Create events at very regular intervals (beaconing)
     This simulates Command and Control communication with an infection
@@ -285,22 +356,26 @@ def generate_beaconing(base_host, start_time, num_events=50, interval_seconds=60
 
     # Create events at regular intervals with small jitter (typical of C2)
     for i in range(num_events):
-        # Add a small jitter (±3 seconds) to the regular interval
-        jitter = random.uniform(-3, 3)
+        # Add a small jitter (±10 seconds) to the regular interval
+        jitter = random.uniform(-10, 10)
         timestamp = start_time + datetime.timedelta(
-            seconds=(i * interval_seconds) + jitter
+            minutes=(i * interval_minutes),
+            seconds=jitter
         )
 
         event = generate_normal_dns_event(host, timestamp)
         event["query"] = generate_subdomain(c2_domain, entropy="high")
-        event["tag"] = "beaconing"
+        
+        # Most beaconing uses A records, but may occasionally use others
+        event["record_type"] = "A" if random.random() < 0.9 else "TXT"
+        
+        event["anomaly_type"] = "BEACONING"
         events.append(event)
 
     return events
 
-
-# 3. Burst Activity Detection
-def generate_burst_activity(base_host, start_time, num_events=100):
+# 3. Burst Activity Detection - Sudden spikes in query volume
+def generate_burst_activity(base_host, start_time, num_events=150):
     """
     Generate a burst of events in a very short time period
     This simulates sudden malicious activity or data exfiltration
@@ -308,18 +383,22 @@ def generate_burst_activity(base_host, start_time, num_events=100):
     events = []
     host = base_host.copy()
 
-    # Generate a burst of events in a short time period (5 seconds)
+    # Generate a burst of events in a short time period (30 seconds)
     for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(seconds=random.uniform(0, 5))
+        timestamp = start_time + datetime.timedelta(seconds=random.uniform(0, 30))
         event = generate_normal_dns_event(host, timestamp)
-        event["tag"] = "burst_activity"
+        
+        # During a burst, various domains may be queried
+        if random.random() < 0.3:  # 30% chance of querying suspicious domains
+            event["query"] = generate_subdomain(random.choice(MALICIOUS_DOMAINS), entropy="high")
+        
+        event["anomaly_type"] = "BURST_ACTIVITY"
         events.append(event)
 
     return events
 
-
-# 4. TXT Record Type Anomaly Detection
-def generate_txt_record_anomaly(base_host, start_time, num_events=30):
+# 4. TXT Record Anomaly Detection - Unusual use of TXT records
+def generate_txt_record_anomaly(base_host, start_time, num_events=40):
     """
     Generate excessive use of TXT records
     This simulates Command and Control or data exfiltration via DNS
@@ -329,27 +408,32 @@ def generate_txt_record_anomaly(base_host, start_time, num_events=30):
     c2_domain = random.choice(MALICIOUS_DOMAINS)
 
     for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(minutes=random.randint(0, 120))
+        timestamp = start_time + datetime.timedelta(
+            hours=random.randint(0, 8),
+            minutes=random.randint(0, 59),
+            seconds=random.randint(0, 59)
+        )
+        
         event = generate_normal_dns_event(host, timestamp)
         event["record_type"] = "TXT"
         event["query"] = generate_subdomain(c2_domain, entropy="high")
 
         # Simulate encoded data in TXT record (base64-like)
         data_length = random.randint(30, 200)
-        event["answer"] = "".join(
+        event["answer"] = "\"" + "".join(
             random.choice(
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/="
             )
             for _ in range(data_length)
-        )
-        event["tag"] = "txt_record_anomaly"
+        ) + "\""
+        
+        event["anomaly_type"] = "TXT_RECORD_ANOMALY"
         events.append(event)
 
     return events
 
-
-# 5. ANY Record Type Anomaly Detection
-def generate_any_record_anomaly(base_host, start_time, num_events=20):
+# 5. ANY Record Anomaly Detection - Reconnaissance using ANY queries
+def generate_any_record_anomaly(base_host, start_time, num_events=25):
     """
     Generate excessive use of ANY records
     This often indicates reconnaissance activity or amplification attacks
@@ -358,36 +442,84 @@ def generate_any_record_anomaly(base_host, start_time, num_events=20):
     host = base_host.copy()
 
     for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(minutes=random.randint(0, 120))
+        timestamp = start_time + datetime.timedelta(
+            hours=random.randint(0, 6),
+            minutes=random.randint(0, 59),
+            seconds=random.randint(0, 59)
+        )
+        
         event = generate_normal_dns_event(host, timestamp)
         event["record_type"] = "ANY"
-        event["tag"] = "any_record_anomaly"
+        
+        # Often targeting specific domains during recon
+        domains_of_interest = random.sample(TOP_DOMAINS, min(5, len(TOP_DOMAINS)))
+        event["query"] = random.choice(domains_of_interest)
+        
+        event["anomaly_type"] = "ANY_RECORD_ANOMALY"
         events.append(event)
 
     return events
 
-
-# 6. Record Type Rarity Analysis
-def generate_record_type_rarity(base_host, start_time, num_events=15):
+# 6. HINFO Record Anomaly Detection - Reconnaissance using HINFO queries
+def generate_hinfo_record_anomaly(base_host, start_time, num_events=20):
     """
-    Generate use of rare record types
-    This can indicate unusual/suspicious activity
+    Generate use of HINFO record types for reconnaissance
+    This can indicate attempts to gather system information
     """
     events = []
     host = base_host.copy()
 
     for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(minutes=random.randint(0, 240))
+        timestamp = start_time + datetime.timedelta(
+            hours=random.randint(0, 4),
+            minutes=random.randint(0, 59),
+            seconds=random.randint(0, 59)
+        )
+        
         event = generate_normal_dns_event(host, timestamp)
-        event["record_type"] = random.choice(RARE_RECORD_TYPES)
-        event["tag"] = "record_type_rarity"
+        event["record_type"] = "HINFO"
+        
+        # Targeting various domains to gather host information
+        event["query"] = random.choice(TOP_DOMAINS)
+        
+        event["anomaly_type"] = "HINFO_RECORD_ANOMALY"
         events.append(event)
 
     return events
 
+# 7. AXFR Record Anomaly Detection - Reconnaissance using AXFR queries
+def generate_axfr_record_anomaly(base_host, start_time, num_events=15):
+    """
+    Generate use of AXFR record types for zone transfer attempts
+    This can indicate reconnaissance or information gathering
+    """
+    events = []
+    host = base_host.copy()
 
-# 7. Query Length Anomaly Detection
-def generate_query_length_anomaly(base_host, start_time, num_events=25):
+    for i in range(num_events):
+        timestamp = start_time + datetime.timedelta(
+            hours=random.randint(0, 3),
+            minutes=random.randint(0, 59),
+            seconds=random.randint(0, 59)
+        )
+        
+        event = generate_normal_dns_event(host, timestamp)
+        event["record_type"] = "AXFR"
+        
+        # Typically targeting key domains for zone transfer
+        targeted_domains = random.sample(TOP_DOMAINS, min(3, len(TOP_DOMAINS)))
+        event["query"] = random.choice(targeted_domains)
+        
+        # Most AXFR requests will be refused
+        event["reply_code"] = "REFUSED" if random.random() < 0.9 else "NOERROR"
+        
+        event["anomaly_type"] = "AXFR_RECORD_ANOMALY"
+        events.append(event)
+
+    return events
+
+# 8. Query Length Anomaly Detection - Unusually long DNS queries
+def generate_query_length_anomaly(base_host, start_time, num_events=30):
     """
     Generate unusually long DNS queries
     This often indicates data exfiltration via DNS tunneling
@@ -397,19 +529,27 @@ def generate_query_length_anomaly(base_host, start_time, num_events=25):
     tunnel_domain = random.choice(MALICIOUS_DOMAINS)
 
     for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(minutes=random.randint(0, 180))
+        timestamp = start_time + datetime.timedelta(
+            hours=random.randint(0, 6),
+            minutes=random.randint(0, 59),
+            seconds=random.randint(0, 59)
+        )
+        
         event = generate_normal_dns_event(host, timestamp)
 
         # Generate an extremely long DNS query (data exfiltration)
         event["query"] = generate_subdomain(tunnel_domain, entropy="extreme")
-        event["tag"] = "query_length_anomaly"
+        
+        # Query length anomalies often use A records to blend in
+        event["record_type"] = "A" if random.random() < 0.7 else "TXT"
+        
+        event["anomaly_type"] = "QUERY_LENGTH_ANOMALY"
         events.append(event)
 
     return events
 
-
-# 8. Domain Shadowing Detection
-def generate_domain_shadowing(base_host, start_time, num_events=40):
+# 9. Domain Shadowing Detection - Many unique subdomains
+def generate_domain_shadowing(base_host, start_time, num_events=45):
     """
     Generate many unique subdomains for a legitimate domain
     This simulates domain shadowing attacks
@@ -420,19 +560,34 @@ def generate_domain_shadowing(base_host, start_time, num_events=40):
 
     # Generate many unique, random subdomains for the same parent domain
     for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(minutes=random.randint(0, 240))
+        timestamp = start_time + datetime.timedelta(
+            hours=random.randint(0, 12),
+            minutes=random.randint(0, 59),
+            seconds=random.randint(0, 59)
+        )
+        
         event = generate_normal_dns_event(host, timestamp)
 
         # Generate a unique random subdomain with high entropy
         event["query"] = generate_subdomain(target_domain, entropy="high")
-        event["tag"] = "domain_shadowing"
+        
+        # Usually A records pointing to malicious IPs
+        event["record_type"] = "A"
+        
+        # Shadow domains often resolve to suspicious IPs
+        if event["reply_code"] == "NOERROR":
+            # Generate suspicious-looking IPs
+            suspicious_ranges = ["185.220.", "45.95.", "91.219."]
+            suspicious_prefix = random.choice(suspicious_ranges)
+            event["answer"] = f"{suspicious_prefix}{random.randint(0, 255)}.{random.randint(1, 255)}"
+        
+        event["anomaly_type"] = "DOMAIN_SHADOWING"
         events.append(event)
 
     return events
 
-
-# 9. Behavioral Clustering
-def generate_behavioral_cluster(base_hosts, start_time, cluster_size=5, event_count=30):
+# 10. Behavioral Clustering - Similar abnormal DNS behavior across hosts
+def generate_behavioral_cluster(base_hosts, start_time, cluster_size=3, event_count=40):
     """
     Create a group of hosts with similar abnormal DNS behavior
     This helps demonstrate behavioral clustering for anomaly detection
@@ -442,376 +597,278 @@ def generate_behavioral_cluster(base_hosts, start_time, cluster_size=5, event_co
     # Select hosts for this cluster
     cluster_hosts = random.sample(base_hosts, min(cluster_size, len(base_hosts)))
 
-    # Define a consistent pattern for this cluster (e.g., similar query types and timing)
-    cluster_domain = random.choice(TOP_DOMAINS)
-    cluster_record_type = random.choice(list(RECORD_TYPES.keys()))
-    query_interval = random.randint(5, 15)  # minutes
+    # Define a consistent pattern for this cluster
+    cluster_domain = random.choice(MALICIOUS_DOMAINS)
+    cluster_record_type = random.choice(["A", "TXT"])
+    query_interval = random.randint(10, 30)  # minutes
 
     # Give them similar behavior patterns
     for host in cluster_hosts:
-        # Cluster behavior: similar query patterns
         for i in range(event_count):
             timestamp = start_time + datetime.timedelta(
-                minutes=i * query_interval
-                + random.uniform(-1, 1)  # Similar timing with small variance
+                minutes=i * query_interval + random.uniform(-2, 2)  # Similar timing
             )
+            
             event = generate_normal_dns_event(host, timestamp)
-            event["query"] = (
-                f"api{random.randint(1,5)}.{random.choice(['analytics', 'metrics', 'tracking'])}.{cluster_domain}"
-            )
+            event["query"] = generate_subdomain(cluster_domain, entropy="high")
             event["record_type"] = cluster_record_type
-            event["tag"] = "behavioral_cluster"
+            
+            # Consistent pattern in answers for this botnet/cluster
+            if event["record_type"] == "TXT":
+                # Encoded command pattern unique to this cluster
+                prefix = "".join(random.choices("abcdef0123456789", k=6))
+                data_length = random.randint(20, 40)
+                payload = "".join(
+                    random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=")
+                    for _ in range(data_length)
+                )
+                event["answer"] = f"\"{prefix}{payload}\""
+            
+            event["anomaly_type"] = "BEHAVIORAL_CLUSTER"
             all_events.append(event)
 
     return all_events
 
-
-# 10. High Priority DNS Anomalies Combined
-def generate_high_priority_anomalies(base_host, start_time, num_events=35):
-    """
-    Generate events with multiple anomaly indicators
-    This simulates high-confidence malicious activity
-    """
-    events = []
-    host = base_host.copy()
-    malicious_domain = random.choice(MALICIOUS_DOMAINS)
-
-    # Generate events with both volume anomalies and query length anomalies
-    for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(minutes=random.randint(0, 180))
-        event = generate_normal_dns_event(host, timestamp)
-
-        # Combine multiple anomalous characteristics:
-        # 1. Long query (tunneling)
-        event["query"] = generate_subdomain(malicious_domain, entropy="extreme")
-
-        # 2. Unusual record type (50% TXT, 50% other unusual type)
-        if random.random() < 0.5:
-            event["record_type"] = "TXT"
-            # Add encoded data
-            data_length = random.randint(30, 200)
-            event["answer"] = "".join(
-                random.choice(
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/="
-                )
-                for _ in range(data_length)
-            )
-        else:
-            event["record_type"] = random.choice(RARE_RECORD_TYPES)
-
-        event["tag"] = "high_priority_combined"
-        events.append(event)
-
-    return events
-
-
-# 11. DNS C2 Comprehensive Detection
-def generate_dns_c2(base_host, start_time, num_events=45):
-    """
-    Generate a comprehensive C2 pattern combining beaconing and TXT records
-    This simulates a full C2 communication channel
-    """
-    events = []
-    host = base_host.copy()
-    c2_domain = random.choice(MALICIOUS_DOMAINS)
-
-    # Combine beaconing behavior with TXT records for a comprehensive C2 pattern
-    interval = random.randint(50, 120)  # seconds between beacons
-
-    for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(
-            seconds=(i * interval) + random.uniform(-3, 3)  # small jitter
-        )
-        event = generate_normal_dns_event(host, timestamp)
-
-        # C2 communication often uses TXT records for data transfer
-        event["record_type"] = "TXT" if random.random() < 0.7 else "A"
-        event["query"] = generate_subdomain(c2_domain, entropy="high")
-
-        if event["record_type"] == "TXT":
-            # Simulate encoded commands in TXT record
-            cmd_length = random.randint(30, 100)
-            event["answer"] = "".join(
-                random.choice(
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/="
-                )
-                for _ in range(cmd_length)
-            )
-
-        event["tag"] = "dns_c2"
-        events.append(event)
-
-    return events
-
-
-# 12. DNS Tunneling Comprehensive Detection
-def generate_dns_tunneling(base_host, start_time, num_events=50):
-    """
-    Generate a comprehensive DNS tunneling pattern
-    This combines long queries, unusual record types, and high volume
-    """
-    events = []
-    host = base_host.copy()
-    tunnel_domain = random.choice(MALICIOUS_DOMAINS)
-
-    # Generate frequent queries with long subdomains (data being sent out)
-    for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(
-            seconds=random.randint(0, 1800)  # Within 30 minutes (high frequency)
-        )
-        event = generate_normal_dns_event(host, timestamp)
-
-        # 1. High entropy, extremely long subdomain (data being exfiltrated)
-        event["query"] = generate_subdomain(tunnel_domain, entropy="extreme")
-
-        # 2. Use of record types that can carry data
-        event["record_type"] = random.choices(
-            ["TXT", "NULL", "CNAME", "A", "AAAA"],
-            weights=[0.4, 0.1, 0.2, 0.2, 0.1],  # Higher weight for TXT
-            k=1,
-        )[0]
-
-        # 3. For TXT records, include data coming back
-        if event["record_type"] == "TXT":
-            response_length = random.randint(40, 200)
-            event["answer"] = "".join(
-                random.choice(
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/="
-                )
-                for _ in range(response_length)
-            )
-
-        event["tag"] = "dns_tunneling"
-        events.append(event)
-
-    return events
-
-
-# Helper function to generate normal baseline activity for all hosts
-def generate_baseline_activity(hosts, start_time, end_time):
+# Helper function to generate normal baseline activity for all hosts with realistic patterns
+def generate_baseline_activity(hosts, start_time, end_time, max_events):
     """
     Generate baseline normal DNS activity for all hosts for the entire time period
+    with realistic daily and weekly patterns
     """
     events = []
-
+    total_events = 0
+    
     # Calculate the total duration in hours
     duration_hours = int((end_time - start_time).total_seconds() / 3600)
+    
+    print(f"Generating baseline activity for {len(hosts)} hosts over {duration_hours} hours...")
+    
+    # Track number of events per host for reporting
+    host_event_counts = defaultdict(int)
 
-    print(
-        f"Generating baseline activity for {len(hosts)} hosts over {duration_hours} hours..."
-    )
-
-    # For each host, generate normal queries throughout the time period
-    for host in hosts:
-        # Determine how many queries this host will make based on its query rate
-        # We'll use a Poisson distribution to add some randomness to the query count
-        avg_queries_per_hour = host["query_rate"]
-
-        for hour in range(duration_hours):
-            # Generate a random number of queries for this hour using the host's query rate
-            queries_this_hour = random.randint(
-                max(
-                    1, int(avg_queries_per_hour * 0.5)
-                ),  # At least 1 query, but could be fewer than average
-                int(avg_queries_per_hour * 1.5),  # Could be more than average
-            )
-
+    # For each hour in the time period
+    for hour_offset in range(duration_hours):
+        current_hour = start_time + datetime.timedelta(hours=hour_offset)
+        hour_of_day = current_hour.hour
+        is_weekend = current_hour.weekday() >= 5  # 5=Saturday, 6=Sunday
+        
+        # Get the appropriate activity multiplier based on hour and day type
+        if is_weekend:
+            activity_multiplier = WEEKEND_HOURS[hour_of_day]
+        else:
+            activity_multiplier = WORKDAY_HOURS[hour_of_day]
+            
+        # For each host, generate normal queries for this hour
+        for host in hosts:
+            # Servers have more consistent activity patterns (less affected by business hours)
+            if host["department"] == "Servers":
+                server_multiplier = activity_multiplier * 0.5 + 0.5  # Minimum 50% activity for servers
+                queries_this_hour = max(1, int(host["query_rate"] * server_multiplier * random.uniform(0.8, 1.2)))
+            else:
+                queries_this_hour = max(1, int(host["query_rate"] * activity_multiplier * random.uniform(0.7, 1.3)))
+            
             # Generate events for this host for this hour
-            hour_start = start_time + datetime.timedelta(hours=hour)
-            hour_end = hour_start + datetime.timedelta(hours=1)
-
             for _ in range(queries_this_hour):
+                # Check if we've reached the maximum events limit
+                if total_events >= max_events:
+                    print(f"Reached maximum events limit ({max_events})")
+                    return events, host_event_counts
+                    
                 # Random time within this hour
-                event_time = hour_start + datetime.timedelta(
-                    seconds=random.randint(0, 3599)
+                event_time = current_hour + datetime.timedelta(
+                    minutes=random.randint(0, 59),
+                    seconds=random.randint(0, 59)
                 )
 
                 # Create the normal DNS event
                 event = generate_normal_dns_event(host, event_time)
                 events.append(event)
+                host_event_counts[host["hostname"]] += 1
+                total_events += 1
 
-    return events
+    print(f"Generated {total_events} baseline events")
+    return events, host_event_counts
 
 
 def main():
-    print(
-        f"Generating DNS events over {TIME_PERIOD_DAYS} days following Splunk CIM for Network_Resolution..."
-    )
+    print(f"Generating DNS events over {TIME_PERIOD_DAYS} days following Splunk CIM for Network_Resolution...")
 
     # Generate the internal hosts
-    internal_hosts = generate_internal_hosts(NUM_INTERNAL_HOSTS, LINUX_HOSTS_PERCENTAGE)
+    internal_hosts = generate_internal_hosts()
+    print(f"Generated {len(internal_hosts)} hosts across {len(DEPARTMENTS)} departments")
 
-    # Set the time range (90 days back from now)
+    # Set the time range (30 days back from now)
     end_time = datetime.datetime.now()
     start_time = end_time - datetime.timedelta(days=TIME_PERIOD_DAYS)
 
     # Create a list to store all events
     all_events = []
 
-    # Define anomaly types with their generator functions
-    anomaly_types = [
-        {"name": "Volume Anomaly", "generator": generate_volume_anomaly},
-        {"name": "Beaconing", "generator": generate_beaconing},
-        {"name": "Burst Activity", "generator": generate_burst_activity},
-        {"name": "TXT Record Anomaly", "generator": generate_txt_record_anomaly},
-        {"name": "ANY Record Anomaly", "generator": generate_any_record_anomaly},
-        {"name": "Record Type Rarity", "generator": generate_record_type_rarity},
-        {"name": "Query Length Anomaly", "generator": generate_query_length_anomaly},
-        {"name": "Domain Shadowing", "generator": generate_domain_shadowing},
-        {
-            "name": "High Priority Combined",
-            "generator": generate_high_priority_anomalies,
-        },
-        {"name": "DNS C2", "generator": generate_dns_c2},
-        {"name": "DNS Tunneling", "generator": generate_dns_tunneling},
-    ]
-
-    # We need to handle behavioral clustering separately since it involves multiple hosts
-    behavioral_clustering = {
-        "name": "Behavioral Cluster",
-        "generator": generate_behavioral_cluster,
+    # Define anomaly types mapping to generator functions
+    anomaly_generators = {
+        "C2_TUNNELING": generate_c2_tunneling,
+        "BEACONING": generate_beaconing,
+        "BURST_ACTIVITY": generate_burst_activity, 
+        "TXT_RECORD_ANOMALY": generate_txt_record_anomaly,
+        "ANY_RECORD_ANOMALY": generate_any_record_anomaly,
+        "HINFO_RECORD_ANOMALY": generate_hinfo_record_anomaly,
+        "AXFR_RECORD_ANOMALY": generate_axfr_record_anomaly,
+        "QUERY_LENGTH_ANOMALY": generate_query_length_anomaly,
+        "DOMAIN_SHADOWING": generate_domain_shadowing
     }
-
-    # Randomly select 11 hosts for individual anomalies
-    random.shuffle(internal_hosts)
-    anomalous_hosts = internal_hosts[:11]
-    normal_hosts = internal_hosts[11:]
-
-    # Keep track of which host gets which anomaly
-    host_anomaly_map = {}
-
-    print("Generating baseline normal DNS activity for all hosts...")
-    # Generate baseline normal activity for all hosts (including the anomalous ones)
-    baseline_events = generate_baseline_activity(internal_hosts, start_time, end_time)
+    
+    # Set aside some percentage of the total events for anomalies (20%)
+    baseline_max_events = int(MAX_EVENTS * 0.8)
+    
+    # Generate baseline normal activity for all hosts
+    print("Generating baseline normal DNS activity...")
+    baseline_events, host_event_counts = generate_baseline_activity(internal_hosts, start_time, end_time, baseline_max_events)
     all_events.extend(baseline_events)
-    print(f"Generated {len(baseline_events)} baseline events.")
-
-    # Assign 11 anomaly types to individual hosts
-    for i, anomaly_type in enumerate(anomaly_types):
-        if i >= len(anomalous_hosts):
-            break
-
-        host = anomalous_hosts[i]
-        host_anomaly_map[host["hostname"]] = anomaly_type["name"]
-
-        # Generate a random time for this anomaly
-        random_day = random.randint(0, TIME_PERIOD_DAYS - 1)
-        anomaly_time = start_time + datetime.timedelta(
-            days=random_day, hours=random.randint(0, 23), minutes=random.randint(0, 59)
-        )
-
-        # Generate the anomaly events
-        anomaly_events = anomaly_type["generator"](host, anomaly_time)
-        all_events.extend(anomaly_events)
-        print(
-            f"Generated {len(anomaly_events)} events for {anomaly_type['name']} on host {host['hostname']}"
-        )
-
+    
+    # Determine how to distribute the 10 anomalies
+    # Strategy: 2 hosts with 3 anomalies each, 2 hosts with 2 anomalies each, 0 anomalies for the rest
+    
+    # Shuffle the hosts for random selection
+    random.shuffle(internal_hosts)
+    
+    # Select hosts for anomalies (with preference for high-activity hosts)
+    anomaly_hosts = sorted(internal_hosts[:10], key=lambda h: host_event_counts[h["hostname"]], reverse=True)
+    
+    # Distribute anomalies: 2 hosts with 3 anomalies, 2 hosts with 2 anomalies, 0 anomalies for rest
+    host_anomaly_distribution = {
+        anomaly_hosts[0]["hostname"]: 3,  # 3 anomalies for most active host
+        anomaly_hosts[1]["hostname"]: 3,  # 3 anomalies for second most active host
+        anomaly_hosts[2]["hostname"]: 2,  # 2 anomalies
+        anomaly_hosts[3]["hostname"]: 2,  # 2 anomalies
+    }
+    
+    print("\nAnomaly distribution:")
+    for hostname, count in host_anomaly_distribution.items():
+        print(f"  {hostname}: {count} anomalies")
+    
+    # Keep track of which host gets which anomaly
+    host_anomaly_map = defaultdict(list)
+    
+    # List of anomalies we'll assign
+    anomaly_types_to_assign = list(anomaly_generators.keys())
+    random.shuffle(anomaly_types_to_assign)
+    
+    # Assign anomalies to hosts
+    anomaly_count = 0
+    for hostname, num_anomalies in host_anomaly_distribution.items():
+        host = next(h for h in internal_hosts if h["hostname"] == hostname)
+        
+        for _ in range(num_anomalies):
+            if anomaly_count >= TOTAL_ANOMALIES or not anomaly_types_to_assign:
+                break
+                
+            anomaly_type = anomaly_types_to_assign.pop(0)
+            host_anomaly_map[hostname].append(anomaly_type)
+            
+            # Generate a random time for this anomaly (avoid weekends for more realism)
+            while True:
+                random_day = random.randint(0, TIME_PERIOD_DAYS - 1)
+                anomaly_time = start_time + datetime.timedelta(days=random_day)
+                # Skip weekends for more realism (anomalies more common during workdays)
+                if anomaly_time.weekday() < 5:  # 0-4 are Monday to Friday
+                    break
+                    
+            # Add hour and minute
+            anomaly_time += datetime.timedelta(
+                hours=random.randint(8, 17),  # Business hours
+                minutes=random.randint(0, 59)
+            )
+            
+            # Generate the anomaly events
+            generator_func = anomaly_generators[anomaly_type]
+            anomaly_events = generator_func(host, anomaly_time)
+            all_events.extend(anomaly_events)
+            
+            print(f"Generated {len(anomaly_events)} events for {anomaly_type} on host {hostname}")
+            anomaly_count += 1
+    
     # Handle behavioral clustering separately (needs multiple hosts)
-    # Select 5 random hosts from the normal hosts for the behavioral cluster
-    cluster_size = min(5, len(normal_hosts))
-    cluster_hosts = normal_hosts[:cluster_size]
-
-    # Record these hosts as part of the behavioral cluster
-    for host in cluster_hosts:
-        host_anomaly_map[host["hostname"]] = behavioral_clustering["name"]
-
-    # Generate a random time for behavioral clustering
-    random_day = random.randint(0, TIME_PERIOD_DAYS - 1)
-    anomaly_time = start_time + datetime.timedelta(
-        days=random_day, hours=random.randint(0, 23), minutes=random.randint(0, 59)
-    )
-
-    # Generate the behavioral clustering events
-    cluster_events = behavioral_clustering["generator"](
-        cluster_hosts,
-        anomaly_time,
-        cluster_size=cluster_size,
-        event_count=random.randint(20, 40),
-    )
-    all_events.extend(cluster_events)
-    print(
-        f"Generated {len(cluster_events)} events for Behavioral Cluster across {cluster_size} hosts"
-    )
-
+    # Select 3 random hosts that don't already have anomalies
+    non_anomalous_hosts = [h for h in internal_hosts if h["hostname"] not in host_anomaly_map]
+    if len(non_anomalous_hosts) >= 3:
+        cluster_hosts = random.sample(non_anomalous_hosts, 3)
+        
+        # Record these hosts as part of the behavioral cluster
+        for host in cluster_hosts:
+            host_anomaly_map[host["hostname"]].append("BEHAVIORAL_CLUSTER")
+        
+        # Generate a random time for behavioral clustering (workday)
+        while True:
+            random_day = random.randint(0, TIME_PERIOD_DAYS - 1)
+            anomaly_time = start_time + datetime.timedelta(days=random_day)
+            if anomaly_time.weekday() < 5:  # Weekday
+                break
+                
+        # Add hour and minute
+        anomaly_time += datetime.timedelta(
+            hours=random.randint(8, 17),  # Business hours
+            minutes=random.randint(0, 59)
+        )
+        
+        # Generate the behavioral clustering events
+        cluster_events = generate_behavioral_cluster(
+            cluster_hosts,
+            anomaly_time,
+            cluster_size=len(cluster_hosts),
+            event_count=30
+        )
+        all_events.extend(cluster_events)
+        print(f"Generated {len(cluster_events)} events for Behavioral Cluster across {len(cluster_hosts)} hosts")
+    
     # Sort all events by timestamp
     print("Sorting events by timestamp...")
     all_events.sort(key=lambda x: x["timestamp"])
-
+    
     # Write events to file in JSON format
     print(f"Writing {len(all_events)} events to {OUTPUT_FILE}...")
     with open(OUTPUT_FILE, "w") as f:
         for event in all_events:
             f.write(json.dumps(event) + "\n")
-
+    
     # Create a summary file with details about the anomalies
     with open("dns_events_summary.txt", "w") as f:
         f.write(f"Total DNS events generated: {len(all_events)}\n")
-        f.write(
-            f"Time range: {start_time.strftime('%Y-%m-%d %H:%M:%S')} to {end_time.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-        )
-
-        # Count events by tag
-        tag_counts = defaultdict(int)
+        f.write(f"Time range: {start_time.strftime('%Y-%m-%d %H:%M:%S')} to {end_time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        
+        # Count events by anomaly type
+        anomaly_counts = defaultdict(int)
+        normal_count = 0
+        
         for event in all_events:
-            if "tag" in event:
-                tag_counts[event["tag"]] += 1
+            if "anomaly_type" in event:
+                anomaly_counts[event["anomaly_type"]] += 1
             else:
-                tag_counts["normal"] += 1
-
+                normal_count += 1
+                
         f.write("Event counts by type:\n")
-        for tag, count in sorted(tag_counts.items()):
-            if tag == "normal":
-                f.write(f"- Normal DNS events: {count}\n")
-            else:
-                f.write(f"- {tag}: {count} events\n")
-
-        f.write("\nAnomalous hosts (one per anomaly type):\n")
-        for hostname, anomaly_name in host_anomaly_map.items():
-            host_info = next(
-                (h for h in internal_hosts if h["hostname"] == hostname), None
-            )
+        f.write(f"- Normal DNS events: {normal_count}\n")
+        for anomaly_type, count in sorted(anomaly_counts.items()):
+            f.write(f"- {anomaly_type}: {count} events\n")
+            
+        f.write("\nAnomalous hosts:\n")
+        for hostname, anomaly_types in host_anomaly_map.items():
+            host_info = next((h for h in internal_hosts if h["hostname"] == hostname), None)
             if host_info:
-                f.write(f"{anomaly_name}: {host_info['ip']} ({hostname})\n")
-
-        f.write("\nDetection Methods (based on academic research):\n")
-        f.write(
-            "1. Volume/Frequency Anomalies: Use DensityFunction on query count by src\n"
-        )
-        f.write(
-            "2. Beaconing: Calculate gaps between queries and check for low standard deviation\n"
-        )
-        f.write(
-            "3. Burst Activity: Use streamstats time_window to detect sudden spikes\n"
-        )
-        f.write(
-            "4. TXT Record Anomalies: Monitor for abnormal usage of TXT records by src\n"
-        )
-        f.write(
-            "5. ANY Record Anomalies: Look for hosts using ANY queries (often used in recon)\n"
-        )
-        f.write(
-            "6. Record Type Rarity: Find hosts using statistically rare record types\n"
-        )
-        f.write(
-            "7. Query Length Anomalies: Calculate query length and use DensityFunction to find outliers\n"
-        )
-        f.write(
-            "8. Domain Shadowing: Count unique subdomains per parent domain and look for anomalies\n"
-        )
-        f.write(
-            "9. Behavioral Clustering: Apply KMeans clustering to multiple DNS behavior metrics\n"
-        )
-        f.write(
-            "10. High Priority Combined: Correlate multiple anomaly indicators for high confidence\n"
-        )
-        f.write(
-            "11. DNS C2: Look for beaconing combined with data exchange through DNS\n"
-        )
-        f.write(
-            "12. DNS Tunneling: Identify excessively long queries, high volume, and data transfer\n"
-        )
-
+                anomalies_str = ", ".join(anomaly_types)
+                f.write(f"{hostname} ({host_info['ip']}, {host_info['department']}): {anomalies_str}\n")
+                
+        f.write("\nDetection Methods (based on Splunk macros):\n")
+        f.write("1. C2 Tunneling: `dns_c2_tunneling_detection` - High volume DNS queries\n")
+        f.write("2. Beaconing: `dns_beaconing_detection` - Regular timing patterns\n")
+        f.write("3. Burst Activity: `dns_burst_activity_detection` - Sudden query spikes\n")
+        f.write("4. TXT Record Anomalies: `dns_txt_record_detection` - Unusual TXT record usage\n")
+        f.write("5. ANY Record Anomalies: `dns_any_record_detection` - Reconnaissance with ANY queries\n")
+        f.write("6. HINFO Record Anomalies: `dns_hinfo_record_detection` - Host info gathering\n")
+        f.write("7. AXFR Record Anomalies: `dns_axfr_record_detection` - Zone transfer attempts\n")
+        f.write("8. Query Length Anomalies: `dns_query_length_detection` - Data exfiltration via long queries\n")
+        f.write("9. Domain Shadowing: `dns_domain_shadowing_detection` - Multiple unique subdomains\n")
+        f.write("10. Behavioral Clustering: `dns_behavioral_clustering_detection` - Coordinated malicious activity\n")
+        
     print(f"Generated {len(all_events)} DNS events and saved to {OUTPUT_FILE}")
     print(f"Summary saved to dns_events_summary.txt")
 

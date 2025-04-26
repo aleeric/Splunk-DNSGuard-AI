@@ -69,21 +69,32 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 
 ### Generating Synthetic Data
 
-The `generate_dns_events.py` script creates a realistic dataset with:
-- 90 days of DNS activity
-- 500 internal hosts (70% Windows, 30% Linux)
-- Normal DNS behavior for all hosts
-- 12 specific hosts with different anomaly types
-- Anomalies distributed randomly throughout the 90-day period
+The `generate_dns_events.py` script creates a comprehensive dataset of DNS query events for testing and demonstrating DNSGuard-AI's anomaly detection capabilities:
 
-Run the script to generate the data:
 ```
-python generate_dns_events.py
+python poc/generate_dns_events.py
 ```
 
-The script will create:
-- `dns_events.json`: The main dataset with all DNS events
-- `dns_events_summary.txt`: A summary of the generated data and anomalies
+#### Key Features
+
+- **Organization Simulation**: Creates 100 hosts across 7 departments (IT, Engineering, Sales, Marketing, Finance, HR, and Servers) with realistic IP addressing and naming conventions
+- **Timeframe**: Generates 30 days of DNS activity with realistic workday/weekend and time-of-day patterns
+- **Volume Control**: Limits total events to under 1 million for manageable processing
+- **Realistic Baseline**: Normal DNS traffic follows typical enterprise patterns with domain popularity weights and department-specific behavior
+
+#### Anomaly Generation
+
+The script strategically distributes exactly 10 anomalies across select hosts:
+- 2 hosts with 3 anomalies each
+- 2 hosts with 2 anomalies each  
+- 3 hosts involved in coordinated behavioral clustering
+- All anomalies occur during business hours on weekdays for realistic detection scenarios
+
+#### Output Files
+
+The script generates two files:
+- **dns_events.json**: The main dataset containing all DNS events in JSON format (Splunk CIM compliant)
+- **dns_events_summary.txt**: A detailed summary of generated events, anomaly distributions, affected hosts, and detection methods
 
 ### Using the Splunk App
 
