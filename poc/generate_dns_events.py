@@ -20,6 +20,7 @@ TIME_PERIOD_DAYS = 30  # 1 month of data
 NUM_INTERNAL_HOSTS = 100  # Realistic number of hosts in a medium-sized organization
 LINUX_HOSTS_PERCENTAGE = 20  # 20% of hosts are Linux servers
 TOTAL_ANOMALIES = 10  # Total number of anomalies to distribute
+ANOMALY_HOSTS = 5  # Exactly 5 hosts will have anomalies
 
 # Domain lists
 TOP_DOMAINS = [
@@ -725,22 +726,14 @@ def main():
     baseline_events, host_event_counts = generate_baseline_activity(internal_hosts, start_time, end_time, baseline_max_events)
     all_events.extend(baseline_events)
     
-    # Determine how to distribute the 10 anomalies
-    # Strategy: 2 hosts with 3 anomalies each, 2 hosts with 2 anomalies each, 0 anomalies for the rest
+    # Select exactly 5 hosts for anomalies (with preference for high-activity hosts)
+    anomaly_hosts = sorted(internal_hosts, key=lambda h: host_event_counts[h["hostname"]], reverse=True)[:ANOMALY_HOSTS]
     
-    # Shuffle the hosts for random selection
-    random.shuffle(internal_hosts)
-    
-    # Select hosts for anomalies (with preference for high-activity hosts)
-    anomaly_hosts = sorted(internal_hosts[:10], key=lambda h: host_event_counts[h["hostname"]], reverse=True)
-    
-    # Distribute anomalies: 2 hosts with 3 anomalies, 2 hosts with 2 anomalies, 0 anomalies for rest
-    host_anomaly_distribution = {
-        anomaly_hosts[0]["hostname"]: 3,  # 3 anomalies for most active host
-        anomaly_hosts[1]["hostname"]: 3,  # 3 anomalies for second most active host
-        anomaly_hosts[2]["hostname"]: 2,  # 2 anomalies
-        anomaly_hosts[3]["hostname"]: 2,  # 2 anomalies
-    }
+    # Make sure all 5 hosts have multiple anomalies for better detection
+    # Distribute 2 anomalies per host (10 anomalies total)
+    host_anomaly_distribution = {}
+    for host in anomaly_hosts:
+        host_anomaly_distribution[host["hostname"]] = 2
     
     print("\nAnomaly distribution:")
     for hostname, count in host_anomaly_distribution.items():
@@ -749,9 +742,13 @@ def main():
     # Keep track of which host gets which anomaly
     host_anomaly_map = defaultdict(list)
     
-    # List of anomalies we'll assign
-    anomaly_types_to_assign = list(anomaly_generators.keys())
-    random.shuffle(anomaly_types_to_assign)
+    # Ensure TXT_RECORD_ANOMALY and C2_TUNNELING are included since these were mentioned specifically
+    priority_anomalies = ["TXT_RECORD_ANOMALY", "C2_TUNNELING"]
+    remaining_anomalies = [a for a in anomaly_generators.keys() if a not in priority_anomalies]
+    random.shuffle(remaining_anomalies)
+    
+    # Create a list of anomalies to assign, putting priority ones first
+    anomaly_types_to_assign = priority_anomalies + remaining_anomalies
     
     # Assign anomalies to hosts
     anomaly_count = 0
@@ -779,46 +776,20 @@ def main():
                 minutes=random.randint(0, 59)
             )
             
-            # Generate the anomaly events
-            generator_func = anomaly_generators[anomaly_type]
-            anomaly_events = generator_func(host, anomaly_time)
+            # Generate more pronounced anomalies to ensure detection
+            if anomaly_type == "C2_TUNNELING":
+                anomaly_events = generate_c2_tunneling(host, anomaly_time, num_events=400)  # More events for better detection
+            elif anomaly_type == "TXT_RECORD_ANOMALY":
+                anomaly_events = generate_txt_record_anomaly(host, anomaly_time, num_events=100)  # More TXT record events
+            else:
+                # Generate the anomaly events with default parameters
+                generator_func = anomaly_generators[anomaly_type]
+                anomaly_events = generator_func(host, anomaly_time)
+            
             all_events.extend(anomaly_events)
             
             print(f"Generated {len(anomaly_events)} events for {anomaly_type} on host {hostname}")
             anomaly_count += 1
-    
-    # Handle behavioral clustering separately (needs multiple hosts)
-    # Select 3 random hosts that don't already have anomalies
-    non_anomalous_hosts = [h for h in internal_hosts if h["hostname"] not in host_anomaly_map]
-    if len(non_anomalous_hosts) >= 3:
-        cluster_hosts = random.sample(non_anomalous_hosts, 3)
-        
-        # Record these hosts as part of the behavioral cluster
-        for host in cluster_hosts:
-            host_anomaly_map[host["hostname"]].append("BEHAVIORAL_CLUSTER")
-        
-        # Generate a random time for behavioral clustering (workday)
-        while True:
-            random_day = random.randint(0, TIME_PERIOD_DAYS - 1)
-            anomaly_time = start_time + datetime.timedelta(days=random_day)
-            if anomaly_time.weekday() < 5:  # Weekday
-                break
-                
-        # Add hour and minute
-        anomaly_time += datetime.timedelta(
-            hours=random.randint(8, 17),  # Business hours
-            minutes=random.randint(0, 59)
-        )
-        
-        # Generate the behavioral clustering events
-        cluster_events = generate_behavioral_cluster(
-            cluster_hosts,
-            anomaly_time,
-            cluster_size=len(cluster_hosts),
-            event_count=30
-        )
-        all_events.extend(cluster_events)
-        print(f"Generated {len(cluster_events)} events for Behavioral Cluster across {len(cluster_hosts)} hosts")
     
     # Sort all events by timestamp
     print("Sorting events by timestamp...")
@@ -850,7 +821,7 @@ def main():
         for anomaly_type, count in sorted(anomaly_counts.items()):
             f.write(f"- {anomaly_type}: {count} events\n")
             
-        f.write("\nAnomalous hosts:\n")
+        f.write("\nAnomalous hosts ({ANOMALY_HOSTS} total):\n")
         for hostname, anomaly_types in host_anomaly_map.items():
             host_info = next((h for h in internal_hosts if h["hostname"] == hostname), None)
             if host_info:
