@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
 <dashboard stylesheet="dashboard.css" script="dashboard.js">
   <label>DNS Threat Detections</label>
-  <description>View of detected potential malicious DNS activities</description>
+  <description>View of detected DNS-based threats and anomalies</description>
   <row>
     <panel>
       <title>Detection Summary (Last 24 Hours)</title>
       <single>
         <search>
-          <query>`dns_data` | search (isOutlier=1 OR predicted_class=1 OR txt_score>0.7 OR query_count>upper95) | stats count</query>
+          <query>| inputlookup anomalous_src_lookup | search last_update > relative_time(now(), "-24h") 
+          | stats dc(src) as "Hosts with Anomalies"</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -18,20 +19,26 @@
         <option name="rangeValues">[0,1,5,10]</option>
         <option name="useColors">1</option>
         <option name="unitPosition">after</option>
-        <option name="unit">detections</option>
+        <option name="unit">hosts</option>
       </single>
     </panel>
     <panel>
       <title>Detections by Type</title>
       <chart>
         <search>
-          <query>`dns_data` | eval detection_type=case(
-            isOutlier=1, "Outlier Detection",
-            predicted_class=1, "DGA Detection",
-            txt_score>0.7, "TXT Record Analysis",
-            query_count>upper95, "Volume Anomaly",
-            cluster="1" OR cluster="3", "Suspicious Cluster"
-          ) | stats count by detection_type</query>
+          <query>| inputlookup anomalous_src_lookup | search last_update > relative_time(now(), "-24h")
+          | eval "C2 Tunneling"=if(c2_tunneling=1,1,0), "Beaconing"=if(beaconing=1,1,0), "Burst Activity"=if(burst_activity=1,1,0),
+                 "TXT Record Abuse"=if(txt_record_type=1,1,0), "ANY Record Abuse"=if(any_record_type=1,1,0),
+                 "HINFO Record Abuse"=if(hinfo_record_type=1,1,0), "AXFR Record Abuse"=if(axfr_record_type=1,1,0),
+                 "Long Query Anomaly"=if(query_length=1,1,0), "Domain Shadowing"=if(domain_shadowing=1,1,0),
+                 "Behavioral Cluster"=if(behavioral_clustering=1,1,0)
+          | stats sum("C2 Tunneling") as "C2 Tunneling", sum("Beaconing") as "Beaconing", 
+                 sum("Burst Activity") as "Burst Activity", sum("TXT Record Abuse") as "TXT Record Abuse",
+                 sum("ANY Record Abuse") as "ANY Record Abuse", sum("HINFO Record Abuse") as "HINFO Record Abuse",
+                 sum("AXFR Record Abuse") as "AXFR Record Abuse", sum("Long Query Anomaly") as "Long Query Anomaly",
+                 sum("Domain Shadowing") as "Domain Shadowing", sum("Behavioral Cluster") as "Behavioral Cluster"
+          | transpose | rename column as "Detection Type", "row 1" as "Count"
+          | where Count > 0</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -43,60 +50,45 @@
       <title>Detection Timeline</title>
       <chart>
         <search>
-          <query>`dns_data` | eval detection_type=case(
-            isOutlier=1, "Outlier Detection",
-            predicted_class=1, "DGA Detection",
-            txt_score>0.7, "TXT Record Analysis",
-            query_count>upper95, "Volume Anomaly",
-            cluster="1" OR cluster="3", "Suspicious Cluster"
-          ) | timechart span=1h count by detection_type</query>
-          <earliest>-24h@h</earliest>
+          <query>| inputlookup anomalous_src_lookup | search last_update > relative_time(now(), "-7d")
+          | convert timeformat="%Y-%m-%d %H" ctime(last_update) as hour
+          | eval "C2 Tunneling"=if(c2_tunneling=1,1,0), "Beaconing"=if(beaconing=1,1,0), "Burst Activity"=if(burst_activity=1,1,0),
+                 "TXT Record Abuse"=if(txt_record_type=1,1,0), "OTHER"=if(any_record_type=1 OR hinfo_record_type=1 OR axfr_record_type=1 OR query_length=1 OR domain_shadowing=1 OR behavioral_clustering=1,1,0)
+          | stats sum("C2 Tunneling") as "C2 Tunneling", sum("Beaconing") as "Beaconing", 
+                 sum("Burst Activity") as "Burst Activity", sum("TXT Record Abuse") as "TXT Record Abuse",
+                 sum("OTHER") as "Other Anomalies" by hour
+          | sort hour</query>
+          <earliest>-7d@h</earliest>
           <latest>now</latest>
         </search>
         <option name="charting.chart">column</option>
         <option name="charting.chart.stackMode">stacked</option>
         <option name="charting.drilldown">none</option>
+        <option name="charting.axisTitleX.text">Time</option>
+        <option name="charting.axisTitleY.text">Count</option>
       </chart>
     </panel>
   </row>
   <row>
     <panel>
-      <title>Outlier Detection Results</title>
+      <title>C2 Tunneling Detection</title>
       <table>
         <search>
-          <query>`dns_data` | search isOutlier=1 | table _time, src_ip, query, record_type | sort -_time | head 10 | rename src_ip as "Source IP" | rename query as "Domain" | rename record_type as "Record Type"</query>
+          <query>| inputlookup anomalous_src_lookup | search c2_tunneling=1 last_update > relative_time(now(), "-24h")
+          | table _key, last_update, src | rename _key as "ID", last_update as "Detection Time", src as "Source IP"
+          | sort -"Detection Time" | head 10</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
       </table>
     </panel>
     <panel>
-      <title>DGA Domain Detection Results</title>
+      <title>Beaconing Detection</title>
       <table>
         <search>
-          <query>`dns_data` | search predicted_class=1 | table _time, src_ip, query, probability | sort -probability | head 10 | rename src_ip as "Source IP" | rename query as "Domain" | rename probability as "Probability"</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
-        </search>
-      </table>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>DNS TXT Record C2 Detection</title>
-      <table>
-        <search>
-          <query>`dns_data` record_type=TXT | search txt_score>0.7 | table _time, src_ip, query, txt_content, txt_score | sort -txt_score | head 10 | rename src_ip as "Source IP" | rename query as "Domain" | rename txt_content as "TXT Content" | rename txt_score as "Suspicion Score"</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
-        </search>
-      </table>
-    </panel>
-    <panel>
-      <title>DNS Volume Anomalies</title>
-      <table>
-        <search>
-          <query>`dns_data` | bin _time span=1h | stats count as query_count by _time, src_ip | search query_count>upper95 | table _time, src_ip, query_count, upper95 | sort -query_count | head 10 | rename src_ip as "Source IP" | rename query_count as "Query Count" | rename upper95 as "Upper Threshold"</query>
+          <query>| inputlookup anomalous_src_lookup | search beaconing=1 last_update > relative_time(now(), "-24h")
+          | table _key, last_update, src | rename _key as "ID", last_update as "Detection Time", src as "Source IP"
+          | sort -"Detection Time" | head 10</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -105,17 +97,48 @@
   </row>
   <row>
     <panel>
-      <title>Detailed DNS Detection Table</title>
+      <title>DNS Burst Activity Detection</title>
       <table>
         <search>
-          <query>`dns_data` | eval detection_type=case(
-            isOutlier=1, "Outlier Detection",
-            predicted_class=1, "DGA Detection",
-            txt_score>0.7, "TXT Record Analysis",
-            query_count>upper95, "Volume Anomaly",
-            cluster="1" OR cluster="3", "Suspicious Cluster",
-            1=1, null()
-          ) | search detection_type!="" | table _time, src_ip, dest_host, query, record_type, detection_type | sort -_time | rename src_ip as "Source IP" | rename dest_host as "Hostname" | rename query as "Domain" | rename record_type as "Record Type" | rename detection_type as "Detection Method"</query>
+          <query>| inputlookup anomalous_src_lookup | search burst_activity=1 last_update > relative_time(now(), "-24h")
+          | table _key, last_update, src | rename _key as "ID", last_update as "Detection Time", src as "Source IP"
+          | sort -"Detection Time" | head 10</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>TXT Record Abuse Detection</title>
+      <table>
+        <search>
+          <query>| inputlookup anomalous_src_lookup | search txt_record_type=1 last_update > relative_time(now(), "-24h")
+          | table _key, last_update, src | rename _key as "ID", last_update as "Detection Time", src as "Source IP"
+          | sort -"Detection Time" | head 10</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <drilldown>
+          <link target="_blank">search?q=`dns_data` src=$row.Source IP$ record_type=TXT | `extract_txt_content` | table _time, src, dest, query, txt_content | sort -_time&amp;earliest=-24h@h&amp;latest=now</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>All Detected Anomalies (Last 24h)</title>
+      <table>
+        <search>
+          <query>| inputlookup anomalous_src_lookup | search last_update > relative_time(now(), "-24h")
+          | eval "C2 Tunneling"=if(c2_tunneling=1,"Yes","-"), "Beaconing"=if(beaconing=1,"Yes","-"), 
+                 "Burst Activity"=if(burst_activity=1,"Yes","-"), "TXT Abuse"=if(txt_record_type=1,"Yes","-"),
+                 "ANY Abuse"=if(any_record_type=1,"Yes","-"), "HINFO Abuse"=if(hinfo_record_type=1,"Yes","-"),
+                 "AXFR Abuse"=if(axfr_record_type=1,"Yes","-"), "Long Query"=if(query_length=1,"Yes","-"), 
+                 "Domain Shadowing"=if(domain_shadowing=1,"Yes","-"), "Behavioral"=if(behavioral_clustering=1,"Yes","-")
+          | rename last_update as "Detection Time", src as "Source IP"
+          | table "Detection Time", "Source IP", "C2 Tunneling", "Beaconing", "Burst Activity", "TXT Abuse", 
+                  "ANY Abuse", "HINFO Abuse", "AXFR Abuse", "Long Query", "Domain Shadowing", "Behavioral"
+          | sort -"Detection Time"</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>

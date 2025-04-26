@@ -2,7 +2,7 @@
 <nav search_view="search">
   <view name="dns_overview" default="true"/>
   <view name="dns_detections" />
-  <view name="dashboards" />
+  <view name="dns_anomalies" />
   <view name="search" />
   <view name="alerts" />
 </nav> 

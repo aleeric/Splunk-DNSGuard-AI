@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <dashboard stylesheet="dashboard.css" script="dashboard.js">
   <label>DNS Traffic Overview</label>
-  <description>Overview of DNS traffic and malicious activity detection</description>
+  <description>Overview of DNS traffic and basic statistics</description>
   <row>
     <panel>
       <title>DNS Query Volume Over Time</title>
       <chart>
         <search>
-          <query>`dns_data` | timechart span=1h count as queries</query>
+          <query>`dns_data` | timechart span=1h count as "DNS Queries"</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="charting.chart">area</option>
-        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.axisTitleX.text">Time</option>
+        <option name="charting.axisTitleY.text">Query Count</option>
         <option name="charting.drilldown">none</option>
       </chart>
     </panel>
@@ -22,43 +23,46 @@
       <title>Top DNS Queries by Domain</title>
       <chart>
         <search>
-          <query>`dns_data` | top limit=10 query</query>
+          <query>`dns_data` | top limit=10 query | rename query as "Domain" | rename count as "Query Count" | rename percent as "Percent"</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="charting.chart">pie</option>
         <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">right</option>
       </chart>
     </panel>
     <panel>
-      <title>DNS Record Types</title>
+      <title>DNS Record Types Distribution</title>
       <chart>
         <search>
-          <query>`dns_data` | stats count by record_type</query>
+          <query>`dns_data` | stats count by record_type | sort -count | rename record_type as "Record Type" | rename count as "Count"</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="charting.chart">bar</option>
+        <option name="charting.axisTitleX.text">Record Type</option>
+        <option name="charting.axisTitleY.text">Count</option>
         <option name="charting.drilldown">none</option>
       </chart>
     </panel>
   </row>
   <row>
     <panel>
-      <title>Top Hosts Making DNS Requests</title>
+      <title>Top Source IPs Making DNS Requests</title>
       <table>
         <search>
-          <query>`dns_data` | stats count as request_count by src_ip | sort -request_count | rename src_ip as "Source IP" | rename request_count as "Request Count" | head 10</query>
+          <query>`dns_data` | stats count as request_count by src | sort -request_count | rename src as "Source IP" | rename request_count as "Request Count" | head 10</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
       </table>
     </panel>
     <panel>
-      <title>Recent Detected Anomalies</title>
+      <title>Top DNS Servers (Destinations)</title>
       <table>
         <search>
-          <query>sourcetype=dns | search (isOutlier=1 OR predicted_class=1 OR txt_score>0.7) | table _time, src_ip, query, record_type, detection_type | sort -_time | rename src_ip as "Source IP" | rename query as "Domain" | rename record_type as "Record Type" | rename detection_type as "Detection Method"</query>
+          <query>`dns_data` | stats count as response_count by dest | sort -response_count | rename dest as "DNS Server" | rename response_count as "Response Count" | head 10</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -70,25 +74,39 @@
       <title>Domain Length Distribution</title>
       <chart>
         <search>
-          <query>`dns_data` | eval domain_length=length(query) | stats count by domain_length | sort domain_length</query>
+          <query>`dns_data` | eval domain_length=len(query) | stats count by domain_length | sort domain_length</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="charting.chart">column</option>
+        <option name="charting.axisTitleX.text">Domain Length</option>
+        <option name="charting.axisTitleY.text">Count</option>
         <option name="charting.drilldown">none</option>
       </chart>
     </panel>
     <panel>
-      <title>Domain Entropy Distribution</title>
+      <title>Parent Domain Distribution</title>
       <chart>
         <search>
-          <query>`dns_data` | eval entropy=entropy(query) | stats count by entropy | sort entropy</query>
+          <query>`dns_data` | `extract_sub_parent_domain` | where isnotnull(parent_domain) | top limit=10 parent_domain | rename parent_domain as "Parent Domain"</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
-        <option name="charting.chart">column</option>
+        <option name="charting.chart">pie</option>
         <option name="charting.drilldown">none</option>
       </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Recent DNS Activity</title>
+      <table>
+        <search>
+          <query>`dns_data` | table _time, src, query, record_type, answer | sort -_time | head 20</query>
+          <earliest>-12h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
     </panel>
   </row>
 </dashboard> 
