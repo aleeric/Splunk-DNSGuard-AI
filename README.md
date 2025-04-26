@@ -35,7 +35,7 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 | HINFO Record Anomalies              | Identifies reconnaissance activity using HINFO queries               | ✅          |
 | AXFR Record Anomalies              | Identifies reconnaissance activity using AXFR queries               | ✅          |
 | Record Type Rarity                | Detects use of rare DNS record types             | ❌          |
-| Query Length Anomalies            | Identifies unusually long DNS queries (potential data exfiltration)                  | ❌          |
+| Query Length Anomalies            | Identifies unusually long DNS queries (potential data exfiltration)                  | ✅          |
 | Domain Shadowing                  | Detects many unique subdomains for a legitimate domain              | ❌          |
 | Behavioral Clustering             | Groups hosts with similar abnormal DNS behavior                   | ✅          |
 | High Priority Combined            | Correlates multiple anomaly indicators        | ❌          |
