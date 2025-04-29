@@ -20,7 +20,7 @@ TIME_PERIOD_DAYS = 30  # 1 month of data
 NUM_INTERNAL_HOSTS = 100  # Realistic number of hosts in a medium-sized organization
 LINUX_HOSTS_PERCENTAGE = 20  # 20% of hosts are Linux servers
 TOTAL_ANOMALIES = 10  # We'll ensure all anomaly types are represented
-ANOMALY_HOSTS = 5  # Exactly 5 hosts will have anomalies
+ANOMALY_HOSTS = 10  # Exactly 10 hosts will have anomalies
 
 # Domain lists
 TOP_DOMAINS = [
@@ -181,52 +181,52 @@ ANOMALY_TYPES = [
 # Anomaly configuration to align with Splunk detection thresholds
 ANOMALY_CONFIG = {
     "C2_TUNNELING": {
-        "num_events": 800,  # Significantly higher than normal hourly rate
+        "num_events": 2000,  # Significantly increased from 800
         "time_window_hours": 1,  # Concentrated in 1-hour windows to trigger hourly detection
         "description": "High volume DNS queries from single host within short time period",
     },
     "BEACONING": {
-        "interval_minutes": 10,  # Consistent time gap between queries
-        "num_events": 100,  # Enough events to establish a clear pattern
-        "jitter_seconds": 5,  # Very small jitter to create obvious beaconing
+        "interval_minutes": 5,  # More frequent beaconing (was 10)
+        "num_events": 500,  # Significantly increased from 100
+        "jitter_seconds": 2,  # Even smaller jitter for more obvious pattern
         "description": "Periodic DNS queries at regular intervals with minimal time variation",
     },
     "BURST_ACTIVITY": {
-        "num_events": 300,  # Many events in very short time
-        "time_window_seconds": 60,  # All within one minute for clear burst detection
+        "num_events": 1000,  # Significantly increased from 300
+        "time_window_seconds": 30,  # Shorter window for more intense burst
         "description": "Sudden spike in DNS query volume within a minute",
     },
     "TXT_RECORD_ANOMALY": {
-        "num_events": 100,  # Many TXT records from same host
-        "min_content_length": 50,  # Long TXT records
-        "max_content_length": 200,  # But not too long
+        "num_events": 300,  # Significantly increased from 100
+        "min_content_length": 100,  # Longer TXT records
+        "max_content_length": 300,  # Longer max content
         "description": "Unusual volume of TXT record queries with encoded content",
     },
     "ANY_RECORD_ANOMALY": {
-        "num_events": 50,  # Multiple ANY queries (very rare in normal traffic)
+        "num_events": 200,  # Significantly increased from 50
         "description": "Unusual volume of ANY record queries indicating potential reconnaissance",
     },
     "HINFO_RECORD_ANOMALY": {
-        "num_events": 30,  # Multiple HINFO queries (very rare in normal traffic)
+        "num_events": 150,  # Significantly increased from 30
         "description": "Unusual HINFO record queries for system information gathering",
     },
     "AXFR_RECORD_ANOMALY": {
-        "num_events": 25,  # Multiple zone transfer attempts
+        "num_events": 100,  # Significantly increased from 25
         "description": "Zone transfer attempts using AXFR queries",
     },
     "QUERY_LENGTH_ANOMALY": {
-        "num_events": 70,  # Enough to stand out
-        "min_length": 100,  # Very long DNS queries
+        "num_events": 200,  # Significantly increased from 70
+        "min_length": 200,  # Even longer queries
         "description": "Abnormally long DNS query strings indicating potential data exfiltration",
     },
     "DOMAIN_SHADOWING": {
-        "num_events": 80,  # Many unique subdomains
-        "unique_subdomains": 50,  # High number of unique subdomains for same parent domain
+        "num_events": 300,  # Significantly increased from 80
+        "unique_subdomains": 200,  # Significantly increased from 50
         "description": "Excessive unique subdomains for a single parent domain",
     },
     "BEHAVIORAL_CLUSTER": {
         "cluster_size": 3,  # Number of hosts with same behavior
-        "events_per_host": 50,  # Events per host
+        "events_per_host": 100,  # Significantly increased from 50
         "description": "Multiple hosts exhibiting synchronized suspicious DNS behavior",
     },
 }
@@ -1061,45 +1061,19 @@ def main():
     )
     all_events.extend(baseline_events)
 
-    # Select exactly 5 hosts for anomalies (with preference for high-activity hosts)
+    # Select exactly 10 hosts for anomalies (with preference for high-activity hosts)
     anomaly_hosts = sorted(
         internal_hosts, key=lambda h: host_event_counts[h["hostname"]], reverse=True
     )[:ANOMALY_HOSTS]
 
-    # Make sure we include all anomaly types by assigning each to a host
-    # We'll make sure all 10 types are represented across the 5 hosts
-    print(f"\nDistributing all 10 anomaly types across {ANOMALY_HOSTS} hosts...")
-
-    # Create an ordered list of anomaly types, first 9 for the function-based ones
-    all_anomaly_types = list(anomaly_generators.keys())
-
-    # Add behavioral clustering which needs special handling
-    remaining_anomaly = ["BEHAVIORAL_CLUSTER"]
-
-    # Map hosts to anomaly types - each host gets 2 anomalies
+    # Map each host to exactly one anomaly type
     host_anomaly_map = {}
+    anomaly_types = list(anomaly_generators.keys())
+
+    # Assign one anomaly type to each host
     for i, host in enumerate(anomaly_hosts):
-        # Each host gets 2 anomalies
-        anomaly_set = []
-
-        # First anomaly - from the standard set
-        idx1 = i * 2 % len(all_anomaly_types)
-        anomaly_set.append(all_anomaly_types[idx1])
-
-        # Second anomaly - from remaining or behavioral cluster
-        if i == ANOMALY_HOSTS - 1 and "BEHAVIORAL_CLUSTER" in remaining_anomaly:
-            anomaly_set.append("BEHAVIORAL_CLUSTER")
-        else:
-            idx2 = (i * 2 + 1) % len(all_anomaly_types)
-            if idx2 != idx1:  # Avoid duplicates
-                anomaly_set.append(all_anomaly_types[idx2])
-            else:
-                # Pick another one
-                options = [a for a in all_anomaly_types if a != all_anomaly_types[idx1]]
-                if options:
-                    anomaly_set.append(random.choice(options))
-
-        host_anomaly_map[host["hostname"]] = anomaly_set
+        anomaly_type = anomaly_types[i % len(anomaly_types)]
+        host_anomaly_map[host["hostname"]] = [anomaly_type]
 
     print("\nAnomaly distribution:")
     for hostname, anomaly_types in host_anomaly_map.items():
@@ -1112,6 +1086,9 @@ def main():
     print("\nGenerating anomalies...")
 
     # First pass - handle all regular anomalies
+    # Keep track of malicious domains used by each host
+    host_malicious_domains = {}
+
     for hostname, anomaly_types in host_anomaly_map.items():
         host = next(h for h in internal_hosts if h["hostname"] == hostname)
 
@@ -1136,13 +1113,29 @@ def main():
                 hour=random.randint(9, 16), minute=random.randint(0, 59)  # 9am-4pm
             )
 
+            # Select a malicious domain for this host if not already assigned
+            if hostname not in host_malicious_domains:
+                host_malicious_domains[hostname] = random.choice(MALICIOUS_DOMAINS)
+
             # Generate the anomaly
             generator_func = anomaly_generators[anomaly_type]
             anomaly_events = generator_func(host, anomaly_time)
 
+            # Update all events to use the assigned malicious domain
+            for event in anomaly_events:
+                if "query" in event and any(
+                    domain in event["query"] for domain in MALICIOUS_DOMAINS
+                ):
+                    # Replace any existing malicious domain with the assigned one
+                    for domain in MALICIOUS_DOMAINS:
+                        if domain in event["query"]:
+                            event["query"] = event["query"].replace(
+                                domain, host_malicious_domains[hostname]
+                            )
+
             all_events.extend(anomaly_events)
             print(
-                f"  Generated {len(anomaly_events)} events for {anomaly_type} on host {hostname}"
+                f"  Generated {len(anomaly_events)} events for {anomaly_type} on host {hostname} using domain {host_malicious_domains[hostname]}"
             )
 
     # Second pass - handle behavioral clustering if needed
@@ -1222,15 +1215,18 @@ def main():
             )
             f.write(f"- {anomaly_type}: {count} events - {anomaly_description}\n")
 
-        f.write("\nANOMALOUS HOSTS:\n")
+        f.write("\nANOMALOUS HOSTS AND THEIR MALICIOUS DOMAINS:\n")
         for hostname, anomaly_types in host_anomaly_map.items():
             host_info = next(
                 (h for h in internal_hosts if h["hostname"] == hostname), None
             )
             if host_info:
                 anomalies_str = ", ".join(anomaly_types)
+                malicious_domain = host_malicious_domains.get(hostname, "N/A")
                 f.write(
-                    f"- {hostname} ({host_info['ip']}, {host_info['department']}): {anomalies_str}\n"
+                    f"- {hostname} ({host_info['ip']}, {host_info['department']}):\n"
+                    f"  Anomaly Type: {anomalies_str}\n"
+                    f"  Malicious Domain: {malicious_domain}\n"
                 )
 
         f.write("\nSPLUNK DETECTION METHODS:\n")
