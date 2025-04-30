@@ -1042,13 +1042,24 @@ def main():
     anomaly_generators = {
         "C2_TUNNELING": generate_c2_tunneling,
         "BEACONING": generate_beaconing,
-        "BURST_ACTIVITY": generate_burst_activity,
         "TXT_RECORD_ANOMALY": generate_txt_record_anomaly,
         "ANY_RECORD_ANOMALY": generate_any_record_anomaly,
         "HINFO_RECORD_ANOMALY": generate_hinfo_record_anomaly,
         "AXFR_RECORD_ANOMALY": generate_axfr_record_anomaly,
         "QUERY_LENGTH_ANOMALY": generate_query_length_anomaly,
         "DOMAIN_SHADOWING": generate_domain_shadowing,
+    }
+
+    # Map malicious domains to specific anomaly types
+    malicious_domain_anomalies = {
+        "cryptominer.biz": "ANY_RECORD_ANOMALY",
+        "data-exfil.org": "AXFR_RECORD_ANOMALY",
+        "fakeupdates.xyz": "BEACONING",
+        "malware-payload.net": "C2_TUNNELING",
+        "ransomware-delivery.co": "HINFO_RECORD_ANOMALY",
+        "evil-c2-server.com": "QUERY_LENGTH_ANOMALY",
+        "command-cntr.info": "DOMAIN_SHADOWING",
+        "steal-credentials.net": "TXT_RECORD_ANOMALY",
     }
 
     # Set aside about 75% of the events for baseline
@@ -1070,9 +1081,21 @@ def main():
     host_anomaly_map = {}
     anomaly_types = list(anomaly_generators.keys())
 
-    # Assign one anomaly type to each host
-    for i, host in enumerate(anomaly_hosts):
-        anomaly_type = anomaly_types[i % len(anomaly_types)]
+    # Ensure critical anomaly types are always included
+    critical_anomalies = [
+        "HINFO_RECORD_ANOMALY",
+        "AXFR_RECORD_ANOMALY",
+        "ANY_RECORD_ANOMALY",
+    ]
+    remaining_anomalies = [a for a in anomaly_types if a not in critical_anomalies]
+
+    # First assign critical anomalies to ensure they're always included
+    for i, host in enumerate(anomaly_hosts[: len(critical_anomalies)]):
+        host_anomaly_map[host["hostname"]] = [critical_anomalies[i]]
+
+    # Then assign remaining anomalies to other hosts
+    for i, host in enumerate(anomaly_hosts[len(critical_anomalies) :]):
+        anomaly_type = remaining_anomalies[i % len(remaining_anomalies)]
         host_anomaly_map[host["hostname"]] = [anomaly_type]
 
     print("\nAnomaly distribution:")
@@ -1113,8 +1136,17 @@ def main():
                 hour=random.randint(9, 16), minute=random.randint(0, 59)  # 9am-4pm
             )
 
-            # Select a malicious domain for this host if not already assigned
-            if hostname not in host_malicious_domains:
+            # Select a malicious domain for this host based on the anomaly type
+            # Find a domain that matches this anomaly type
+            matching_domains = [
+                domain
+                for domain, anomaly in malicious_domain_anomalies.items()
+                if anomaly == anomaly_type
+            ]
+            if matching_domains:
+                host_malicious_domains[hostname] = random.choice(matching_domains)
+            else:
+                # If no domain matches this anomaly type, use a random one
                 host_malicious_domains[hostname] = random.choice(MALICIOUS_DOMAINS)
 
             # Generate the anomaly
