@@ -11,7 +11,7 @@ import time
 from collections import defaultdict
 
 # Configuration parameters
-MAX_EVENTS = 500000  # Reducing max events for faster generation
+MAX_EVENTS = 1000000  # Increased to accommodate more anomaly events
 OUTPUT_FILE = "dns_events.json"
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 TIME_PERIOD_DAYS = 30  # 1 month of data
@@ -67,14 +67,14 @@ MALICIOUS_DOMAINS = [
 
 # More pronounced record type distribution to make anomalies clearly stand out
 RECORD_TYPES = {
-    "A": 75,  # 75% for normal traffic (increased to make anomalies clearer)
+    "A": 80,  # 80% for normal traffic
     "AAAA": 15,  # 15% probability
-    "MX": 3,  # Reduced to make TXT and ANY anomalies more visible
-    "TXT": 2,  # Reduced default TXT usage to make anomalies more visible
-    "CNAME": 3,  # Reduced to emphasize A records more
-    "NS": 1,  # Less common
-    "PTR": 1,  # Less common
-    "ANY": 0.1,  # Very uncommon in normal traffic
+    "MX": 2,  # Reduced to make TXT and ANY anomalies more visible
+    "TXT": 0.5,  # Very low default TXT usage
+    "CNAME": 2,  # Reduced to emphasize A records more
+    "NS": 0.3,  # Less common
+    "PTR": 0.2,  # Less common
+    "ANY": 0.01,  # Extremely rare in normal traffic
 }
 
 # Rare record types for anomaly generation
@@ -93,43 +93,43 @@ DEPARTMENTS = [
         "name": "IT",
         "subnet": "10.1.1.0/24",
         "host_count": 15,
-        "query_rate_range": (20, 100),
+        "query_rate_range": (10, 50),  # More realistic query rates
     },
     {
         "name": "Engineering",
         "subnet": "10.1.2.0/24",
         "host_count": 25,
-        "query_rate_range": (15, 80),
+        "query_rate_range": (8, 40),  # More realistic query rates
     },
     {
         "name": "Sales",
         "subnet": "10.1.3.0/24",
         "host_count": 20,
-        "query_rate_range": (10, 50),
+        "query_rate_range": (5, 25),  # More realistic query rates
     },
     {
         "name": "Marketing",
         "subnet": "10.1.4.0/24",
         "host_count": 15,
-        "query_rate_range": (10, 50),
+        "query_rate_range": (5, 25),  # More realistic query rates
     },
     {
         "name": "Finance",
         "subnet": "10.1.5.0/24",
         "host_count": 10,
-        "query_rate_range": (5, 30),
+        "query_rate_range": (3, 15),  # More realistic query rates
     },
     {
         "name": "HR",
         "subnet": "10.1.6.0/24",
         "host_count": 5,
-        "query_rate_range": (5, 20),
+        "query_rate_range": (2, 10),  # More realistic query rates
     },
     {
         "name": "Servers",
         "subnet": "10.2.0.0/24",
         "host_count": 10,
-        "query_rate_range": (50, 150),
+        "query_rate_range": (20, 80),  # More realistic query rates for servers
     },
 ]
 
@@ -181,52 +181,52 @@ ANOMALY_TYPES = [
 # Anomaly configuration to align with Splunk detection thresholds
 ANOMALY_CONFIG = {
     "C2_TUNNELING": {
-        "num_events": 2000,  # Significantly increased from 800
+        "num_events": 5000,  # Significantly increased to ensure detection
         "time_window_hours": 1,  # Concentrated in 1-hour windows to trigger hourly detection
         "description": "High volume DNS queries from single host within short time period",
     },
     "BEACONING": {
-        "interval_minutes": 5,  # More frequent beaconing (was 10)
-        "num_events": 500,  # Significantly increased from 100
+        "interval_minutes": 5,  # More frequent beaconing
+        "num_events": 2000,  # Significantly increased to ensure detection
         "jitter_seconds": 2,  # Even smaller jitter for more obvious pattern
         "description": "Periodic DNS queries at regular intervals with minimal time variation",
     },
     "BURST_ACTIVITY": {
-        "num_events": 1000,  # Significantly increased from 300
+        "num_events": 2000,  # Significantly increased to ensure detection
         "time_window_seconds": 30,  # Shorter window for more intense burst
         "description": "Sudden spike in DNS query volume within a minute",
     },
     "TXT_RECORD_ANOMALY": {
-        "num_events": 300,  # Significantly increased from 100
+        "num_events": 1000,  # Significantly increased to ensure detection
         "min_content_length": 100,  # Longer TXT records
         "max_content_length": 300,  # Longer max content
         "description": "Unusual volume of TXT record queries with encoded content",
     },
     "ANY_RECORD_ANOMALY": {
-        "num_events": 200,  # Significantly increased from 50
+        "num_events": 800,  # Significantly increased to ensure detection
         "description": "Unusual volume of ANY record queries indicating potential reconnaissance",
     },
     "HINFO_RECORD_ANOMALY": {
-        "num_events": 150,  # Significantly increased from 30
+        "num_events": 600,  # Significantly increased to ensure detection
         "description": "Unusual HINFO record queries for system information gathering",
     },
     "AXFR_RECORD_ANOMALY": {
-        "num_events": 100,  # Significantly increased from 25
+        "num_events": 500,  # Significantly increased to ensure detection
         "description": "Zone transfer attempts using AXFR queries",
     },
     "QUERY_LENGTH_ANOMALY": {
-        "num_events": 200,  # Significantly increased from 70
+        "num_events": 1500,  # Significantly increased to ensure detection
         "min_length": 200,  # Even longer queries
         "description": "Abnormally long DNS query strings indicating potential data exfiltration",
     },
     "DOMAIN_SHADOWING": {
-        "num_events": 300,  # Significantly increased from 80
-        "unique_subdomains": 200,  # Significantly increased from 50
+        "num_events": 2000,  # Significantly increased to ensure detection
+        "unique_subdomains": 500,  # Significantly increased unique subdomains
         "description": "Excessive unique subdomains for a single parent domain",
     },
     "BEHAVIORAL_CLUSTER": {
         "cluster_size": 3,  # Number of hosts with same behavior
-        "events_per_host": 100,  # Significantly increased from 50
+        "events_per_host": 1000,  # Significantly increased events per host
         "description": "Multiple hosts exhibiting synchronized suspicious DNS behavior",
     },
 }
