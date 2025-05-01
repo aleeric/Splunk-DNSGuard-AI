@@ -1,0 +1,1426 @@
+
+<dashboard version="2" theme="dark">
+    <label>Management</label>
+    <description></description>
+    <definition><![CDATA[
+{
+	"title": "DNS Guard AI - Menu",
+	"description": "",
+	"inputs": {},
+	"defaults": {
+		"dataSources": {
+			"ds.search": {
+				"options": {
+					"queryParameters": {
+						"earliest": "$global_time.earliest$",
+						"latest": "$global_time.latest$"
+					}
+				}
+			}
+		}
+	},
+	"visualizations": {
+		"viz_0QsSsor3": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_2NvFVcAw": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_3J897aCL": {
+			"options": {
+				"customFontSize": 16,
+				"fontSize": "custom",
+				"markdown": "Author: **aleric**"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_57AQGxBO": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Model Training"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_7EchpYPD": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_7HfRiO3f": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_7w1DwF1y": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_9G71aIoj": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_9dcbxcHQ": {
+			"options": {
+				"customFontSize": 18,
+				"fontSize": "custom",
+				"markdown": "### <Splunk Build-a-thon>"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_CZF9chHU": {
+			"options": {
+				"preserveAspectRatio": true,
+				"src": "/static/app/Splunk-DNSGuard-AI/images/logo-nobg.png"
+			},
+			"type": "splunk.image"
+		},
+		"viz_CcUQr1i8": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_CkpouHQZ": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Query Length Anomalies"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_D2Hz6MaI": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### Integrations"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_FLX38yoh": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_FS43x2hf": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Alerts"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_FdIEhYJv": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### C2 Tunneling"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_Foebic7A": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### App Requirements"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_HQbHcjyZ": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_IYPbuk6Q": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_IlDlE9pG": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_JhQAOAm2": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_KTagsXx4": {
+			"options": {
+				"customFontSize": 24,
+				"fontSize": "custom",
+				"markdown": "Splunk App"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_LqQDJ3m3": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Anomalies Overview"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_LyAVidht": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Lookup"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_LyEueaRp": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### DNS Guard AI"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_MG2j1Ix4": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Synthetic Data"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_MiXND0Il": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Enterprise Security"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_MvSDLpnN": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_O9zPbhfv": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_P9eATgd7": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Beaconing"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_SmR39k0s": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_T6PJn3e7": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_U686CEmu": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### Dashboards"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_UZU2okmH": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_VGrX3cMF": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_W1r3feGS": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_W2vy1pTP": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_XMrtsEoo": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_YPb28aiB": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### Management"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_ZN7ZpiGV": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Record Type Anomalies"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_aSnMgxjZ": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_ayDgIBgn": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_cGjPOMqX": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_chxMv9ih": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_emFjxBb8": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_fCKbwyL7": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### MLTK Configuration"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_fmjpvfjx": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### DNS Data Model"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_gToaT0uL": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Domain Shadowing"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_gWkLqAzk": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_jQGKsRi1": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_ln6MAMbf": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_m8Xmm6cq": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### Anonaly Detection"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_mI9NaNWZ": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_mneCm4GF": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_nAzJmeC4": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### Setup"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_nJqqvVGs": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_nhZLKqJV": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_o4QAwlUe": {
+			"options": {
+				"customFontSize": 11,
+				"fontColor": "#000000",
+				"fontSize": "custom",
+				"markdown": "### DGA App"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_opxumiZE": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_pTUWd4M0": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_rXldisxU": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_sk9qDUrT": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_tEYjjYVv": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_w82l6pan": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_weAHS4IV": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_wltJZCBC": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_wmcUCbW0": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_wtK1zILx": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_x113gPKp": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_yPbs9zKl": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#708794",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_ziCcccam": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#ffffff",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		}
+	},
+	"dataSources": {
+		"ds_PBonl1My": {
+			"name": "test",
+			"options": {
+				"query": "| $model$\n| eval result = \"Training Done\" | table result"
+			},
+			"type": "ds.search"
+		}
+	},
+	"layout": {
+		"globalInputs": [],
+		"layoutDefinitions": {
+			"layout_1": {
+				"options": {
+					"backgroundColor": "#002345",
+					"display": "fit-to-width",
+					"height": 700,
+					"width": 1430
+				},
+				"structure": [
+					{
+						"item": "viz_CcUQr1i8",
+						"position": {
+							"h": 120,
+							"w": 420,
+							"x": 510,
+							"y": 30
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_IlDlE9pG",
+						"position": {
+							"h": 120,
+							"w": 420,
+							"x": 500,
+							"y": 20
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_0QsSsor3",
+						"position": {
+							"h": 400,
+							"w": 300,
+							"x": 390,
+							"y": 240
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_W2vy1pTP",
+						"position": {
+							"h": 400,
+							"w": 300,
+							"x": 50,
+							"y": 240
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_mneCm4GF",
+						"position": {
+							"h": 400,
+							"w": 300,
+							"x": 40,
+							"y": 230
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_CZF9chHU",
+						"position": {
+							"h": 120,
+							"w": 120,
+							"x": 520,
+							"y": 20
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_LyEueaRp",
+						"position": {
+							"h": 60,
+							"w": 240,
+							"x": 630,
+							"y": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_KTagsXx4",
+						"position": {
+							"h": 40,
+							"w": 240,
+							"x": 630,
+							"y": 80
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_nAzJmeC4",
+						"position": {
+							"h": 60,
+							"w": 110,
+							"x": 140,
+							"y": 170
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_JhQAOAm2",
+						"position": {
+							"h": 400,
+							"w": 300,
+							"x": 380,
+							"y": 230
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_YPb28aiB",
+						"position": {
+							"h": 60,
+							"w": 228,
+							"x": 422,
+							"y": 170
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_UZU2okmH",
+						"position": {
+							"h": 400,
+							"w": 300,
+							"x": 730,
+							"y": 240
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_mI9NaNWZ",
+						"position": {
+							"h": 400,
+							"w": 300,
+							"x": 720,
+							"y": 230
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_U686CEmu",
+						"position": {
+							"h": 60,
+							"w": 210,
+							"x": 770,
+							"y": 170
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_wmcUCbW0",
+						"position": {
+							"h": 400,
+							"w": 300,
+							"x": 1070,
+							"y": 240
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_chxMv9ih",
+						"position": {
+							"h": 400,
+							"w": 300,
+							"x": 1060,
+							"y": 230
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_D2Hz6MaI",
+						"position": {
+							"h": 60,
+							"w": 210,
+							"x": 1100,
+							"y": 170
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_cGjPOMqX",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 104,
+							"y": 263
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_weAHS4IV",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 100,
+							"y": 260
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_HQbHcjyZ",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 104,
+							"y": 320
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_O9zPbhfv",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 100,
+							"y": 317
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_x113gPKp",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 104,
+							"y": 380
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_emFjxBb8",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 100,
+							"y": 377
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_aSnMgxjZ",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 104,
+							"y": 440
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_VGrX3cMF",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 100,
+							"y": 437
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_MG2j1Ix4",
+						"position": {
+							"h": 24,
+							"w": 109,
+							"x": 136,
+							"y": 326
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Foebic7A",
+						"position": {
+							"h": 24,
+							"w": 130,
+							"x": 130,
+							"y": 270
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_IYPbuk6Q",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 450,
+							"y": 263
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_9G71aIoj",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 446,
+							"y": 260
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_7HfRiO3f",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 450,
+							"y": 320
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_ziCcccam",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 446,
+							"y": 317
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_yPbs9zKl",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 450,
+							"y": 377
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_MvSDLpnN",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 446,
+							"y": 374
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_7w1DwF1y",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 450,
+							"y": 437
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_w82l6pan",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 446,
+							"y": 434
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_m8Xmm6cq",
+						"position": {
+							"h": 24,
+							"w": 137,
+							"x": 470,
+							"y": 326
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_57AQGxBO",
+						"position": {
+							"h": 24,
+							"w": 108,
+							"x": 478,
+							"y": 270
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_fmjpvfjx",
+						"position": {
+							"h": 24,
+							"w": 120,
+							"x": 130,
+							"y": 386
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_fCKbwyL7",
+						"position": {
+							"h": 24,
+							"w": 135,
+							"x": 126,
+							"y": 445
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_FS43x2hf",
+						"position": {
+							"h": 24,
+							"w": 60,
+							"x": 508,
+							"y": 383
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_LyAVidht",
+						"position": {
+							"h": 24,
+							"w": 60,
+							"x": 508,
+							"y": 441
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_gWkLqAzk",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 1120,
+							"y": 263
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_FLX38yoh",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 1116,
+							"y": 260
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_T6PJn3e7",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 1120,
+							"y": 320
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_SmR39k0s",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 1116,
+							"y": 317
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_o4QAwlUe",
+						"position": {
+							"h": 24,
+							"w": 90,
+							"x": 1170,
+							"y": 325
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_MiXND0Il",
+						"position": {
+							"h": 24,
+							"w": 150,
+							"x": 1140,
+							"y": 270
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_wltJZCBC",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 780,
+							"y": 263
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_2NvFVcAw",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 776,
+							"y": 260
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_7EchpYPD",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 780,
+							"y": 320
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_W1r3feGS",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 776,
+							"y": 317
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_opxumiZE",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 780,
+							"y": 378
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_ayDgIBgn",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 776,
+							"y": 375
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_jQGKsRi1",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 780,
+							"y": 437
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_sk9qDUrT",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 776,
+							"y": 434
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_P9eATgd7",
+						"position": {
+							"h": 24,
+							"w": 80,
+							"x": 825,
+							"y": 326
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_LqQDJ3m3",
+						"position": {
+							"h": 24,
+							"w": 160,
+							"x": 790,
+							"y": 270
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_FdIEhYJv",
+						"position": {
+							"h": 24,
+							"w": 100,
+							"x": 820,
+							"y": 385
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_CkpouHQZ",
+						"position": {
+							"h": 24,
+							"w": 168,
+							"x": 786,
+							"y": 443
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_wtK1zILx",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 780,
+							"y": 500
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_ln6MAMbf",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 776,
+							"y": 497
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_pTUWd4M0",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 780,
+							"y": 560
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_tEYjjYVv",
+						"position": {
+							"h": 40,
+							"w": 180,
+							"x": 776,
+							"y": 557
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_gToaT0uL",
+						"position": {
+							"h": 24,
+							"w": 130,
+							"x": 800,
+							"y": 506
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_ZN7ZpiGV",
+						"position": {
+							"h": 24,
+							"w": 160,
+							"x": 789,
+							"y": 565
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_nJqqvVGs",
+						"position": {
+							"h": 120,
+							"w": 420,
+							"x": 970,
+							"y": 30
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_rXldisxU",
+						"position": {
+							"h": 120,
+							"w": 420,
+							"x": 960,
+							"y": 20
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_nhZLKqJV",
+						"position": {
+							"h": 120,
+							"w": 420,
+							"x": 50,
+							"y": 30
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_XMrtsEoo",
+						"position": {
+							"h": 120,
+							"w": 420,
+							"x": 40,
+							"y": 20
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_9dcbxcHQ",
+						"position": {
+							"h": 40,
+							"w": 240,
+							"x": 130,
+							"y": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_3J897aCL",
+						"position": {
+							"h": 30,
+							"w": 110,
+							"x": 190,
+							"y": 90
+						},
+						"type": "block"
+					}
+				],
+				"type": "absolute"
+			}
+		},
+		"options": {
+			"showTitleAndDescription": false
+		},
+		"tabs": {
+			"items": [
+				{
+					"label": "Menu",
+					"layoutId": "layout_1"
+				}
+			]
+		}
+	},
+	"applicationProperties": {
+		"collapseNavigation": false,
+		"downsampleVisualizations": true
+	}
+}
+    ]]></definition>
+    <meta type="hiddenElements"><![CDATA[
+{
+	"hideEdit": false,
+	"hideOpenInSearch": true,
+	"hideExport": true
+}
+    ]]></meta>
+</dashboard>
