@@ -17,7 +17,12 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
 - [Project Structure](#project-structure)
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [Usage](#usage)
+  - [Prerequisites](#prerequisites)
+    - [Python Requirements](#-python-requirements)
+    - [Splunk Requirements](#-splunk-requirements)
+    - [Recommended Additions](#-recommended-additions)
+  - [Installation Steps](#installation-steps)
+  - [Synthetic Data Details](#synthetic-data-details)
 - [Detection Methods Details](#detection-methods-details)
 - [Acknowledgments](#acknowledgments)
 
@@ -26,11 +31,18 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
 DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies that could indicate malicious activity such as command and control (C2) communication, data exfiltration, or reconnaissance. The system uses Splunk's powerful search capabilities combined with machine learning techniques to identify patterns that deviate from normal DNS behavior.
 
 ### Key Benefits
-- **Real-time Detection**: Continuous monitoring of DNS traffic for immediate threat identification
-- **Comprehensive Analysis**: Multiple detection methods working in concert to identify various types of threats
-- **Machine Learning Integration**: Advanced algorithms for pattern recognition and anomaly detection
-- **Enterprise-Ready**: Scalable solution designed for large network environments
-- **CIM Compliance**: Fully compatible with Splunk's Common Information Model
+
+<div align="center">
+
+| 🚀 Feature | 📝 Description |
+|------------|---------------|
+| **Real-time Detection** | ⚡ Continuous monitoring of DNS traffic for immediate threat identification |
+| **Comprehensive Analysis** | 🔍 Multiple detection methods working in concert to identify various types of threats |
+| **Machine Learning Integration** | 🤖 Advanced algorithms for pattern recognition and anomaly detection |
+| **Enterprise-Ready** | 🏢 Scalable solution designed for large network environments |
+| **CIM Compliance** | ✅ Fully compatible with Splunk's Common Information Model |
+
+</div>
 
 ## Project Structure
 
@@ -70,80 +82,129 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 
 #### 🐍 Python Requirements
 - **Python Version**: 3.6 or higher
-- **Core Packages**:
-  ```bash
-  datetime  # For timestamp handling
-  random    # For data generation
-  json      # For data serialization
-  collections # For advanced data structures
-  ```
+  - To check your Python version, open a terminal and run:
+    ```bash
+    python --version
+    ```
+  - If you need to install Python, download it from [python.org](https://www.python.org/downloads/)
+  - During installation, make sure to check "Add Python to PATH"
 
 #### 🔍 Splunk Requirements
 - **Splunk Enterprise / Splunk Cloud**: Version 8.0 or higher
+  - Download Splunk from [splunk.com](https://www.splunk.com/en_us/download/splunk-enterprise.html)
+  - Follow the installation guide for your operating system
+  - After installation, access Splunk Web at `http://localhost:8000`
+
 - **Essential Apps**:
-  - [Splunk Common Information Model (CIM)](https://splunkbase.splunk.com/app/1621)
-  - [Splunk Machine Learning Toolkit](https://splunkbase.splunk.com/app/2890)
-  - **Python for Scientific Computing**:
-    - [Mac](https://splunkbase.splunk.com/app/2881/)
-    - [Linux 64-bit](https://splunkbase.splunk.com/app/2882/)
-    - [Windows 64-bit](https://splunkbase.splunk.com/app/2883/)
+  1. [Splunk Common Information Model (CIM)](https://splunkbase.splunk.com/app/1621)
+     - Provides standardized data models for security events
+     - Required for proper data normalization
+     - Install through Splunk Web interface: Apps → Browse more apps → Search "CIM"
+  
+  2. [Splunk Machine Learning Toolkit](https://splunkbase.splunk.com/app/2890)
+     - Enables machine learning capabilities
+     - Required for anomaly detection algorithms
+     - Install through Splunk Web interface: Apps → Browse more apps → Search "MLTK"
+  
+  3. **Python for Scientific Computing**:
+     - Choose the appropriate version for your OS:
+       - [Mac](https://splunkbase.splunk.com/app/2881/)
+       - [Linux 64-bit](https://splunkbase.splunk.com/app/2882/)
+       - [Windows 64-bit](https://splunkbase.splunk.com/app/2883/)
+     - Install through Splunk Web interface: Apps → Browse more apps → Search "Python for Scientific Computing"
 
 #### ⭐ Recommended Additions
-- [Splunk Enterprise Security](https://splunkbase.splunk.com/app/263) for enhanced security monitoring capabilities
+- [Splunk Enterprise Security](https://splunkbase.splunk.com/app/263)
+  - Provides advanced security monitoring capabilities
+  - Includes pre-built security dashboards and alerts
+  - Install through Splunk Web interface: Apps → Browse more apps → Search "Enterprise Security"
 
+- [DGA App for Splunk](https://splunkbase.splunk.com/app/3559)
+  - Specialized in Domain Generation Algorithm detection and analysis
+  - Complements DNSGuard-AI's detection capabilities
+  - Install through Splunk Web interface: Apps → Browse more apps → Search "DGA"
 
-## Usage
+### Installation Steps
 
-### Generating Synthetic Data
+1. **Prepare Your Environment**
+   ```bash
+   # Create a new directory for the project
+   mkdir Splunk-DNSGuard-AI
+   cd Splunk-DNSGuard-AI
+   ```
 
-The `generate_dns_events.py` script creates a comprehensive dataset of DNS query events for testing and demonstrating DNSGuard-AI's anomaly detection capabilities:
+2. **Clone the Repository**
+   ```bash
+   # Clone the repository
+   git clone https://github.com/yourusername/Splunk-DNSGuard-AI.git
+   ```
 
-```bash
-python poc/generate_dns_events.py
-```
+3. **Install Splunk App**
+   - Copy the `Splunk-DNSGuard-AI` directory to your Splunk apps directory:
+     - Windows: `C:\Program Files\Splunk\etc\apps\`
+     - Linux/Mac: `/opt/splunk/etc/apps/`
+   - Restart Splunk or reload the app:
+     - Open Splunk Web
+     - Go to Settings → Apps
+     - Find "DNSGuard-AI" and click "Restart"
 
-#### Key Features
+> ⚠️ **IMPORTANT: POC/TESTING ONLY**  
+> The following steps (4-7) are **optional** and intended **only for testing and POC purposes**. These steps involve generating and importing synthetic data, which should **never** be performed in a production environment. Use these steps only in a dedicated test environment.
+
+4. **Generate Test Data**
+   ```bash
+   # Navigate to the POC directory
+   cd poc
+   
+   # Generate synthetic DNS data
+   python generate_dns_events.py
+   ```
+
+5. **Import Data into Splunk**
+
+   **Option 1: Using Command Line**
+   ```bash
+   # Import the generated data
+   splunk add oneshot -index poc -sourcetype _json -source dns_events.json
+   ```
+
+   **Option 2: Using Splunk Web Interface**
+   - Open Splunk Web
+   - Navigate to Settings → Add Data
+   - Click "Upload" and select the `dns_events.json` file
+   - In the "Select Source" step:
+     - Set "Source type" to `_json`
+     - Set "Index" to `poc`
+   - Click "Next" and review the settings
+   - Click "Submit" to start the import
+
+6. **Map Data to Network_Resolution Data Model**
+   - Open Splunk Web
+   - Navigate to Settings → Data Models
+   - Select "Network_Resolution" data model
+   - Click "Edit" → "Add Dataset"
+   - Add the `poc` index to the list of indexes
+   - Save the changes
+
+7. **Verify Installation**
+   - Open Splunk Web
+   - Navigate to the DNS Guard AI dashboard
+   - Verify that data is being displayed
+   - Check that all detection methods are working
+
+### Synthetic Data Details
+
+The synthetic data generated for testing purposes includes various types of DNS anomalies designed to demonstrate DNSGuard-AI's detection capabilities:
 
 - **Optimized for Detection**: Each anomaly is specifically engineered to trigger the corresponding Splunk detection macro
-- **Advanced Configuration**: Parametrized anomaly generation with precise control over event volume, timing, and patterns
-- **Organization Simulation**: Creates 100 hosts across 7 departments with realistic IP addressing and naming conventions
-- **Timeframe**: Generates 30 days of DNS activity with realistic workday/weekend and time-of-day patterns
-- **CIM Compliance**: All events follow Splunk's Common Information Model for Network Resolution
-
-#### Enhanced Anomaly Generation
-
-Each anomaly type is carefully designed to match the detection pattern used in the Splunk macros:
-
 - **C2 Tunneling**: High volume of DNS queries concentrated in hourly windows to trigger density-based outlier detection
 - **Beaconing**: Precisely timed queries with minimal jitter to establish clear communication patterns
-- **Burst Activity**: Intense query volume in very short time windows (under 60 seconds)
 - **TXT Record Anomalies**: Suspicious encoded content in TXT records with command-like prefixes
 - **ANY/HINFO/AXFR Records**: Targeted use of rare record types for reconnaissance
 - **Query Length Anomalies**: Extremely long DNS queries exceeding threshold limits
 - **Domain Shadowing**: Large number of unique subdomains for a single parent domain
-- **Behavioral Clustering**: Multiple hosts exhibiting synchronized suspicious DNS patterns
 
-### Using the Splunk App
-
-1. Import the generated data into Splunk:
-   ```bash
-   splunk add oneshot -index dns -sourcetype dns -source dns_events.json
-   ```
-
-2. Navigate to the DNS Guard AI dashboard in Splunk
-3. Use the provided searches to detect anomalies
-4. Each anomaly will clearly trigger its corresponding detection macro
-
-
-5. Generate synthetic DNS data:
-   ```bash
-   cd poc
-   python generate_dns_events.py
-   ```
-
-6. Install the Splunk app:
-   - Copy the `Splunk-DNSGuard-AI` directory to your Splunk apps directory
-   - Restart Splunk or reload the app through the web interface
+> ⚠️ **REMINDER**: This synthetic data is for testing purposes only and should never be used in a production environment.
 
 ## Detection Methods Details
 
