@@ -36,15 +36,7 @@
 				"showValue": false
 			},
 			"type": "splunk.singlevalueicon",
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_setup"
-					}
-				}
-			]
+			"eventHandlers": []
 		},
 		"viz_CZF9chHU": {
 			"options": {
@@ -70,15 +62,7 @@
 				"markdown": "### Integrations"
 			},
 			"type": "splunk.markdown",
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_integrations"
-					}
-				}
-			]
+			"eventHandlers": []
 		},
 		"viz_IlDlE9pG": {
 			"eventHandlers": [],
@@ -91,15 +75,7 @@
 			"type": "splunk.rectangle"
 		},
 		"viz_JhQAOAm2": {
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_management"
-					}
-				}
-			],
+			"eventHandlers": [],
 			"options": {
 				"fillColor": "#013062",
 				"fillOpacity": 0.89,
@@ -130,15 +106,7 @@
 				"showValue": false
 			},
 			"type": "splunk.singlevalueicon",
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_integrations"
-					}
-				}
-			]
+			"eventHandlers": []
 		},
 		"viz_U686CEmu": {
 			"options": {
@@ -147,15 +115,7 @@
 				"markdown": "### Dashboards"
 			},
 			"type": "splunk.markdown",
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_dashboards"
-					}
-				}
-			]
+			"eventHandlers": []
 		},
 		"viz_UZU2okmH": {
 			"eventHandlers": [],
@@ -184,15 +144,7 @@
 				"markdown": "### Management"
 			},
 			"type": "splunk.markdown",
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_management"
-					}
-				}
-			]
+			"eventHandlers": []
 		},
 		"viz_cDu9gyZ6": {
 			"options": {
@@ -200,26 +152,10 @@
 				"showValue": false
 			},
 			"type": "splunk.singlevalueicon",
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_management"
-					}
-				}
-			]
+			"eventHandlers": []
 		},
 		"viz_chxMv9ih": {
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_integrations"
-					}
-				}
-			],
+			"eventHandlers": [],
 			"options": {
 				"fillColor": "#013062",
 				"fillOpacity": 0.89,
@@ -234,26 +170,10 @@
 				"showValue": false
 			},
 			"type": "splunk.singlevalueicon",
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_dashboards"
-					}
-				}
-			]
+			"eventHandlers": []
 		},
 		"viz_mI9NaNWZ": {
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_dashboards"
-					}
-				}
-			],
+			"eventHandlers": [],
 			"options": {
 				"fillColor": "#013062",
 				"fillOpacity": 0.89,
@@ -263,15 +183,7 @@
 			"type": "splunk.rectangle"
 		},
 		"viz_mneCm4GF": {
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_setup"
-					}
-				}
-			],
+			"eventHandlers": [],
 			"options": {
 				"fillColor": "#013062",
 				"fillOpacity": 0.89,
@@ -287,15 +199,7 @@
 				"markdown": "### Setup"
 			},
 			"type": "splunk.markdown",
-			"eventHandlers": [
-				{
-					"type": "drilldown.linkToDashboard",
-					"options": {
-						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_setup"
-					}
-				}
-			]
+			"eventHandlers": []
 		},
 		"viz_wmcUCbW0": {
 			"eventHandlers": [],
@@ -324,6 +228,70 @@
 				"fontFamily": "Splunk Platform Mono"
 			},
 			"type": "splunk.markdown"
+		},
+		"viz_aL8bKl7Q": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.linkToDashboard",
+					"options": {
+						"app": "Splunk-DNSGuard-AI",
+						"dashboard": "dns_guard_ai_-_setup"
+					}
+				}
+			]
+		},
+		"viz_wQpjLPnA": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.linkToDashboard",
+					"options": {
+						"app": "Splunk-DNSGuard-AI",
+						"dashboard": "dns_guard_ai_-_management"
+					}
+				}
+			]
+		},
+		"viz_oFb4TI2u": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.linkToDashboard",
+					"options": {
+						"app": "Splunk-DNSGuard-AI",
+						"dashboard": "dns_guard_ai_-_management"
+					}
+				}
+			]
+		},
+		"viz_PUbwWiz5": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.linkToDashboard",
+					"options": {
+						"app": "Splunk-DNSGuard-AI",
+						"dashboard": "dns_guard_ai_-_integrations"
+					}
+				}
+			]
 		}
 	},
 	"dataSources": {
@@ -575,6 +543,46 @@
 							"h": 40
 						},
 						"type": "block"
+					},
+					{
+						"item": "viz_aL8bKl7Q",
+						"type": "block",
+						"position": {
+							"x": 40,
+							"y": 230,
+							"w": 310,
+							"h": 140
+						}
+					},
+					{
+						"item": "viz_wQpjLPnA",
+						"type": "block",
+						"position": {
+							"x": 380,
+							"y": 230,
+							"w": 310,
+							"h": 140
+						}
+					},
+					{
+						"item": "viz_oFb4TI2u",
+						"type": "block",
+						"position": {
+							"x": 720,
+							"y": 230,
+							"w": 310,
+							"h": 140
+						}
+					},
+					{
+						"item": "viz_PUbwWiz5",
+						"type": "block",
+						"position": {
+							"x": 1060,
+							"y": 230,
+							"w": 310,
+							"h": 140
+						}
 					}
 				],
 				"type": "absolute"

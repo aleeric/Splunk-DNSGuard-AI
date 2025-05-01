@@ -6,8 +6,5 @@
   <view name="dns_guard_ai_-_dashboards"/>
   <view name="dns_guard_ai_-_integrations"/>
   <view name="dns_detections" />
-  <view name="dns_anomalies" />
-  <view name="search" />
   <view name="alerts" />
-  <view name="dashboards" />
 </nav> 
