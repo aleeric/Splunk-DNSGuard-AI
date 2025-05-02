@@ -24,6 +24,7 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
   - [Installation Steps](#installation-steps)
   - [Synthetic Data Details](#synthetic-data-details)
 - [Detection Methods Details](#detection-methods-details)
+- [System Dashboards](#system-dashboards)
 - [Acknowledgments](#acknowledgments)
 
 ## Overview
@@ -207,6 +208,80 @@ The synthetic data generated for testing purposes includes various types of DNS 
 > ⚠️ **REMINDER**: This synthetic data is for testing purposes only and should never be used in a production environment.
 
 ## Detection Methods Details
+
+## System Dashboards
+
+The DNS Guard AI system includes a comprehensive set of dashboards and management interfaces to provide complete visibility and control over the DNS monitoring system:
+
+### Menu
+
+![](imgs/views/menu.png)
+
+### Setup
+1. **App Requirements**
+
+![](imgs/views/setup_app_requirements.png)
+
+2. **Synthetic Data**
+
+![](imgs/views/setup_synthetic_data.png)
+
+3. **DNS Data Model**
+
+![](imgs/views/setup_dns_data_model.png)
+
+4. **MLTK Configuration**
+
+![](imgs/views/setup_mltk_configuration.png)
+
+### Management
+1. **Model Training**
+2. **Anomaly Detection**
+3. **Alerts**
+4. **Lookup**
+
+
+### Dashboards
+1. **DNS Anomalies Overview**
+   - High-level threat landscape
+   - Real-time monitoring
+   - Top anomalies summary
+
+2. **Beaconing**
+   - Periodic communication patterns
+   - Beaconing frequency analysis
+   - Suspicious host identification
+
+3. **C2 Tunneling**
+   - Command and control detection
+   - Tunneling pattern analysis
+   - Compromised host identification
+
+4. **Query Length Anomalies**
+   - Query size distribution
+   - Length threshold monitoring
+   - Potential exfiltration detection
+
+5. **Domain Shadowing**
+   - Subdomain analysis
+   - Domain reputation monitoring
+   - Shadow domain detection
+
+6. **Record Type Anomalies**
+   - Record type distribution
+   - Unusual record type detection
+   - Reconnaissance activity monitoring
+
+### Integrations
+1. **Enterprise Security**
+   - ES correlation rules
+   - Security posture integration
+   - Incident response workflow
+
+2. **DGA App**
+   - Domain Generation Algorithm detection
+   - DGA pattern analysis
+   - Malicious domain identification
 
 ## Acknowledgments
 
