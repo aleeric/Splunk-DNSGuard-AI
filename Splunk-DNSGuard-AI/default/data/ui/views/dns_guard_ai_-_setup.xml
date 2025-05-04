@@ -1206,7 +1206,7 @@
 					"latest": "now"
 				}
 			},
-			"name": "dnsguardai_setup_dnsdatamodel_check copy 1"
+			"name": "dnsguardai_setup_dnsdatamodel_details"
 		},
 		"ds_2YOW63hy": {
 			"type": "ds.search",
