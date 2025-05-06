@@ -6,40 +6,103 @@ Splunk DNSGuard AI is a sophisticated cybersecurity solution designed to detect 
 
 The system offers a comprehensive defense mechanism that goes beyond traditional signature-based detection by analyzing behavior, timing patterns, and statistical anomalies in DNS queries across the organization.
 
-## Features That Are Built
+### Key Benefits
 
-DNSGuard AI incorporates ten distinct detection methods, each targeting a specific type of DNS-based attack vector:
+- **Real-time Detection**: Continuous monitoring of DNS traffic for immediate threat identification
+- **Comprehensive Analysis**: Multiple detection methods working in concert to identify various types of threats
+- **Machine Learning Integration**: Advanced algorithms for pattern recognition and anomaly detection
+- **Enterprise-Ready**: Scalable solution designed for large network environments
+- **CIM Compliance**: Fully compatible with Splunk's Common Information Model
 
-1. **C2 Tunneling Detection**: Identifies hosts making an unusually high number of DNS queries, which could indicate command and control communication or data exfiltration through DNS tunneling.
+## Detection Methods Implemented
 
-2. **Beaconing Detection**: Detects regular, periodic DNS queries at consistent intervals—a hallmark of malware communicating with command and control servers.
+DNSGuard AI incorporates the following detection methods, each targeting a specific type of DNS-based attack vector:
 
-3. **Burst Activity Detection**: Identifies sudden spikes in DNS query volume from specific hosts, which could indicate malware activation or data exfiltration attempts.
+1. **Beaconing Detection**: Detects regular, periodic DNS queries at consistent intervals—a hallmark of malware communicating with command and control servers. Analyzes consistency of time gaps between queries to the same domain.
 
-4. **TXT Record Anomalies**: Detects unusual use of TXT records, which are commonly abused for data exfiltration or command transmission due to their ability to carry arbitrary data.
+2. **C2 Tunneling Detection**: Identifies hosts making an unusually high number of DNS queries, which could indicate command and control communication or data exfiltration through DNS tunneling. Uses density function to find hourly query count outliers by source.
 
-5. **ANY Record Anomalies**: Identifies reconnaissance activity using ANY queries, which attackers use to efficiently gather information about a domain's DNS configuration.
+3. **Query Length Anomalies**: Detects unusually long DNS queries that may represent data exfiltration channels where sensitive information is encoded in the query itself. Identifies outliers in query string length by host.
 
-6. **HINFO Record Anomalies**: Detects attempts to gather host information through specialized HINFO record queries, often used for reconnaissance.
+4. **Domain Shadowing**: Identifies patterns where many unique subdomains are requested for a legitimate domain, which may indicate an attacker using compromised DNS accounts to create malicious subdomains. Measures distinct subdomain count by parent domain and identifies outliers.
 
-7. **AXFR Record Anomalies**: Identifies zone transfer attempts that could indicate an attacker gathering comprehensive DNS infrastructure information.
+5. **TXT Record Anomalies**: Detects unusual use of TXT records, which are commonly abused for data exfiltration or command transmission due to their ability to carry arbitrary data. Identifies outliers in TXT record usage by host.
 
-8. **Query Length Anomalies**: Detects unusually long DNS queries that may represent data exfiltration channels where sensitive information is encoded in the query itself.
+6. **ANY Record Anomalies**: Identifies reconnaissance activity using ANY queries, which attackers use to efficiently gather information about a domain's DNS configuration. Identifies outliers in ANY record usage by host.
 
-9. **Domain Shadowing**: Identifies patterns where many unique subdomains are requested for a legitimate domain, which may indicate an attacker using compromised DNS accounts to create malicious subdomains.
+7. **HINFO Record Anomalies**: Detects attempts to gather host information through specialized HINFO record queries, often used for reconnaissance. Identifies outliers in HINFO record usage by host.
 
-10. **Behavioral Clustering**: Groups hosts with similar abnormal DNS behavior, which can reveal coordinated attacks or infected host groups across the enterprise.
+8. **AXFR Record Anomalies**: Identifies zone transfer attempts that could indicate an attacker gathering comprehensive DNS infrastructure information. Identifies outliers in AXFR record usage by host.
+
+9. **Behavioral Clustering**: Groups hosts with similar abnormal DNS behavior, which can reveal coordinated attacks or infected host groups across the enterprise. Uses KMeans clustering on multiple DNS behavior features.
 
 ## Technical Implementation
 
-The system is implemented as a Splunk application with:
+The system is implemented as a Splunk application with the following components:
 
 - **Advanced Machine Learning Models**: Uses density-based anomaly detection, K-means clustering, and statistical analysis to identify outliers in DNS traffic.
 - **Splunk's Common Information Model (CIM) Integration**: Built on top of Splunk's Network Resolution datamodel for standardized data access.
 - **Automated Analysis Pipeline**: Continuously monitors DNS traffic and applies appropriate detection algorithms based on traffic patterns.
 - **Scalable Architecture**: Designed to handle enterprise-level DNS traffic volumes without performance degradation.
+- **Comprehensive Dashboard System**: Includes specialized dashboards for each detection method and an overview dashboard for high-level threat monitoring.
 
-## Good-to-Have Future Features
+### Application Structure
+
+```
+├── Splunk-DNSGuard-AI/        # Main application directory
+│   ├── default/               # Default configuration files
+│   │   ├── app.conf           # App configuration
+│   │   ├── collections.conf   # Collections configuration
+│   │   ├── macros.conf        # Macros configurations
+│   │   ├── risk_factors.conf  # Risk Factors configurations
+│   │   ├── savedsearches.conf # Saved search configurations
+│   │   └── transforms.conf    # Transforms configurations
+│   └── static/                # Static resources
+│       └── appIcon*           # App icons
+├── poc/                       # Contains the Proof of Concept implementation
+│   └── generate_dns_events.py # Script to generate synthetic DNS data
+```
+
+## System Prerequisites
+
+### Splunk Requirements
+- **Splunk Enterprise / Splunk Cloud**: Version 8.0 or higher
+- **Essential Apps**:
+  1. Splunk Common Information Model (CIM)
+  2. Splunk Machine Learning Toolkit (MLTK)
+  3. Python for Scientific Computing
+
+### Python Requirements
+- **Python Version**: 3.6 or higher
+
+## Dashboard System
+
+The DNS Guard AI system includes a comprehensive set of dashboards:
+
+1. **DNS Anomalies Overview**: Provides a high-level view of the threat landscape with real-time monitoring and top anomalies summary.
+
+2. **Beaconing Dashboard**: Visualizes periodic communication patterns, beaconing frequency analysis, and suspicious host identification.
+
+3. **C2 Tunneling Dashboard**: Focuses on command and control detection, tunneling pattern analysis, and compromised host identification.
+
+4. **Query Length Anomalies Dashboard**: Shows query size distribution, length threshold monitoring, and potential exfiltration detection.
+
+5. **Domain Shadowing Dashboard**: Provides subdomain analysis, domain reputation monitoring, and shadow domain detection.
+
+6. **Record Type Anomalies Dashboard**: Displays record type distribution, unusual record type detection, and reconnaissance activity monitoring.
+
+## Synthetic Data Testing
+
+For testing purposes, the application includes a synthetic data generator that creates DNS events with various anomaly types:
+
+- **C2 Tunneling**: High volume of DNS queries concentrated in hourly windows
+- **Beaconing**: Precisely timed queries with minimal jitter to establish clear communication patterns
+- **TXT Record Anomalies**: Suspicious encoded content in TXT records with command-like prefixes
+- **ANY/HINFO/AXFR Records**: Targeted use of rare record types for reconnaissance
+- **Query Length Anomalies**: Extremely long DNS queries exceeding threshold limits
+- **Domain Shadowing**: Large number of unique subdomains for a single parent domain
+
+## Future Enhancements
 
 - **Integrated Threat Intelligence**: Correlation with external threat intelligence feeds to enhance the detection of known malicious domains.
 - **Automated Response Actions**: Capability to automatically block suspicious DNS requests or quarantine affected hosts.
@@ -47,16 +110,15 @@ The system is implemented as a Splunk application with:
 - **Historical Pattern Learning**: Extended baseline establishment to understand seasonal patterns in DNS usage.
 - **DNS-over-HTTPS (DoH) Monitoring**: Adaptation to detect anomalies in encrypted DNS traffic.
 - **Mobile Device Integration**: Extended coverage for mobile devices connecting to corporate networks.
+- **Enterprise Security Integration**: Enhanced integration with Splunk Enterprise Security, including custom correlation rules.
+- **DGA Detection Integration**: Integration with Domain Generation Algorithm detection capabilities.
 
-## Constraints
+## Constraints and Challenges
 
 - **False Positive Management**: Like any anomaly detection system, DNSGuard AI must balance sensitivity with specificity to minimize false alarms.
 - **Baseline Establishment**: Requires a learning period to establish normal DNS patterns specific to the organization.
 - **Resource Requirements**: Effective implementation requires sufficient Splunk computational resources to process DNS data and run machine learning algorithms.
 - **DNS Visibility**: The system requires comprehensive DNS logging across the enterprise network.
-
-## Known Issues
-
 - **Advanced Evasion Techniques**: Sophisticated attackers may use timing randomization or legitimate-looking patterns to evade detection.
 - **Encrypted DNS Challenges**: Limited visibility into DNS-over-HTTPS (DoH) or DNS-over-TLS (DoT) traffic.
 - **Model Tuning Requirements**: Detection thresholds may need periodic adjustment based on evolving network traffic patterns.
