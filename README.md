@@ -14,8 +14,8 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
 
 ## 📋 Table of Contents
 - [Overview](#overview)
-- [Project Structure](#project-structure)
-- [Features](#features)
+- [Key Benefits](#key-benefits)
+- [Detection Methods Implemented](#detection-methods-implemented)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
     - [Python Requirements](#-python-requirements)
@@ -25,7 +25,6 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
   - [Synthetic Data Details](#synthetic-data-details)
 - [Detection Methods Details](#detection-methods-details)
 - [System Dashboards](#system-dashboards)
-- [Acknowledgments](#acknowledgments)
 
 ## Overview
 
@@ -35,47 +34,31 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 
 <div align="center">
 
-| 🚀 Feature | 📝 Description |
+| Feature | Description |
 |------------|---------------|
-| **Real-time Detection** | ⚡ Continuous monitoring of DNS traffic for immediate threat identification |
-| **Comprehensive Analysis** | 🔍 Multiple detection methods working in concert to identify various types of threats |
-| **Machine Learning Integration** | 🤖 Advanced algorithms for pattern recognition and anomaly detection |
-| **Enterprise-Ready** | 🏢 Scalable solution designed for large network environments |
-| **CIM Compliance** | ✅ Fully compatible with Splunk's Common Information Model |
+| **Real-time Detection** | Continuous monitoring of DNS traffic for immediate threat identification |
+| **Comprehensive Analysis** | Multiple detection methods working in concert to identify various types of threats |
+| **Splunk Machine Learning Toolkit Integration** | Advanced algorithms for pattern recognition and anomaly detection |
+| **Enterprise-Ready** | Scalable solution designed for large network environments |
+| **CIM Compliance** | Fully compatible with Splunk's Common Information Model |
+| **Comprehensive Dashboard System** | Comprehensive Dashboard System: Includes specialized dashboards for each detection method and an overview dashboard for high-level threat monitoring. |
+
 
 </div>
 
-## Project Structure
+## Detection Methods Implemented
 
-```
-├── poc/                       # Contains the Proof of Concept implementation
-│   └── generate_dns_events.py # Script to generate synthetic DNS data
-├── Splunk-DNSGuard-AI/        # Main application directory
-│   ├── default/               # Default configuration files
-│   │   ├── app.conf           # App configuration
-│   │   ├── collections.conf   # Collections configuration
-│   │   ├── macros.conf        # Macros configurations
-│   │   ├── risk_factors.conf  # Risk Factors configurations
-│   │   └── savedsearches.conf # Saved search configurations
-│   │   └── transforms.conf    # Transforms configurations
-│   └── static/                # Static resources
-│       └── appIcon*           # App icons
-```
-
-## Features
+DNSGuard AI incorporates the following detection methods, each targeting a specific type of DNS-based attack vector.
 
 | Detection Method                  | DNS Anomaly                             
 |-----------------------------------|-----------------------------------------
-| Beaconing                         | Detects regular, periodic DNS queries typical of C2 communication
-| C2 Tunneling                      | Identifies hosts making an unusually high number of DNS queries         
-| Query Length Anomalies            | Identifies unusually long DNS queries (potential data exfiltration)  
-| Domain Shadowing                  | Detects many unique subdomains for a legitimate domain  
-| TXT Record Anomalies              | Detects unusual use of TXT records for data exfiltration               
-| ANY Record Anomalies              | Identifies reconnaissance activity using ANY queries               
-| HINFO Record Anomalies            | Identifies reconnaissance activity using HINFO queries              
-| AXFR Record Anomalies             | Identifies reconnaissance activity using AXFR queries                
-| Behavioral Clustering             | Groups hosts with similar abnormal DNS behavior              
-
+| Beaconing                         | Detects regular, periodic DNS queries at consistent intervals—a hallmark of malware communicating with command and control servers. Analyzes consistency of time gaps between queries to the same domain.
+| C2 Tunneling                      | Identifies hosts making an unusually high number of DNS queries, which could indicate command and control communication or data exfiltration through DNS tunneling. Uses density function to find hourly query count outliers by source.      
+| Query Length Anomalies            | Detects unusually long DNS queries that may represent data exfiltration channels where sensitive information is encoded in the query itself. Identifies outliers in query string length by host.
+| Domain Shadowing                  | Identifies patterns where many unique subdomains are requested for a legitimate domain, which may indicate an attacker using compromised DNS accounts to create malicious subdomains. Measures distinct subdomain count by parent domain and identifies outliers.
+| Record Type Anomalies             | Detects abnormal usage of specific DNS record types often associated with reconnaissance or data exfiltration. Identifies outliers in the usage of TXT (data exfiltration), ANY (broad queries), HINFO (host info leakage), and AXFR (zone transfer attempts) records by host.        
+| Behavioral Clustering             | Groups hosts with similar abnormal DNS behavior, which can reveal coordinated attacks or infected host groups across the enterprise. Uses KMeans clustering on multiple DNS behavior features.
+ 
 
 ## Getting Started
 
@@ -114,10 +97,10 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
        - [Windows 64-bit](https://splunkbase.splunk.com/app/2883/)
      - Install through Splunk Web interface: Apps → Browse more apps → Search "Python for Scientific Computing"
 
-#### ⭐ Recommended Additions
+#### ⭐ Integrations (Recommended)
 - [Splunk Enterprise Security](https://splunkbase.splunk.com/app/263)
   - Provides advanced security monitoring capabilities
-  - Includes pre-built security dashboards and alerts
+  - Includes pre-built risk factors configuration and alerts
   - Install through Splunk Web interface: Apps → Browse more apps → Search "Enterprise Security"
 
 - [DGA App for Splunk](https://splunkbase.splunk.com/app/3559)
@@ -195,15 +178,7 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 
 ### Synthetic Data Details
 
-The synthetic data generated for testing purposes includes various types of DNS anomalies designed to demonstrate DNSGuard-AI's detection capabilities:
-
-- **Optimized for Detection**: Each anomaly is specifically engineered to trigger the corresponding Splunk detection macro
-- **C2 Tunneling**: High volume of DNS queries concentrated in hourly windows to trigger density-based outlier detection
-- **Beaconing**: Precisely timed queries with minimal jitter to establish clear communication patterns
-- **TXT Record Anomalies**: Suspicious encoded content in TXT records with command-like prefixes
-- **ANY/HINFO/AXFR Records**: Targeted use of rare record types for reconnaissance
-- **Query Length Anomalies**: Extremely long DNS queries exceeding threshold limits
-- **Domain Shadowing**: Large number of unique subdomains for a single parent domain
+For testing and demonstration purposes, the application includes a custom Python script that generates synthetic DNS data specifically for the app’s proof of concept. The generated events adhere to the Common Information Model (CIM), particularly the Network Resolution data model, ensuring compatibility with Splunk’s detection and enrichment features. The synthetic dataset simulates a wide range of DNS anomalies
 
 > ⚠️ **REMINDER**: This synthetic data is for testing purposes only and should never be used in a production environment.
 
@@ -211,7 +186,7 @@ The synthetic data generated for testing purposes includes various types of DNS 
 
 ## System Dashboards
 
-The DNS Guard AI system includes a comprehensive set of dashboards and management interfaces to provide complete visibility and control over the DNS monitoring system:
+The DNS Guard AI system includes a comprehensive set of dashboards:
 
 ### Menu
 
@@ -282,8 +257,3 @@ The DNS Guard AI system includes a comprehensive set of dashboards and managemen
    - Domain Generation Algorithm detection
    - DGA pattern analysis
    - Malicious domain identification
-
-## Acknowledgments
-
-- Optimized to demonstrate Splunk's machine learning capabilities for DNS threat detection
-- Uses Splunk's Common Information Model (CIM) for Network Resolution
