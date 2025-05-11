@@ -1,10 +1,10 @@
 
 <dashboard version="2" theme="dark">
-    <label>Dashboards</label>
+    <label>DNS Guard AI - Dashboards</label>
     <description></description>
     <definition><![CDATA[
 {
-	"title": "DNS Guard AI - Dashboards",
+	"title": "Dashboards",
 	"description": "",
 	"inputs": {
 		"input_Jpc3C7jh": {
@@ -487,16 +487,52 @@
 			}
 		},
 		"viz_querylength_timeline": {
-			"type": "splunk.pie",
+			"type": "splunk.sankey",
 			"dataSources": {
 				"primary": "ds_querylength_timeline"
 			},
-			"options": {
-				"backgroundColor": "transparent"
-			},
 			"containerOptions": {},
 			"showProgressBar": false,
-			"showLastUpdated": false
+			"showLastUpdated": false,
+			"options": {
+				"linkValues": "> primary | seriesByName('Max Query Length')",
+				"colorMode": "dynamic",
+				"linkColors": "> linkValues | rangeValue(linkColorsEditorConfig)",
+				"backgroundColor": "transparent"
+			},
+			"cornerRadius": [
+				7,
+				0,
+				0,
+				0
+			],
+			"context": {
+				"linkColorsEditorConfig": [
+					{
+						"value": "#088F44",
+						"to": 20
+					},
+					{
+						"value": "#2EB82E",
+						"from": 20,
+						"to": 40
+					},
+					{
+						"value": "#FFD442",
+						"from": 40,
+						"to": 60
+					},
+					{
+						"value": "#FF7149",
+						"from": 60,
+						"to": 80
+					},
+					{
+						"value": "#FE3A3A",
+						"from": 80
+					}
+				]
+			}
 		},
 		"viz_querylength_sources": {
 			"type": "splunk.pie",
@@ -1174,7 +1210,7 @@
 		"ds_querylength_timeline": {
 			"type": "ds.search",
 			"options": {
-				"query": "| `dns_data` | eval query_length = len(query) | where isnotnull(query_length) AND query_length > 0 \n| `extract_sub_domain`\n| stats max(query_length) as max_query_length by domain",
+				"query": "| `dns_data` | eval query_length = len(query) | where isnotnull(query_length) AND query_length > 0 \n| `extract_sub_domain`\n| stats max(query_length) as max_query_length by domain\n| sort - max_query_length\n| rename domain as Domain max_query_length as \"Max Query Length\"\n| head 10\n\n",
 				"queryParameters": {
 					"earliest": "$global_time.earliest$",
 					"latest": "$global_time.latest$"
@@ -2162,10 +2198,10 @@
 						"item": "viz_querylength_timeline",
 						"type": "block",
 						"position": {
-							"x": 560,
+							"x": 550,
 							"y": 160,
-							"w": 820,
-							"h": 300
+							"w": 850,
+							"h": 310
 						}
 					},
 					{

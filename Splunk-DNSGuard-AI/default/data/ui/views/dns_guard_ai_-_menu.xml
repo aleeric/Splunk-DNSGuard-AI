@@ -1,10 +1,10 @@
 
 <dashboard version="2" theme="dark">
-    <label>Menu</label>
+    <label>DNS Guard AI - Menu</label>
     <description></description>
     <definition><![CDATA[
 {
-	"title": "DNS Guard AI - Menu",
+	"title": "Menu",
 	"description": "",
 	"inputs": {},
 	"defaults": {
@@ -272,7 +272,7 @@
 					"type": "drilldown.linkToDashboard",
 					"options": {
 						"app": "Splunk-DNSGuard-AI",
-						"dashboard": "dns_guard_ai_-_management"
+						"dashboard": "dns_guard_ai_-_dashboards"
 					}
 				}
 			]
