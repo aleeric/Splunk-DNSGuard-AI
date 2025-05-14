@@ -1,10 +1,10 @@
 
 <dashboard version="2" theme="dark">
-    <label>DNS Guard AI - Dashboards</label>
+    <label>Dashboards</label>
     <description></description>
     <definition><![CDATA[
 {
-	"title": "Dashboards",
+	"title": "DNS Guard AI - Dashboards",
 	"description": "",
 	"inputs": {
 		"input_Jpc3C7jh": {
@@ -589,30 +589,44 @@
 			}
 		},
 		"viz_domainshadowing_timeline": {
-			"type": "splunk.area",
+			"type": "splunk.sankey",
 			"dataSources": {
 				"primary": "ds_domainshadowing_timeline"
 			},
 			"options": {
 				"backgroundColor": "transparent",
-				"dataValuesDisplay": "minmax",
-				"overlayFields": [],
-				"seriesColors": [
-					"#FF6ACE",
-					"#FFA476",
-					"#813193",
-					"#FF677B",
-					"#00CDAF"
-				],
-				"areaOpacity": 0.68,
-				"legendDisplay": "off",
-				"xAxisTitleText": "Time",
-				"xAxisLabelVisibility": "show",
-				"showXMajorGridLines": true,
-				"xAxisMajorTickVisibility": "show",
-				"yAxisTitleVisibility": "hide",
-				"showYAxisWithZero": true,
-				"yAxisMinorTickSize": 7
+				"colorMode": "dynamic",
+				"linkColors": "> linkValues | rangeValue(linkColorsEditorConfig)"
+			},
+			"containerOptions": {},
+			"showProgressBar": false,
+			"showLastUpdated": false,
+			"context": {
+				"linkColorsEditorConfig": [
+					{
+						"value": "#088F44",
+						"to": 20
+					},
+					{
+						"value": "#2EB82E",
+						"from": 20,
+						"to": 40
+					},
+					{
+						"value": "#FFD442",
+						"from": 40,
+						"to": 60
+					},
+					{
+						"value": "#FF7149",
+						"from": 60,
+						"to": 80
+					},
+					{
+						"value": "#FE3A3A",
+						"from": 80
+					}
+				]
 			}
 		},
 		"viz_domainshadowing_sources": {
@@ -1050,6 +1064,14 @@
 				"nodeSpacingY": 21,
 				"linkWidth": 4
 			}
+		},
+		"viz_Hujx6jUD": {
+			"options": {
+				"customFontSize": 29,
+				"markdown": "**Link Graph Relationships**",
+				"fontSize": "extraLarge"
+			},
+			"type": "splunk.markdown"
 		}
 	},
 	"dataSources": {
@@ -1254,7 +1276,7 @@
 		"ds_domainshadowing_timeline": {
 			"type": "ds.search",
 			"options": {
-				"query": "| inputlookup domain_shadowing_lookup\n| timechart count by domain",
+				"query": "| `dns_data` | `extract_sub_domain` | where isnotnull(domain) AND subdomain!=\"\" AND isnotnull(subdomain) | stats dc(subdomain) as unique_subdomain by domain\n| sort - unique_subdomain\n| head 10",
 				"queryParameters": {
 					"earliest": "$global_time.earliest$",
 					"latest": "$global_time.latest$"
@@ -1737,9 +1759,9 @@
 						"item": "viz_dPo55EbK",
 						"position": {
 							"x": 550,
-							"y": 420,
-							"w": 370,
-							"h": 320
+							"y": 510,
+							"w": 860,
+							"h": 400
 						},
 						"type": "block"
 					},
@@ -1747,9 +1769,9 @@
 						"item": "viz_ywHKPOMY",
 						"position": {
 							"x": 540,
-							"y": 410,
-							"w": 370,
-							"h": 320
+							"y": 500,
+							"w": 860,
+							"h": 400
 						},
 						"type": "block"
 					},
@@ -1909,7 +1931,7 @@
 							"x": 550,
 							"y": 120,
 							"w": 860,
-							"h": 280
+							"h": 360
 						},
 						"type": "block"
 					},
@@ -1919,7 +1941,7 @@
 							"x": 540,
 							"y": 110,
 							"w": 860,
-							"h": 280
+							"h": 360
 						},
 						"type": "block"
 					},
@@ -1928,20 +1950,10 @@
 						"type": "block",
 						"position": {
 							"x": 560,
-							"y": 130,
+							"y": 170,
 							"w": 820,
-							"h": 250
+							"h": 290
 						}
-					},
-					{
-						"item": "viz_fDXHMg8D",
-						"position": {
-							"x": 670,
-							"y": 430,
-							"w": 110,
-							"h": 30
-						},
-						"type": "block"
 					},
 					{
 						"item": "viz_domainshadowing_table",
@@ -1990,6 +2002,16 @@
 							"y": 30,
 							"w": 330,
 							"h": 50
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Hujx6jUD",
+						"position": {
+							"x": 850,
+							"y": 530,
+							"w": 220,
+							"h": 30
 						},
 						"type": "block"
 					}

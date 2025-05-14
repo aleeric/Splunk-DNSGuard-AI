@@ -1,10 +1,10 @@
 
 <dashboard version="2" theme="dark">
-    <label>DNS Guard AI - Menu</label>
+    <label>Menu</label>
     <description></description>
     <definition><![CDATA[
 {
-	"title": "Menu",
+	"title": "DNS Guard AI - Menu",
 	"description": "",
 	"inputs": {},
 	"defaults": {
