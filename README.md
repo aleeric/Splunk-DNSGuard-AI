@@ -4,7 +4,7 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
 > 🏆 **Splunk Build-a-thon 2025 Entry**  
 > This project was developed as part of the [Splunk Build-a-thon 2025](https://www.hackerearth.com/challenges/hackathon/splunk-build-a-thon/#themes) competition, specifically for Track 4: AI/ML. The competition focuses on developing ML-based threat detections inside Splunk using MLTK, bringing data into Splunk and building real-time pipelines to capture threat actors.
 
-![](imgs/banner.png)
+![](Images/banner.gif)
 
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/Author-Riccardo%20Alesci-blue.svg" alt="Author: Riccardo Alesci"/></a>
@@ -190,31 +190,15 @@ The DNS Guard AI system includes a comprehensive set of dashboards:
 
 ### Menu
 
-![](imgs/views/menu.png)
+![](Images/views/menu.png)
 
 ### Setup
-1. **App Requirements**
-
-![](imgs/views/setup_app_requirements.png)
-
-2. **Synthetic Data**
-
-![](imgs/views/setup_synthetic_data.png)
-
-3. **DNS Data Model**
-
-![](imgs/views/setup_dns_data_model.png)
-
-4. **MLTK Configuration**
-
-![](imgs/views/setup_mltk_configuration.png)
 
 ### Management
 1. **Model Training**
 2. **Anomaly Detection**
 3. **Alerts**
 4. **Lookup**
-
 
 ### Dashboards
 1. **DNS Anomalies Overview**
