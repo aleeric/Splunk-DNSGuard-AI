@@ -4,7 +4,7 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
 > 🏆 **Splunk Build-a-thon 2025 Entry**  
 > This project was developed as part of the [Splunk Build-a-thon 2025](https://www.hackerearth.com/challenges/hackathon/splunk-build-a-thon/#themes) competition, specifically for Track 4: AI/ML. The competition focuses on developing ML-based threat detections inside Splunk using MLTK, bringing data into Splunk and building real-time pipelines to capture threat actors.
 
-![](imgs/banner.gif)
+![](imgs/banner_simple.gif)
 
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/Author-Riccardo%20Alesci-blue.svg" alt="Author: Riccardo Alesci"/></a>
