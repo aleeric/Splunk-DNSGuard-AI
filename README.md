@@ -4,7 +4,7 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
 > 🏆 **Splunk Build-a-thon 2025 Entry**  
 > This project was developed as part of the [Splunk Build-a-thon 2025](https://www.hackerearth.com/challenges/hackathon/splunk-build-a-thon/#themes) competition, specifically for Track 4: AI/ML. The competition focuses on developing ML-based threat detections inside Splunk using MLTK, bringing data into Splunk and building real-time pipelines to capture threat actors.
 
-![](Images/banner.gif)
+![](Images/banners/banner.gif)
 
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/Author-Riccardo%20Alesci-blue.svg" alt="Author: Riccardo Alesci"/></a>
@@ -48,16 +48,7 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 
 ## Detection Methods Implemented
 
-DNSGuard AI incorporates the following detection methods, each targeting a specific type of DNS-based attack vector.
-
-| Detection Method                  | DNS Anomaly                             
-|-----------------------------------|-----------------------------------------
-| Beaconing                         | Detects regular, periodic DNS queries at consistent intervals—a hallmark of malware communicating with command and control servers. Analyzes consistency of time gaps between queries to the same domain.
-| C2 Tunneling                      | Identifies hosts making an unusually high number of DNS queries, which could indicate command and control communication or data exfiltration through DNS tunneling. Uses density function to find hourly query count outliers by source.      
-| Query Length Anomalies            | Detects unusually long DNS queries that may represent data exfiltration channels where sensitive information is encoded in the query itself. Identifies outliers in query string length by host.
-| Domain Shadowing                  | Identifies patterns where many unique subdomains are requested for a legitimate domain, which may indicate an attacker using compromised DNS accounts to create malicious subdomains. Measures distinct subdomain count by parent domain and identifies outliers.
-| Record Type Anomalies             | Detects abnormal usage of specific DNS record types often associated with reconnaissance or data exfiltration. Identifies outliers in the usage of TXT (data exfiltration), ANY (broad queries), HINFO (host info leakage), and AXFR (zone transfer attempts) records by host.        
-| Behavioral Clustering             | Groups hosts with similar abnormal DNS behavior, which can reveal coordinated attacks or infected host groups across the enterprise. Uses KMeans clustering on multiple DNS behavior features.
+![](Images/readme/Splunk-DNSGuard-AI-IDEA-Detection-Methods.png)
  
 
 ## Getting Started
@@ -184,60 +175,6 @@ For testing and demonstration purposes, the application includes a custom Python
 
 ## Detection Methods Details
 
-## System Dashboards
+## Dashboard System
 
-The DNS Guard AI system includes a comprehensive set of dashboards:
-
-### Menu
-
-![](Images/views/menu.png)
-
-### Setup
-
-### Management
-1. **Model Training**
-2. **Anomaly Detection**
-3. **Alerts**
-4. **Lookup**
-
-### Dashboards
-1. **DNS Anomalies Overview**
-   - High-level threat landscape
-   - Real-time monitoring
-   - Top anomalies summary
-
-2. **Beaconing**
-   - Periodic communication patterns
-   - Beaconing frequency analysis
-   - Suspicious host identification
-
-3. **C2 Tunneling**
-   - Command and control detection
-   - Tunneling pattern analysis
-   - Compromised host identification
-
-4. **Query Length Anomalies**
-   - Query size distribution
-   - Length threshold monitoring
-   - Potential exfiltration detection
-
-5. **Domain Shadowing**
-   - Subdomain analysis
-   - Domain reputation monitoring
-   - Shadow domain detection
-
-6. **Record Type Anomalies**
-   - Record type distribution
-   - Unusual record type detection
-   - Reconnaissance activity monitoring
-
-### Integrations
-1. **Enterprise Security**
-   - ES correlation rules
-   - Security posture integration
-   - Incident response workflow
-
-2. **DGA App**
-   - Domain Generation Algorithm detection
-   - DGA pattern analysis
-   - Malicious domain identification
+![](Images/readme/Splunk-DNSGuard-AI-IDEA-Dashboard-System.png)
