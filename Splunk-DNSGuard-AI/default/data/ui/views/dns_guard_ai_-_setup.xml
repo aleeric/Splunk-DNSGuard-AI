@@ -1115,7 +1115,7 @@
 				"fontSize": "custom",
 				"markdown": "### TEST ML TRAINING",
 				"customFontSize": 26,
-				"fontFamily": "Splunk Platform Mono"
+				"fontFamily": "Splunk Data Sans"
 			},
 			"type": "splunk.markdown"
 		},
@@ -1136,23 +1136,6 @@
 				]
 			}
 		},
-		"viz_AjWHWc0c": {
-			"type": "abslayout.line",
-			"options": {
-				"toArrow": true,
-				"strokeWidth": 4
-			}
-		},
-		"viz_pT4PgXK2": {
-			"options": {
-				"fontColor": "#ffffff",
-				"fontSize": "custom",
-				"markdown": "Run Query",
-				"customFontSize": 18,
-				"fontFamily": "Splunk Platform Mono"
-			},
-			"type": "splunk.markdown"
-		},
 		"viz_6ZwnqvHt": {
 			"eventHandlers": [],
 			"options": {
@@ -1170,17 +1153,6 @@
 				"fillOpacity": 0.89,
 				"rx": 10,
 				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_NCaSYwQq": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "transparent",
-				"fillOpacity": 0.89,
-				"rx": 4,
-				"strokeColor": "#ffffff",
-				"strokeWidth": 5
 			},
 			"type": "splunk.rectangle"
 		}
@@ -1701,46 +1673,22 @@
 						"type": "line"
 					},
 					{
-						"item": "viz_AjWHWc0c",
-						"type": "line",
-						"position": {
-							"from": {
-								"x": 974,
-								"y": 335
-							},
-							"to": {
-								"x": 891,
-								"y": 390
-							}
-						}
-					},
-					{
-						"item": "viz_NCaSYwQq",
-						"position": {
-							"x": 970,
-							"y": 306,
-							"w": 110,
-							"h": 37
-						},
-						"type": "block"
-					},
-					{
 						"item": "viz_6ZwnqvHt",
 						"position": {
-							"x": 530,
+							"x": 350,
 							"y": 220,
-							"w": 420,
-							"h": 290
+							"w": 770,
+							"h": 310
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_MUQtJZIF",
 						"position": {
-							"x": 520,
+							"x": 340,
 							"y": 210,
-							"w": 420,
-							"h": 290
+							"w": 770,
+							"h": 310
 						},
 						"type": "block"
 					},
@@ -2087,42 +2035,32 @@
 					{
 						"item": "viz_HinU0nhO",
 						"position": {
-							"x": 590,
+							"x": 580,
 							"y": 240,
-							"w": 280,
+							"w": 300,
 							"h": 50
 						},
 						"type": "block"
 					},
 					{
-						"item": "viz_Eh2sPTBu",
-						"type": "block",
-						"position": {
-							"x": 570,
-							"y": 380,
-							"w": 310,
-							"h": 100
-						}
-					},
-					{
 						"item": "input_fpTlec8i",
 						"type": "input",
 						"position": {
-							"x": 640,
+							"x": 630,
 							"y": 290,
 							"w": 180,
 							"h": 82
 						}
 					},
 					{
-						"item": "viz_pT4PgXK2",
+						"item": "viz_Eh2sPTBu",
+						"type": "block",
 						"position": {
-							"x": 979,
-							"y": 310,
-							"w": 110,
-							"h": 30
-						},
-						"type": "block"
+							"x": 350,
+							"y": 370,
+							"w": 750,
+							"h": 140
+						}
 					}
 				],
 				"type": "absolute"
