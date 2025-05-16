@@ -24,7 +24,7 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
   - [Installation Steps](#installation-steps)
   - [Synthetic Data Details](#synthetic-data-details)
 - [Detection Methods Details](#detection-methods-details)
-- [System Dashboards](#system-dashboards)
+- [Dashboard System](#dashboard-system)
 
 ## Overview
 
