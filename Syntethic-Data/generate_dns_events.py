@@ -11,7 +11,7 @@ import time
 from collections import defaultdict
 
 # Configuration parameters
-MAX_EVENTS = 1000000  # Increased to accommodate more anomaly events
+MAX_EVENTS = 500000  # Maximum number of events to generate
 OUTPUT_FILE = "dns_events.json"
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 TIME_PERIOD_DAYS = 30  # 1 month of data
@@ -21,6 +21,431 @@ NUM_INTERNAL_HOSTS = 100  # Realistic number of hosts in a medium-sized organiza
 LINUX_HOSTS_PERCENTAGE = 20  # 20% of hosts are Linux servers
 TOTAL_ANOMALIES = 10  # We'll ensure all anomaly types are represented
 ANOMALY_HOSTS = 10  # Exactly 10 hosts will have anomalies
+
+# Common English/American names for realistic host naming
+COMMON_NAMES = [
+    "john",
+    "david",
+    "michael",
+    "james",
+    "robert",
+    "william",
+    "joseph",
+    "thomas",
+    "charles",
+    "mary",
+    "patricia",
+    "jennifer",
+    "linda",
+    "elizabeth",
+    "barbara",
+    "susan",
+    "jessica",
+    "sarah",
+    "karen",
+    "lisa",
+    "nancy",
+    "betty",
+    "margaret",
+    "sandra",
+    "ashley",
+    "kimberly",
+    "emily",
+    "donna",
+    "michelle",
+    "carol",
+    "amanda",
+    "melissa",
+    "deborah",
+    "stephanie",
+    "rebecca",
+    "laura",
+    "helen",
+    "sharon",
+    "cynthia",
+    "kathleen",
+    "amy",
+    "shirley",
+    "anna",
+    "angela",
+    "ruth",
+    "brenda",
+    "pamela",
+    "nicole",
+    "katherine",
+    "samantha",
+    "christine",
+    "emma",
+    "catherine",
+    "debra",
+    "virginia",
+    "rachel",
+    "carolyn",
+    "janet",
+    "maria",
+    "heather",
+    "diane",
+    "julie",
+    "joyce",
+    "victoria",
+    "kelly",
+    "christina",
+    "lauren",
+    "joan",
+    "evelyn",
+    "olivia",
+    "judith",
+    "megan",
+    "cheryl",
+    "martha",
+    "andrea",
+    "frances",
+    "hannah",
+    "jacqueline",
+    "ann",
+    "gloria",
+    "jean",
+    "kathryn",
+    "alice",
+    "teresa",
+    "sara",
+    "janice",
+    "doris",
+    "madison",
+    "julia",
+    "grace",
+    "judy",
+    "abigail",
+    "marie",
+    "denise",
+    "beverly",
+    "amber",
+    "theresa",
+    "marilyn",
+    "danielle",
+    "diana",
+    "brittany",
+    "natalie",
+    "sophia",
+    "rose",
+    "isabella",
+    "richard",
+    "daniel",
+    "paul",
+    "mark",
+    "donald",
+    "george",
+    "kenneth",
+    "steven",
+    "edward",
+    "brian",
+    "ronald",
+    "anthony",
+    "kevin",
+    "jason",
+    "matthew",
+    "gary",
+    "timothy",
+    "jose",
+    "larry",
+    "jeffrey",
+    "frank",
+    "scott",
+    "eric",
+    "stephen",
+    "andrew",
+    "raymond",
+    "gregory",
+    "joshua",
+    "jerry",
+    "dennis",
+    "walter",
+    "patrick",
+    "peter",
+    "harold",
+    "douglas",
+    "henry",
+    "carl",
+    "arthur",
+    "ryan",
+    "roger",
+    "joe",
+    "juan",
+    "jack",
+    "albert",
+    "jonathan",
+    "justin",
+    "terry",
+    "gerald",
+    "keith",
+    "samuel",
+    "willie",
+    "ralph",
+    "lawrence",
+    "nicholas",
+    "roy",
+    "benjamin",
+    "bruce",
+    "brandon",
+    "adam",
+    "harry",
+    "fred",
+    "wayne",
+    "billy",
+    "steve",
+    "louis",
+    "jeremy",
+    "aaron",
+    "randy",
+    "howard",
+    "eugene",
+    "carlos",
+    "russell",
+    "bobby",
+    "victor",
+    "martin",
+    "ernest",
+    "phillip",
+    "todd",
+    "jesse",
+    "craig",
+    "alan",
+    "shawn",
+    "clarence",
+    "sean",
+    "philip",
+    "chris",
+    "johnny",
+    "earl",
+    "jimmy",
+    "antonio",
+    "danny",
+    "bryan",
+    "tony",
+    "luis",
+    "mike",
+    "stanley",
+    "leonard",
+    "nathan",
+    "dale",
+    "manuel",
+    "rodney",
+    "curtis",
+    "norman",
+    "allen",
+    "marvin",
+    "vincent",
+    "glenn",
+    "jeffery",
+    "travis",
+    "jeff",
+    "chad",
+    "jacob",
+    "lee",
+    "melvin",
+    "alfred",
+    "kyle",
+    "francis",
+    "bradley",
+    "jesus",
+    "herbert",
+    "frederick",
+    "ray",
+    "joel",
+    "edwin",
+    "don",
+    "eddie",
+    "ricky",
+    "troy",
+    "randall",
+    "barry",
+    "alexander",
+    "bernard",
+    "mario",
+    "leroy",
+    "francisco",
+    "marcus",
+    "micheal",
+    "theodore",
+    "clifford",
+    "miguel",
+    "oscar",
+    "jay",
+    "jim",
+    "tom",
+    "calvin",
+    "alex",
+    "jon",
+    "ronnie",
+    "bill",
+    "lloyd",
+    "tommy",
+    "leon",
+    "derek",
+    "warren",
+    "darrell",
+    "jerome",
+    "floyd",
+    "leo",
+    "alvin",
+    "tim",
+    "wesley",
+    "gordon",
+    "dean",
+    "greg",
+    "jorge",
+    "dustin",
+    "pedro",
+    "derrick",
+    "dan",
+    "lewis",
+    "zachary",
+    "corey",
+    "herman",
+    "maurice",
+    "vernon",
+    "roberto",
+    "clyde",
+    "glen",
+    "hector",
+    "shane",
+    "ricardo",
+    "sam",
+    "rick",
+    "lester",
+    "brent",
+    "ramon",
+    "charlie",
+    "tyler",
+    "gilbert",
+    "gene",
+    "marc",
+    "reginald",
+    "ruben",
+    "brett",
+    "angel",
+    "nathaniel",
+    "rafael",
+    "leslie",
+    "edgar",
+    "milton",
+    "raul",
+    "ben",
+    "chester",
+    "cecil",
+    "duane",
+    "franklin",
+    "andre",
+    "elmer",
+    "brad",
+    "gabriel",
+    "ron",
+    "mitchell",
+    "roland",
+    "arnold",
+    "harvey",
+    "jared",
+    "adrian",
+    "karl",
+    "cory",
+    "claude",
+    "erik",
+    "darryl",
+    "jamie",
+    "neil",
+    "jessie",
+    "christian",
+    "javier",
+    "fernando",
+    "clinton",
+    "ted",
+    "mathew",
+    "tyrone",
+    "darren",
+    "lonnie",
+    "lance",
+    "cody",
+    "julio",
+    "kelly",
+    "kurt",
+    "allan",
+    "nelson",
+    "guy",
+    "clayton",
+    "hugh",
+    "max",
+    "dwayne",
+    "dwight",
+    "armando",
+    "felix",
+    "jimmie",
+    "everett",
+    "jordan",
+    "ian",
+    "wallace",
+    "ken",
+    "bob",
+    "jaime",
+    "casey",
+    "alfredo",
+    "alberto",
+    "dave",
+    "ivan",
+    "johnnie",
+    "sidney",
+    "byron",
+    "julian",
+    "isaac",
+    "morris",
+    "clifton",
+    "willard",
+    "daryl",
+    "ross",
+    "virgil",
+    "andy",
+    "marshall",
+    "salvador",
+    "perry",
+    "kirk",
+    "sergio",
+    "marion",
+    "tracy",
+    "seth",
+    "kent",
+    "terrance",
+    "rene",
+    "eduardo",
+    "terrence",
+    "enrique",
+    "freddie",
+    "wade",
+]
+
+# Windows OS versions for realistic host naming
+WINDOWS_OS_VERSIONS = [
+    "win10",
+    "win11",
+    "win7",
+    "winxp",
+    "win2k19",
+    "win2k16",
+    "win2k12",
+]
+
+# Linux distributions for realistic host naming
+LINUX_DISTRIBUTIONS = [
+    "ubuntu",
+    "fedora",
+    "debian",
+    "centos",
+    "rhel",
+    "suse",
+    "arch",
+    "kali",
+]
+
+# Device types for realistic host naming
+DEVICE_TYPES = ["laptop", "desktop", "wks", "pc", "tablet", "server", "vm"]
 
 # Domain lists
 TOP_DOMAINS = [
@@ -168,7 +593,6 @@ WEEKEND_HOURS = {hour: rate * 0.3 for hour, rate in WORKDAY_HOURS.items()}
 ANOMALY_TYPES = [
     "C2_TUNNELING",  # dns_c2_tunneling_detection - High volume of DNS queries
     "BEACONING",  # dns_beaconing_detection - Regular, periodic queries with consistent gaps
-    "BURST_ACTIVITY",  # dns_burst_activity_detection - Sudden spikes in query volume within short time window
     "TXT_RECORD_ANOMALY",  # dns_txt_record_detection - Unusual use of TXT records for C&C or data exfil
     "ANY_RECORD_ANOMALY",  # dns_any_record_detection - Reconnaissance using ANY queries
     "HINFO_RECORD_ANOMALY",  # dns_hinfo_record_detection - Reconnaissance using HINFO queries
@@ -190,11 +614,6 @@ ANOMALY_CONFIG = {
         "num_events": 2000,  # Significantly increased to ensure detection
         "jitter_seconds": 2,  # Even smaller jitter for more obvious pattern
         "description": "Periodic DNS queries at regular intervals with minimal time variation",
-    },
-    "BURST_ACTIVITY": {
-        "num_events": 2000,  # Significantly increased to ensure detection
-        "time_window_seconds": 30,  # Shorter window for more intense burst
-        "description": "Sudden spike in DNS query volume within a minute",
     },
     "TXT_RECORD_ANOMALY": {
         "num_events": 1000,  # Significantly increased to ensure detection
@@ -232,7 +651,7 @@ ANOMALY_CONFIG = {
 }
 
 
-# Generate internal hosts based on departmental structure
+# Generate internal hosts based on departmental structure with realistic names
 def generate_internal_hosts():
     hosts = []
 
@@ -244,31 +663,64 @@ def generate_internal_hosts():
         for i in range(min(dept["host_count"], len(ip_list))):
             ip = str(ip_list[i])
 
+            # Select a random name from the common names list
+            name = random.choice(COMMON_NAMES)
+
             # Determine OS type
             if dept["name"] == "Servers":
                 os_type = (
                     "linux" if random.random() < 0.8 else "windows"
                 )  # 80% Linux servers
-                hostname_prefix = f"{random.choice(['srv', 'app', 'db', 'web', 'api'])}"
-                hostname = f"{hostname_prefix}-{random.randint(100, 999)}.internal"
+
+                if os_type == "linux":
+                    linux_dist = random.choice(LINUX_DISTRIBUTIONS)
+                    hostname_prefix = (
+                        f"{random.choice(['srv', 'app', 'db', 'web', 'api'])}"
+                    )
+                    hostname = f"{hostname_prefix}-{random.randint(100, 999)}.internal"
+                else:
+                    win_version = random.choice(WINDOWS_OS_VERSIONS)
+                    hostname_prefix = (
+                        f"{random.choice(['srv', 'app', 'db', 'web', 'api'])}"
+                    )
+                    hostname = f"{hostname_prefix}-{random.randint(100, 999)}.internal"
             else:
+                # Non-server hosts get personal names
                 os_type = (
                     "linux"
                     if random.random() < (LINUX_HOSTS_PERCENTAGE / 100)
                     else "windows"
                 )
-                if os_type == "windows":
-                    hostname_prefix = f"{random.choice(['WSTN', 'USRPC', 'LAPTOP'])}"
-                    hostname = (
-                        f"{hostname_prefix}-{dept['name']}-{random.randint(1000, 9999)}"
-                    )
-                else:
-                    hostname_prefix = f"{random.choice(['ws', 'pc', 'lt'])}"
-                    hostname = f"{hostname_prefix}-{dept['name'].lower()}-{random.randint(100, 999)}"
 
-            # Query rate varies by department and has day/night patterns
+                if os_type == "windows":
+                    win_version = random.choice(WINDOWS_OS_VERSIONS)
+                    device_type = random.choice(DEVICE_TYPES)
+
+                    # Format: john-win10, mike-laptop, etc.
+                    if random.random() < 0.5:  # 50% chance to include department
+                        hostname = f"{name}-{win_version}-{dept['name'].lower()}"
+                    else:
+                        hostname = f"{name}-{win_version}"
+                else:
+                    linux_dist = random.choice(LINUX_DISTRIBUTIONS)
+                    device_type = random.choice(DEVICE_TYPES)
+
+                    # Format: susan-ubuntu, hr-laptop-alex, etc.
+                    if random.random() < 0.3:  # 30% chance to have department prefix
+                        hostname = f"{dept['name'].lower()}-{device_type}-{name}"
+                    else:
+                        hostname = f"{name}-{linux_dist}"
+
+            # Add individual variance to query rates (some users are heavier than others)
             min_rate, max_rate = dept["query_rate_range"]
-            query_rate = random.randint(min_rate, max_rate)
+            base_query_rate = random.randint(min_rate, max_rate)
+
+            # Add up to ±30% individual variance
+            individual_multiplier = random.uniform(0.7, 1.3)
+            query_rate = int(base_query_rate * individual_multiplier)
+
+            # Ensure minimum query rate
+            query_rate = max(1, query_rate)
 
             hosts.append(
                 {
@@ -277,6 +729,7 @@ def generate_internal_hosts():
                     "os": os_type,
                     "department": dept["name"],
                     "query_rate": query_rate,
+                    "user_name": name,  # Store the user name for reference
                 }
             )
 
@@ -434,24 +887,64 @@ def generate_normal_dns_event(host, timestamp):
     dns_servers = ["10.0.0.1", "10.0.0.2", "10.0.0.3"]
     dns_server = random.choice(dns_servers)
 
+    # Determine the application that generated the DNS query
+    if host["department"] == "Servers":
+        app = random.choices(
+            [
+                "system_service",
+                "dns_service",
+                "web_service",
+                "database",
+                "scheduled_task",
+            ],
+            weights=[60, 15, 10, 10, 5],
+            k=1,
+        )[0]
+    else:
+        app = random.choices(
+            [
+                "browser",
+                "email_client",
+                "os_update",
+                "antivirus",
+                "office_app",
+                "chat_app",
+            ],
+            weights=[70, 10, 8, 5, 5, 2],
+            k=1,
+        )[0]
+
+    # Determine action based on reply code (CIM compliance)
+    if reply_code == "NOERROR":
+        action = "resolved"
+    else:
+        action = "queried"
+
+    # Generate response time (previously called duration)
+    response_time = random.uniform(0.001, 0.05)  # Query response time in seconds
+
     # Generate DNS event following Splunk's CIM for Network Resolution
     event = {
         "timestamp": timestamp.strftime(TIMESTAMP_FORMAT),
         "source": "dns",
         "sourcetype": "dns",
         "host": host["hostname"],
+        "eventtype": "dns",  # CIM compliance
         # CIM fields for DNS
         "src": host["ip"],
         "src_host": host["hostname"],
         "dest_port": 53,
         "dest": dns_server,  # Internal DNS server
         "record_type": record_type,
+        "query_type": record_type,  # CIM field - copy of record_type
         "query": query,
         "answer": answer,
         "message_type": "QUERY",
         "reply_code": reply_code,
+        "action": action,  # CIM field - resolved or queried
+        "app": app,  # CIM field - application that generated the query
         "user": f"user_{host['department'].lower()}_{random.randint(1, 50)}",  # Department-based user
-        "duration": random.uniform(0.001, 0.05),  # Query duration in seconds
+        "response_time": response_time,  # CIM field (renamed from duration)
         "transport": "UDP" if random.random() < 0.95 else "TCP",
         "vendor_product": "Microsoft DNS" if host["os"] == "windows" else "BIND",
         "department": host["department"],  # Adding department info for analysis
@@ -562,42 +1055,7 @@ def generate_beaconing(base_host, start_time):
     return events
 
 
-# 3. Burst Activity Detection - Sudden spikes in query volume
-def generate_burst_activity(base_host, start_time):
-    """
-    Generate a burst of events in a very short time period
-    This simulates sudden malicious activity or data exfiltration
-    Designed to trigger: dns_burst_activity_detection in Splunk
-    """
-    events = []
-    host = base_host.copy()
-    config = ANOMALY_CONFIG["BURST_ACTIVITY"]
-
-    num_events = config["num_events"]
-    time_window_seconds = config["time_window_seconds"]
-
-    # Generate a burst of events in a very short time period (60 seconds or less)
-    for i in range(num_events):
-        timestamp = start_time + datetime.timedelta(
-            seconds=random.uniform(0, time_window_seconds)
-        )
-        event = generate_normal_dns_event(host, timestamp)
-
-        # Bursts often involve various domains
-        if random.random() < 0.4:  # 40% chance of querying suspicious domains
-            event["query"] = generate_subdomain(
-                random.choice(MALICIOUS_DOMAINS), entropy="high"
-            )
-
-        # Add anomaly type and metadata
-        event["anomaly_type"] = "BURST_ACTIVITY"
-        event["anomaly_description"] = config["description"]
-        events.append(event)
-
-    return events
-
-
-# 4. TXT Record Anomaly Detection - Unusual use of TXT records
+# 3. TXT Record Anomaly Detection - Unusual use of TXT records
 def generate_txt_record_anomaly(base_host, start_time):
     """
     Generate excessive use of TXT records
@@ -652,7 +1110,7 @@ def generate_txt_record_anomaly(base_host, start_time):
     return events
 
 
-# 5. ANY Record Anomaly Detection - Reconnaissance using ANY queries
+# 4. ANY Record Anomaly Detection - Reconnaissance using ANY queries
 def generate_any_record_anomaly(base_host, start_time):
     """
     Generate excessive use of ANY records
@@ -687,7 +1145,7 @@ def generate_any_record_anomaly(base_host, start_time):
     return events
 
 
-# 6. HINFO Record Anomaly Detection - Reconnaissance using HINFO queries
+# 5. HINFO Record Anomaly Detection - Reconnaissance using HINFO queries
 def generate_hinfo_record_anomaly(base_host, start_time):
     """
     Generate use of HINFO record types for reconnaissance
@@ -732,7 +1190,7 @@ def generate_hinfo_record_anomaly(base_host, start_time):
     return events
 
 
-# 7. AXFR Record Anomaly Detection - Reconnaissance using AXFR queries
+# 6. AXFR Record Anomaly Detection - Reconnaissance using AXFR queries
 def generate_axfr_record_anomaly(base_host, start_time):
     """
     Generate use of AXFR record types for zone transfer attempts
@@ -774,7 +1232,7 @@ def generate_axfr_record_anomaly(base_host, start_time):
     return events
 
 
-# 8. Query Length Anomaly Detection - Unusually long DNS queries
+# 7. Query Length Anomaly Detection - Unusually long DNS queries
 def generate_query_length_anomaly(base_host, start_time):
     """
     Generate unusually long DNS queries
@@ -821,7 +1279,7 @@ def generate_query_length_anomaly(base_host, start_time):
     return events
 
 
-# 9. Domain Shadowing Detection - Many unique subdomains
+# 8. Domain Shadowing Detection - Many unique subdomains
 def generate_domain_shadowing(base_host, start_time):
     """
     Generate many unique subdomains for a legitimate domain
@@ -877,7 +1335,7 @@ def generate_domain_shadowing(base_host, start_time):
     return events
 
 
-# 10. Behavioral Clustering - Similar abnormal DNS behavior across hosts
+# 9. Behavioral Clustering - Similar abnormal DNS behavior across hosts
 def generate_behavioral_cluster(base_hosts, start_time):
     """
     Create a group of hosts with similar abnormal DNS behavior
@@ -1131,9 +1589,9 @@ def main():
             while anomaly_time.weekday() >= 5:  # Skip weekends
                 anomaly_time += datetime.timedelta(days=1)
 
-            # Set business hours
+            # Set business hours (9am-6pm)
             anomaly_time = anomaly_time.replace(
-                hour=random.randint(9, 16), minute=random.randint(0, 59)  # 9am-4pm
+                hour=random.randint(9, 18), minute=random.randint(0, 59)  # 9am-6pm
             )
 
             # Select a malicious domain for this host based on the anomaly type
@@ -1279,12 +1737,6 @@ def main():
         )
         f.write(
             "   Detection: Analyzes consistency of time gaps between queries to same domain\n\n"
-        )
-
-        f.write("3. Burst Activity: `dns_burst_activity_detection`\n")
-        f.write("   Description: Sudden spike in DNS query volume within a minute\n")
-        f.write(
-            "   Detection: Measures max burst count per minute using sliding time windows\n\n"
         )
 
         f.write("4. TXT Record Anomalies: `dns_txt_record_detection`\n")
