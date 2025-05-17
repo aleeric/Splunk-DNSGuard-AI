@@ -14,8 +14,6 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
 
 ## 📋 Table of Contents
 - [Overview](#overview)
-- [Key Benefits](#key-benefits)
-- [Detection Methods Implemented](#detection-methods-implemented)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
     - [Python Requirements](#-python-requirements)
@@ -23,34 +21,23 @@ A comprehensive DNS anomaly detection system using Splunk and machine learning t
     - [Recommended Additions](#-recommended-additions)
   - [Installation Steps](#installation-steps)
   - [Synthetic Data Details](#synthetic-data-details)
-- [Detection Methods Details](#detection-methods-details)
-- [Dashboard System](#dashboard-system)
 
 ## Overview
 
 DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies that could indicate malicious activity such as command and control (C2) communication, data exfiltration, or reconnaissance. The system uses Splunk's powerful search capabilities combined with machine learning techniques to identify patterns that deviate from normal DNS behavior.
 
-### Key Benefits
+##
 
-<div align="center">
-
-| Feature | Description |
-|------------|---------------|
-| **Real-time Detection** | Continuous monitoring of DNS traffic for immediate threat identification |
-| **Comprehensive Analysis** | Multiple detection methods working in concert to identify various types of threats |
-| **Splunk Machine Learning Toolkit Integration** | Advanced algorithms for pattern recognition and anomaly detection |
-| **Enterprise-Ready** | Scalable solution designed for large network environments |
-| **CIM Compliance** | Fully compatible with Splunk's Common Information Model |
-| **Comprehensive Dashboard System** | Comprehensive Dashboard System: Includes specialized dashboards for each detection method and an overview dashboard for high-level threat monitoring. |
-
-
-</div>
+![](Images/readme/Splunk-DNSGuard-AI-IDEA-Key-Features.png)
 
 ##
 
 ![](Images/readme/Splunk-DNSGuard-AI-IDEA-Detection-Methods.png)
- 
 
+##
+
+![](Images/readme/Splunk-DNSGuard-AI-IDEA-Dashboard-System.png)
+ 
 ## Getting Started
 
 ### Prerequisites
@@ -128,8 +115,8 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 
 4. **Generate Test Data**
    ```bash
-   # Navigate to the POC directory
-   cd poc
+   # Navigate to the Syntethic-Data directory
+   cd Syntethic-Data
    
    # Generate synthetic DNS data
    python generate_dns_events.py
@@ -140,7 +127,7 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
    **Option 1: Using Command Line**
    ```bash
    # Import the generated data
-   splunk add oneshot -index poc -sourcetype _json -source dns_events.json
+   splunk add oneshot -index synthetic_data -sourcetype _json -source dns_events.json
    ```
 
    **Option 2: Using Splunk Web Interface**
@@ -149,7 +136,7 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
    - Click "Upload" and select the `dns_events.json` file
    - In the "Select Source" step:
      - Set "Source type" to `_json`
-     - Set "Index" to `poc`
+     - Set "Index" to `synthetic_data`
    - Click "Next" and review the settings
    - Click "Submit" to start the import
 
@@ -158,7 +145,7 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
    - Navigate to Settings → Data Models
    - Select "Network_Resolution" data model
    - Click "Edit" → "Add Dataset"
-   - Add the `poc` index to the list of indexes
+   - Add the `synthetic_data` index to the list of indexes
    - Save the changes
 
 7. **Verify Installation**
@@ -172,9 +159,3 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 For testing and demonstration purposes, the application includes a custom Python script that generates synthetic DNS data specifically for the app’s proof of concept. The generated events adhere to the Common Information Model (CIM), particularly the Network Resolution data model, ensuring compatibility with Splunk’s detection and enrichment features. The synthetic dataset simulates a wide range of DNS anomalies
 
 > ⚠️ **REMINDER**: This synthetic data is for testing purposes only and should never be used in a production environment.
-
-## Detection Methods Details
-
-##
-
-![](Images/readme/Splunk-DNSGuard-AI-IDEA-Dashboard-System.png)
