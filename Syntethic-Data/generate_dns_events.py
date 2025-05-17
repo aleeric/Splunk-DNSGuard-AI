@@ -1122,6 +1122,9 @@ def generate_any_record_anomaly(base_host, start_time):
     config = ANOMALY_CONFIG["ANY_RECORD_ANOMALY"]
     num_events = config["num_events"]
 
+    # Use a malicious domain for the ANY record queries
+    malicious_domain = random.choice(MALICIOUS_DOMAINS)
+
     # Create a sequence of ANY queries for reconnaissance
     for i in range(num_events):
         timestamp = start_time + datetime.timedelta(
@@ -1133,9 +1136,17 @@ def generate_any_record_anomaly(base_host, start_time):
         event = generate_normal_dns_event(host, timestamp)
         event["record_type"] = "ANY"
 
-        # ANY queries often target major organizations for recon
-        domains_of_interest = random.sample(TOP_DOMAINS, min(8, len(TOP_DOMAINS)))
-        event["query"] = random.choice(domains_of_interest)
+        # Generate different subdomains of the malicious domain
+        if random.random() < 0.7:  # 70% chance to use subdomains
+            subdomain = f"recon-{i % 100:03d}"
+            event["query"] = f"{subdomain}.{malicious_domain}"
+        else:
+            # Sometimes query the apex domain directly
+            event["query"] = malicious_domain
+
+        # ANY queries typically return multiple records
+        if event["reply_code"] == "NOERROR":
+            event["answer"] = "Multiple records returned"
 
         # Add anomaly type and metadata
         event["anomaly_type"] = "ANY_RECORD_ANOMALY"
@@ -1156,6 +1167,9 @@ def generate_hinfo_record_anomaly(base_host, start_time):
     host = base_host.copy()
     config = ANOMALY_CONFIG["HINFO_RECORD_ANOMALY"]
     num_events = config["num_events"]
+
+    # Use a malicious domain for the HINFO record queries
+    malicious_domain = random.choice(MALICIOUS_DOMAINS)
 
     # HINFO queries are very rare, so this is clearly anomalous behavior
     for i in range(num_events):
@@ -1179,8 +1193,17 @@ def generate_hinfo_record_anomaly(base_host, start_time):
             "auth",
         ]
         target = random.choice(high_value_targets)
-        org = random.choice(TOP_DOMAINS)
-        event["query"] = f"{target}.{org}"
+
+        # Use the malicious domain instead of legitimate ones
+        event["query"] = f"{target}.{malicious_domain}"
+
+        # Add a realistic HINFO response when successful
+        if event["reply_code"] == "NOERROR":
+            os_types = ["Linux", "Windows Server", "FreeBSD", "Ubuntu", "CentOS"]
+            cpu_types = ["x86_64", "ARM64", "Intel Xeon", "AMD EPYC", "Intel Core i7"]
+            event["answer"] = (
+                f'"{random.choice(os_types)}" "{random.choice(cpu_types)}"'
+            )
 
         # Add anomaly type and metadata
         event["anomaly_type"] = "HINFO_RECORD_ANOMALY"
@@ -1202,6 +1225,9 @@ def generate_axfr_record_anomaly(base_host, start_time):
     config = ANOMALY_CONFIG["AXFR_RECORD_ANOMALY"]
     num_events = config["num_events"]
 
+    # Use a malicious domain for the AXFR record queries
+    malicious_domain = random.choice(MALICIOUS_DOMAINS)
+
     # AXFR queries are extremely rare in normal traffic
     for i in range(num_events):
         timestamp = start_time + datetime.timedelta(
@@ -1213,16 +1239,22 @@ def generate_axfr_record_anomaly(base_host, start_time):
         event = generate_normal_dns_event(host, timestamp)
         event["record_type"] = "AXFR"
 
-        # Typically targeting authoritative name servers
-        target_domains = random.sample(TOP_DOMAINS, min(5, len(TOP_DOMAINS)))
-        domain = random.choice(target_domains)
-        event["query"] = f"ns1.{domain}"
+        # Target the malicious domain directly or its nameservers
+        if random.random() < 0.6:  # 60% chance to query nameserver
+            event["query"] = f"ns{random.randint(1, 3)}.{malicious_domain}"
+        else:
+            # Sometimes query the domain directly
+            event["query"] = malicious_domain
 
         # Zone transfers are typically rejected
         event["reply_code"] = "REFUSED" if random.random() < 0.95 else "NOERROR"
 
-        # Use TCP for AXFR queries
+        # Use TCP for AXFR queries (AXFR always uses TCP)
         event["transport"] = "TCP"
+
+        # If successful (rare), provide a zone transfer response
+        if event["reply_code"] == "NOERROR":
+            event["answer"] = "Zone transfer successful - multiple records returned"
 
         # Add anomaly type and metadata
         event["anomaly_type"] = "AXFR_RECORD_ANOMALY"
