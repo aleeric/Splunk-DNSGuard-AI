@@ -46,7 +46,7 @@ DNS Guard AI is a Splunk App designed to detect various types of DNS anomalies t
 
 </div>
 
-## Detection Methods Implemented
+##
 
 ![](Images/readme/Splunk-DNSGuard-AI-IDEA-Detection-Methods.png)
  
@@ -175,6 +175,6 @@ For testing and demonstration purposes, the application includes a custom Python
 
 ## Detection Methods Details
 
-## Dashboard System
+##
 
 ![](Images/readme/Splunk-DNSGuard-AI-IDEA-Dashboard-System.png)
