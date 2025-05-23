@@ -50,23 +50,6 @@
 			},
 			"type": "splunk.ellipse"
 		},
-		"viz_CZF9chHU": {
-			"options": {
-				"preserveAspectRatio": true,
-				"src": "/static/app/Splunk-DNSGuard-AI/images/logo-nobg.png"
-			},
-			"type": "splunk.image"
-		},
-		"viz_CcUQr1i8": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#000000",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
 		"viz_CwNg4Hzi": {
 			"options": {
 				"strokeColor": "#53a051",
@@ -107,32 +90,6 @@
 				"customFontSize": 26,
 				"fontSize": "custom",
 				"markdown": "### 3"
-			},
-			"type": "splunk.markdown"
-		},
-		"viz_IlDlE9pG": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#013062",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_KTagsXx4": {
-			"options": {
-				"customFontSize": 24,
-				"fontSize": "custom",
-				"markdown": "Splunk App"
-			},
-			"type": "splunk.markdown"
-		},
-		"viz_LyEueaRp": {
-			"options": {
-				"customFontSize": 29,
-				"fontSize": "custom",
-				"markdown": "### DNS Guard AI"
 			},
 			"type": "splunk.markdown"
 		},
@@ -347,49 +304,6 @@
 			"type": "splunk.markdown",
 			"eventHandlers": []
 		},
-		"viz_gj154KZe": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#000000",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_jH0940k5": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#013062",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_eWFssTdD": {
-			"options": {
-				"preserveAspectRatio": true,
-				"src": "/static/app/Splunk-DNSGuard-AI/images/logo-nobg.png"
-			},
-			"type": "splunk.image"
-		},
-		"viz_HQMihtH6": {
-			"options": {
-				"customFontSize": 29,
-				"fontSize": "custom",
-				"markdown": "### DNS Guard AI"
-			},
-			"type": "splunk.markdown"
-		},
-		"viz_lpisqX4h": {
-			"options": {
-				"customFontSize": 24,
-				"fontSize": "custom",
-				"markdown": "Splunk App"
-			},
-			"type": "splunk.markdown"
-		},
 		"viz_xjkiSmPH": {
 			"options": {
 				"customFontSize": 29,
@@ -479,49 +393,6 @@
 				"strokeWidth": 7
 			},
 			"type": "abslayout.line"
-		},
-		"viz_C3THDNEB": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#000000",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_JhlWPb2f": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#013062",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_xmBnUxdK": {
-			"options": {
-				"preserveAspectRatio": true,
-				"src": "/static/app/Splunk-DNSGuard-AI/images/logo-nobg.png"
-			},
-			"type": "splunk.image"
-		},
-		"viz_DCinwRbx": {
-			"options": {
-				"customFontSize": 29,
-				"fontSize": "custom",
-				"markdown": "### DNS Guard AI"
-			},
-			"type": "splunk.markdown"
-		},
-		"viz_96PEadFW": {
-			"options": {
-				"customFontSize": 24,
-				"fontSize": "custom",
-				"markdown": "Splunk App"
-			},
-			"type": "splunk.markdown"
 		},
 		"viz_XAbZWTHa": {
 			"options": {
@@ -634,7 +505,7 @@
 			"options": {
 				"fillColor": "#53a051",
 				"rx": 10,
-				"strokeColor": "transparent"
+				"strokeColor": "#53a051"
 			},
 			"type": "splunk.rectangle"
 		},
@@ -655,37 +526,12 @@
 				}
 			]
 		},
-		"viz_5TLgIMpu": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#ffffff",
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_vIXsCtud": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#ffffff",
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
 		"viz_C3qdLbDr": {
-			"eventHandlers": [
-				{
-					"type": "drilldown.switchToTab",
-					"options": {
-						"tabId": "layout_RGqOt2C6"
-					}
-				}
-			],
+			"eventHandlers": [],
 			"options": {
 				"fillColor": "#53a051",
 				"rx": 10,
-				"strokeColor": "transparent"
+				"strokeColor": "#53a051"
 			},
 			"type": "splunk.rectangle"
 		},
@@ -697,23 +543,7 @@
 				"customFontSize": 11
 			},
 			"type": "splunk.markdown",
-			"eventHandlers": [
-				{
-					"type": "drilldown.switchToTab",
-					"options": {
-						"tabId": "layout_RGqOt2C6"
-					}
-				}
-			]
-		},
-		"viz_HORb8v7q": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#ffffff",
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
+			"eventHandlers": []
 		},
 		"viz_SRylYQM8": {
 			"eventHandlers": [
@@ -727,7 +557,7 @@
 			"options": {
 				"fillColor": "#53a051",
 				"rx": 10,
-				"strokeColor": "transparent"
+				"strokeColor": "#53a051"
 			},
 			"type": "splunk.rectangle"
 		},
@@ -921,19 +751,12 @@
 			},
 			"type": "splunk.markdown"
 		},
-		"viz_hx6lFbh5": {
-			"type": "abslayout.line",
-			"options": {
-				"toArrow": true,
-				"strokeWidth": 5
-			}
-		},
 		"viz_rjR4NZAU": {
 			"options": {
 				"customFontSize": 11,
 				"fontColor": "#ffffff",
 				"fontSize": "custom",
-				"markdown": "### cd poc/",
+				"markdown": "### cd Syntethic-Data/",
 				"fontFamily": "Splunk Platform Mono"
 			},
 			"type": "splunk.markdown"
@@ -983,7 +806,7 @@
 				"customFontSize": 11,
 				"fontColor": "#ffffff",
 				"fontSize": "custom",
-				"markdown": "### repository",
+				"markdown": "### github.com/aleeric/Splunk-DNS-Guard-AI",
 				"fontFamily": "Splunk Platform Mono"
 			},
 			"type": "splunk.markdown"
@@ -1027,13 +850,6 @@
 				"strokeColor": "transparent"
 			},
 			"type": "splunk.rectangle"
-		},
-		"viz_MvgmwTi6": {
-			"type": "abslayout.line",
-			"options": {
-				"toArrow": true,
-				"strokeWidth": 5
-			}
 		},
 		"viz_jNBasxZz": {
 			"options": {
@@ -1155,6 +971,98 @@
 				"strokeColor": "transparent"
 			},
 			"type": "splunk.rectangle"
+		},
+		"viz_2omy6aKr": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### 1"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_lIABlXS3": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### 2"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_OPxXVaLC": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### 3"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_WB1j9k30": {
+			"options": {
+				"customFontSize": 29,
+				"fontSize": "custom",
+				"markdown": "### 4"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_r1rJaEYH": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.switchToTab",
+					"options": {
+						"tabId": "layout_RGqOt2C6"
+					}
+				}
+			]
+		},
+		"viz_ew1XepxX": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			}
+		},
+		"viz_7I9Mgh0u": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.customUrl",
+					"options": {
+						"url": "https://github.com/aleeric/Splunk-DNS-Guard-AI",
+						"newTab": true
+					}
+				}
+			]
+		},
+		"viz_A7UsK1gX": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.switchToTab",
+					"options": {
+						"tabId": "layout_CzwApTsG"
+					}
+				}
+			]
+		},
+		"viz_YvnK5G1D": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "transparent",
+				"strokeColor": "transparent"
+			}
 		}
 	},
 	"dataSources": {
@@ -1207,12 +1115,12 @@
 						"item": "viz_vnA64oSf",
 						"position": {
 							"from": {
-								"x": 86,
-								"y": 60
+								"x": 524,
+								"y": 70
 							},
 							"to": {
-								"x": 496,
-								"y": 60
+								"x": 922,
+								"y": 70
 							}
 						},
 						"type": "line"
@@ -1248,36 +1156,6 @@
 						"type": "block"
 					},
 					{
-						"item": "viz_5TLgIMpu",
-						"position": {
-							"x": 551,
-							"y": 30,
-							"w": 96,
-							"h": 40
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_CcUQr1i8",
-						"position": {
-							"h": 120,
-							"w": 420,
-							"x": 970,
-							"y": 30
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_IlDlE9pG",
-						"position": {
-							"h": 120,
-							"w": 420,
-							"x": 960,
-							"y": 20
-						},
-						"type": "block"
-					},
-					{
 						"item": "viz_W2vy1pTP",
 						"position": {
 							"h": 110,
@@ -1294,36 +1172,6 @@
 							"w": 1330,
 							"x": 55,
 							"y": 210
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_CZF9chHU",
-						"position": {
-							"h": 120,
-							"w": 120,
-							"x": 980,
-							"y": 20
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_LyEueaRp",
-						"position": {
-							"h": 60,
-							"w": 240,
-							"x": 1090,
-							"y": 40
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_KTagsXx4",
-						"position": {
-							"h": 40,
-							"w": 240,
-							"x": 1090,
-							"y": 80
 						},
 						"type": "block"
 					},
@@ -1372,8 +1220,8 @@
 						"position": {
 							"h": 50,
 							"w": 40,
-							"x": 62,
-							"y": 10
+							"x": 500.99999999999994,
+							"y": 20
 						},
 						"type": "block"
 					},
@@ -1502,8 +1350,8 @@
 						"position": {
 							"h": 50,
 							"w": 40,
-							"x": 200,
-							"y": 10
+							"x": 639,
+							"y": 20
 						},
 						"type": "block"
 					},
@@ -1512,8 +1360,8 @@
 						"position": {
 							"h": 50,
 							"w": 40,
-							"x": 330,
-							"y": 10
+							"x": 769,
+							"y": 20
 						},
 						"type": "block"
 					},
@@ -1522,8 +1370,8 @@
 						"position": {
 							"h": 50,
 							"w": 40,
-							"x": 480,
-							"y": 10
+							"x": 905,
+							"y": 20
 						},
 						"type": "block"
 					},
@@ -1542,16 +1390,16 @@
 						"position": {
 							"h": 20,
 							"w": 20,
-							"x": 66,
-							"y": 50
+							"x": 504.99999999999994,
+							"y": 60
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_YVjIpNAB",
 						"position": {
-							"x": 205,
-							"y": 50,
+							"x": 644,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -1560,8 +1408,8 @@
 					{
 						"item": "viz_V2s0zwy4",
 						"position": {
-							"x": 334,
-							"y": 50,
+							"x": 773,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -1570,8 +1418,8 @@
 					{
 						"item": "viz_NLiTupUn",
 						"position": {
-							"x": 486,
-							"y": 50,
+							"x": 910,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -1580,18 +1428,18 @@
 					{
 						"item": "viz_cgZTbQPG",
 						"position": {
-							"x": 550,
-							"y": 30,
+							"x": 989,
+							"y": 40,
 							"w": 96,
-							"h": 37
+							"h": 38
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_4wTJjha3",
 						"position": {
-							"x": 575,
-							"y": 37,
+							"x": 1014,
+							"y": 47,
 							"w": 50,
 							"h": 24
 						},
@@ -1602,9 +1450,9 @@
 						"type": "block",
 						"position": {
 							"x": 0,
-							"y": -30,
-							"w": 1440,
-							"h": 730
+							"y": 0,
+							"w": 1430,
+							"h": 700
 						}
 					},
 					{
@@ -1641,9 +1489,9 @@
 						"item": "viz_Hc0bYQBa",
 						"type": "block",
 						"position": {
-							"x": 550,
-							"y": 30,
-							"w": 96,
+							"x": 990,
+							"y": 40,
+							"w": 94,
 							"h": 37
 						}
 					}
@@ -1693,26 +1541,6 @@
 						"type": "block"
 					},
 					{
-						"item": "viz_CcUQr1i8",
-						"position": {
-							"h": 120,
-							"w": 420,
-							"x": 970,
-							"y": 30
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_IlDlE9pG",
-						"position": {
-							"h": 120,
-							"w": 420,
-							"x": 960,
-							"y": 20
-						},
-						"type": "block"
-					},
-					{
 						"item": "viz_W2vy1pTP",
 						"position": {
 							"h": 230,
@@ -1729,36 +1557,6 @@
 							"w": 1335,
 							"x": 20,
 							"y": 730
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_CZF9chHU",
-						"position": {
-							"h": 120,
-							"w": 120,
-							"x": 980,
-							"y": 20
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_LyEueaRp",
-						"position": {
-							"h": 60,
-							"w": 240,
-							"x": 1090,
-							"y": 40
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_KTagsXx4",
-						"position": {
-							"h": 40,
-							"w": 240,
-							"x": 1090,
-							"y": 80
 						},
 						"type": "block"
 					},
@@ -2077,12 +1875,12 @@
 						"item": "viz_vnA64oSf",
 						"position": {
 							"from": {
-								"x": 354,
-								"y": 61
+								"x": 791,
+								"y": 70
 							},
 							"to": {
-								"x": 492,
-								"y": 61
+								"x": 929,
+								"y": 70
 							}
 						},
 						"type": "line"
@@ -2091,12 +1889,12 @@
 						"item": "viz_CwNg4Hzi",
 						"position": {
 							"from": {
-								"x": 77,
-								"y": 61
+								"x": 523,
+								"y": 70
 							},
 							"to": {
-								"x": 335,
-								"y": 61
+								"x": 781,
+								"y": 70
 							}
 						},
 						"type": "line"
@@ -2104,8 +1902,8 @@
 					{
 						"item": "viz_AspAvvlC",
 						"position": {
-							"x": 610,
-							"y": 210,
+							"x": 200,
+							"y": 190,
 							"w": 572,
 							"h": 180
 						},
@@ -2114,68 +1912,18 @@
 					{
 						"item": "viz_Q0xJ9mqi",
 						"position": {
-							"x": 600,
-							"y": 200,
+							"x": 190,
+							"y": 180,
 							"w": 571,
 							"h": 180
 						},
 						"type": "block"
 					},
 					{
-						"item": "viz_C3THDNEB",
-						"position": {
-							"x": 970,
-							"y": 30,
-							"w": 420,
-							"h": 120
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_JhlWPb2f",
-						"position": {
-							"x": 960,
-							"y": 20,
-							"w": 420,
-							"h": 120
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_xmBnUxdK",
-						"position": {
-							"x": 980,
-							"y": 20,
-							"w": 120,
-							"h": 120
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_DCinwRbx",
-						"position": {
-							"x": 1090,
-							"y": 40,
-							"w": 240,
-							"h": 60
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_96PEadFW",
-						"position": {
-							"x": 1090,
-							"y": 80,
-							"w": 240,
-							"h": 40
-						},
-						"type": "block"
-					},
-					{
 						"item": "viz_XAbZWTHa",
 						"position": {
-							"x": 170,
-							"y": 240,
+							"x": 580,
+							"y": 110,
 							"w": 320,
 							"h": 50
 						},
@@ -2184,8 +1932,8 @@
 					{
 						"item": "viz_3NqvPlpe",
 						"position": {
-							"x": 62,
-							"y": 10,
+							"x": 500,
+							"y": 20,
 							"w": 40,
 							"h": 50
 						},
@@ -2194,8 +1942,8 @@
 					{
 						"item": "viz_TlF2rwvt",
 						"position": {
-							"x": 200,
-							"y": 10,
+							"x": 638,
+							"y": 20,
 							"w": 40,
 							"h": 50
 						},
@@ -2204,8 +1952,8 @@
 					{
 						"item": "viz_IIZFAA2w",
 						"position": {
-							"x": 330,
-							"y": 10,
+							"x": 768,
+							"y": 20,
 							"w": 40,
 							"h": 50
 						},
@@ -2214,8 +1962,8 @@
 					{
 						"item": "viz_AWULgb9b",
 						"position": {
-							"x": 480,
-							"y": 10,
+							"x": 905,
+							"y": 20,
 							"w": 40,
 							"h": 50
 						},
@@ -2224,8 +1972,8 @@
 					{
 						"item": "viz_WjN0NTiJ",
 						"position": {
-							"x": 205,
-							"y": 50,
+							"x": 643,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -2234,8 +1982,8 @@
 					{
 						"item": "viz_v8UoTZFN",
 						"position": {
-							"x": 66,
-							"y": 50,
+							"x": 504,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -2244,8 +1992,8 @@
 					{
 						"item": "viz_pqBeamNV",
 						"position": {
-							"x": 334,
-							"y": 50,
+							"x": 772,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -2254,8 +2002,8 @@
 					{
 						"item": "viz_cZt5WTw3",
 						"position": {
-							"x": 486,
-							"y": 50,
+							"x": 910,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -2264,29 +2012,19 @@
 					{
 						"item": "viz_CDrQubkI",
 						"position": {
-							"x": 170,
-							"y": 310,
+							"x": 830,
+							"y": 190,
 							"w": 300,
 							"h": 30
 						},
 						"type": "block"
 					},
 					{
-						"item": "viz_HORb8v7q",
-						"type": "block",
-						"position": {
-							"x": 551,
-							"y": 30,
-							"w": 96,
-							"h": 40
-						}
-					},
-					{
 						"item": "viz_SRylYQM8",
 						"type": "block",
 						"position": {
-							"x": 550,
-							"y": 30,
+							"x": 988,
+							"y": 40,
 							"w": 96,
 							"h": 37
 						}
@@ -2295,8 +2033,8 @@
 						"item": "viz_adkmY8uX",
 						"type": "block",
 						"position": {
-							"x": 575,
-							"y": 37,
+							"x": 1013,
+							"y": 47,
 							"w": 45,
 							"h": 24
 						}
@@ -2312,20 +2050,10 @@
 						"type": "block"
 					},
 					{
-						"item": "viz_TIbp3h9o",
-						"type": "block",
-						"position": {
-							"x": 710,
-							"y": 260,
-							"w": 370,
-							"h": 110
-						}
-					},
-					{
 						"item": "viz_oXMjQrae",
 						"position": {
-							"x": 140,
-							"y": 320,
+							"x": 800,
+							"y": 200,
 							"w": 380,
 							"h": 160
 						},
@@ -2334,8 +2062,8 @@
 					{
 						"item": "viz_k6M53NEK",
 						"position": {
-							"x": 620,
-							"y": 220,
+							"x": 210,
+							"y": 200,
 							"w": 550,
 							"h": 50
 						},
@@ -2344,8 +2072,8 @@
 					{
 						"item": "viz_VpzZ5Stc",
 						"position": {
-							"x": 610,
-							"y": 410,
+							"x": 200,
+							"y": 390,
 							"w": 572,
 							"h": 260
 						},
@@ -2354,19 +2082,49 @@
 					{
 						"item": "viz_BuSzCyPB",
 						"position": {
-							"x": 599,
-							"y": 400,
+							"x": 189,
+							"y": 380,
 							"w": 572,
 							"h": 260
 						},
 						"type": "block"
 					},
 					{
+						"item": "viz_YvnK5G1D",
+						"type": "block",
+						"position": {
+							"x": 0,
+							"y": 0,
+							"w": 1430,
+							"h": 700
+						}
+					},
+					{
+						"item": "viz_A7UsK1gX",
+						"type": "block",
+						"position": {
+							"x": 990,
+							"y": 40,
+							"w": 94,
+							"h": 37
+						}
+					},
+					{
+						"item": "viz_TIbp3h9o",
+						"type": "block",
+						"position": {
+							"x": 300,
+							"y": 240,
+							"w": 370,
+							"h": 110
+						}
+					},
+					{
 						"item": "viz_AOCfmJE3",
 						"type": "block",
 						"position": {
-							"x": 600,
-							"y": 410,
+							"x": 190,
+							"y": 390,
 							"w": 570,
 							"h": 240
 						}
@@ -2387,12 +2145,12 @@
 						"type": "line",
 						"position": {
 							"from": {
-								"x": 77,
-								"y": 61
+								"x": 510,
+								"y": 70
 							},
 							"to": {
-								"x": 217,
-								"y": 61
+								"x": 650,
+								"y": 70
 							}
 						}
 					},
@@ -2401,138 +2159,60 @@
 						"type": "line",
 						"position": {
 							"from": {
-								"x": 224,
-								"y": 61
+								"x": 662,
+								"y": 70
 							},
 							"to": {
-								"x": 490,
-								"y": 61
-							}
-						}
-					},
-					{
-						"item": "viz_hx6lFbh5",
-						"type": "line",
-						"position": {
-							"from": {
-								"x": 800,
-								"y": 256
-							},
-							"to": {
-								"x": 847,
-								"y": 256
-							}
-						}
-					},
-					{
-						"item": "viz_MvgmwTi6",
-						"type": "line",
-						"position": {
-							"from": {
-								"x": 957,
-								"y": 256
-							},
-							"to": {
-								"x": 1004,
-								"y": 256
+								"x": 928,
+								"y": 70
 							}
 						}
 					},
 					{
 						"item": "viz_h8S6gb7x",
 						"position": {
-							"x": 70,
-							"y": 250,
-							"w": 450,
-							"h": 270
+							"x": 730,
+							"y": 180,
+							"w": 430,
+							"h": 230
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_z8tZ3t9d",
 						"position": {
-							"x": 600,
-							"y": 220,
-							"w": 670,
-							"h": 80
+							"x": 280,
+							"y": 190,
+							"w": 430,
+							"h": 420
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_Mj8VhDJe",
 						"position": {
-							"x": 590,
-							"y": 220,
-							"w": 670,
-							"h": 70
+							"x": 270,
+							"y": 180,
+							"w": 430,
+							"h": 420
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_d0wQKNgb",
 						"position": {
-							"x": 860,
-							"y": 240,
-							"w": 80,
+							"x": 330,
+							"y": 247,
+							"w": 147,
 							"h": 30
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_gj154KZe",
-						"position": {
-							"x": 970,
-							"y": 30,
-							"w": 420,
-							"h": 120
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_jH0940k5",
-						"position": {
-							"x": 960,
-							"y": 20,
-							"w": 420,
-							"h": 120
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_eWFssTdD",
-						"position": {
-							"x": 980,
-							"y": 20,
-							"w": 120,
-							"h": 120
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_HQMihtH6",
-						"position": {
-							"x": 1090,
-							"y": 40,
-							"w": 240,
-							"h": 60
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_lpisqX4h",
-						"position": {
-							"x": 1090,
-							"y": 80,
-							"w": 240,
-							"h": 40
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_xjkiSmPH",
 						"position": {
-							"x": 170,
-							"y": 190,
+							"x": 590,
+							"y": 110,
 							"w": 250,
 							"h": 50
 						},
@@ -2541,8 +2221,8 @@
 					{
 						"item": "viz_QPZZRtRz",
 						"position": {
-							"x": 62,
-							"y": 10,
+							"x": 500,
+							"y": 20,
 							"w": 40,
 							"h": 50
 						},
@@ -2551,8 +2231,8 @@
 					{
 						"item": "viz_A8wJCM4W",
 						"position": {
-							"x": 200,
-							"y": 10,
+							"x": 638,
+							"y": 20,
 							"w": 40,
 							"h": 50
 						},
@@ -2561,8 +2241,8 @@
 					{
 						"item": "viz_JEF1K9Ro",
 						"position": {
-							"x": 330,
-							"y": 10,
+							"x": 768,
+							"y": 20,
 							"w": 40,
 							"h": 50
 						},
@@ -2571,8 +2251,8 @@
 					{
 						"item": "viz_Zrr18TJV",
 						"position": {
-							"x": 480,
-							"y": 10,
+							"x": 905,
+							"y": 20,
 							"w": 40,
 							"h": 50
 						},
@@ -2581,8 +2261,8 @@
 					{
 						"item": "viz_dkYG0jQQ",
 						"position": {
-							"x": 66,
-							"y": 50,
+							"x": 504,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -2591,8 +2271,8 @@
 					{
 						"item": "viz_fMMJxaK2",
 						"position": {
-							"x": 334,
-							"y": 50,
+							"x": 772,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -2601,8 +2281,8 @@
 					{
 						"item": "viz_eSe1UY1F",
 						"position": {
-							"x": 486,
-							"y": 50,
+							"x": 910,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
@@ -2611,39 +2291,29 @@
 					{
 						"item": "viz_Uup8qsEm",
 						"position": {
-							"x": 205,
-							"y": 50,
+							"x": 643,
+							"y": 60,
 							"w": 20,
 							"h": 20
 						},
 						"type": "block"
 					},
 					{
-						"item": "viz_vIXsCtud",
-						"type": "block",
-						"position": {
-							"x": 551,
-							"y": 30,
-							"w": 96,
-							"h": 40
-						}
-					},
-					{
 						"item": "viz_C3qdLbDr",
 						"type": "block",
 						"position": {
-							"x": 550,
-							"y": 30,
+							"x": 988,
+							"y": 40,
 							"w": 96,
-							"h": 37
+							"h": 38
 						}
 					},
 					{
 						"item": "viz_0FyNQlau",
 						"type": "block",
 						"position": {
-							"x": 575,
-							"y": 37,
+							"x": 1013,
+							"y": 47,
 							"w": 45,
 							"h": 24
 						}
@@ -2652,8 +2322,8 @@
 						"item": "viz_9noBzUlW",
 						"type": "block",
 						"position": {
-							"x": 100,
-							"y": 350,
+							"x": 750,
+							"y": 270,
 							"w": 90,
 							"h": 80
 						}
@@ -2661,19 +2331,19 @@
 					{
 						"item": "viz_HVOepTUR",
 						"position": {
-							"x": 220,
-							"y": 330,
+							"x": 860,
+							"y": 250,
 							"w": 290,
-							"h": 174
+							"h": 140
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_rjR4NZAU",
 						"position": {
-							"x": 870,
-							"y": 244,
-							"w": 80,
+							"x": 336,
+							"y": 250,
+							"w": 150,
 							"h": 20
 						},
 						"type": "block"
@@ -2681,8 +2351,8 @@
 					{
 						"item": "viz_y1JxT1qT",
 						"position": {
-							"x": 610,
-							"y": 240,
+							"x": 330,
+							"y": 200,
 							"w": 90,
 							"h": 30
 						},
@@ -2691,8 +2361,8 @@
 					{
 						"item": "viz_wXstmHby",
 						"position": {
-							"x": 620,
-							"y": 244,
+							"x": 340,
+							"y": 204,
 							"w": 80,
 							"h": 20
 						},
@@ -2701,19 +2371,19 @@
 					{
 						"item": "viz_S014WuY0",
 						"position": {
-							"x": 690,
-							"y": 241,
-							"w": 96,
-							"h": 28
+							"x": 410,
+							"y": 200,
+							"w": 275,
+							"h": 30
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_iJII3YGb",
 						"position": {
-							"x": 697,
-							"y": 244,
-							"w": 80,
+							"x": 412,
+							"y": 204,
+							"w": 290,
 							"h": 20
 						},
 						"type": "block"
@@ -2721,9 +2391,9 @@
 					{
 						"item": "viz_UHmqPwHE",
 						"position": {
-							"x": 1020,
-							"y": 240,
-							"w": 230,
+							"x": 330,
+							"y": 295,
+							"w": 223,
 							"h": 30
 						},
 						"type": "block"
@@ -2731,9 +2401,9 @@
 					{
 						"item": "viz_vC7rCXN9",
 						"position": {
-							"x": 1027,
-							"y": 244,
-							"w": 220,
+							"x": 337,
+							"y": 297,
+							"w": 233,
 							"h": 20
 						},
 						"type": "block"
@@ -2741,9 +2411,9 @@
 					{
 						"item": "viz_jNBasxZz",
 						"position": {
-							"x": 600,
-							"y": 320,
-							"w": 670,
+							"x": 330,
+							"y": 348,
+							"w": 360,
 							"h": 240
 						},
 						"type": "block"
@@ -2751,12 +2421,82 @@
 					{
 						"item": "viz_NWUKO7dz",
 						"position": {
-							"x": 100,
-							"y": 280,
+							"x": 760,
+							"y": 200,
 							"w": 390,
 							"h": 40
 						},
 						"type": "block"
+					},
+					{
+						"item": "viz_2omy6aKr",
+						"position": {
+							"x": 290,
+							"y": 195,
+							"w": 40,
+							"h": 50
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_lIABlXS3",
+						"position": {
+							"x": 290,
+							"y": 240,
+							"w": 40,
+							"h": 50
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_OPxXVaLC",
+						"position": {
+							"x": 290,
+							"y": 290,
+							"w": 40,
+							"h": 50
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_WB1j9k30",
+						"position": {
+							"x": 290,
+							"y": 340,
+							"w": 40,
+							"h": 50
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_ew1XepxX",
+						"type": "block",
+						"position": {
+							"x": 0,
+							"y": 0,
+							"w": 1430,
+							"h": 700
+						}
+					},
+					{
+						"item": "viz_r1rJaEYH",
+						"type": "block",
+						"position": {
+							"x": 990,
+							"y": 40,
+							"w": 94,
+							"h": 37
+						}
+					},
+					{
+						"item": "viz_7I9Mgh0u",
+						"type": "block",
+						"position": {
+							"x": 330,
+							"y": 200,
+							"w": 352,
+							"h": 30
+						}
 					}
 				],
 				"type": "absolute"
