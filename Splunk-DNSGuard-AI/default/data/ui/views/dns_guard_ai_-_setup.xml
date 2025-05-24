@@ -15,10 +15,42 @@
 			"title": "",
 			"type": "input.timerange"
 		},
-		"input_Qm50k0cy": {
+		"input_k2qjyFGg": {
 			"options": {
 				"defaultValue": "0,",
-				"token": "token_ikoodivq"
+				"token": "token_NNlaS2Yn"
+			},
+			"title": "",
+			"type": "input.timerange"
+		},
+		"input_ovQaELCL": {
+			"options": {
+				"defaultValue": "0,",
+				"token": "token_iGSP1raS"
+			},
+			"title": "",
+			"type": "input.timerange"
+		},
+		"input_gN0ZPedw": {
+			"options": {
+				"defaultValue": "0,",
+				"token": "token_CGWFwM8u"
+			},
+			"title": "",
+			"type": "input.timerange"
+		},
+		"input_ALwRG8E2": {
+			"options": {
+				"defaultValue": "0,",
+				"token": "token_QHMEuS7G"
+			},
+			"title": "",
+			"type": "input.timerange"
+		},
+		"input_1R5DyTWD": {
+			"options": {
+				"defaultValue": "0,",
+				"token": "token_fYdmyPNy"
 			},
 			"title": "",
 			"type": "input.timerange"
@@ -910,8 +942,8 @@
 			"options": {
 				"fontColor": "#ffffff",
 				"fontSize": "custom",
-				"markdown": "### BEACONING DETECTION MODEL",
-				"customFontSize": 24,
+				"markdown": "### Beaconing",
+				"customFontSize": 16,
 				"fontFamily": "Splunk Data Sans"
 			},
 			"type": "splunk.markdown"
@@ -929,7 +961,6 @@
 			"eventHandlers": [],
 			"options": {
 				"fillColor": "#000000",
-				"fillOpacity": 0.89,
 				"rx": 10,
 				"strokeColor": "transparent"
 			},
@@ -939,7 +970,6 @@
 			"eventHandlers": [],
 			"options": {
 				"fillColor": "#013062",
-				"fillOpacity": 0.89,
 				"rx": 10,
 				"strokeColor": "transparent"
 			},
@@ -1042,7 +1072,7 @@
 				"fontColor": "#ffffff",
 				"fontSize": "custom",
 				"markdown": "- Open Splunk Web\n- Navigate to Apps → Splunk Machine Learning Toolkit\n- Click on the Settings button\n- Search for DensityFunction and click on it\n- Change the max_groups value from 1024 to a higher value (e.g., 2048 or more, depending on your use case)\n- Change the max_inputs value from 100000 to 500000",
-				"customFontSize": 18
+				"customFontSize": 12
 			},
 			"type": "splunk.markdown"
 		},
@@ -1051,7 +1081,7 @@
 				"fontColor": "#ffffff",
 				"fontSize": "custom",
 				"markdown": "Error in 'fit' command: Error while fitting \"DensityFunction\" model: The number of groups can not exceed 1024; the current number of groups is XXXX. Please find detailed information about the number of groups in docs.",
-				"customFontSize": 18
+				"customFontSize": 12
 			},
 			"type": "splunk.markdown"
 		},
@@ -1062,103 +1092,6 @@
 				"rx": 10,
 				"strokeColor": "#dc4e41",
 				"strokeWidth": 3
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_RfVkSPAX": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "transparent",
-				"rx": 10,
-				"strokeColor": "#dc4e41",
-				"strokeWidth": 3
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_7aKpjFMN": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#000000",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_kK1Ahdba": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#013062",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_obkxKm0b": {
-			"options": {
-				"fontColor": "#ffffff",
-				"fontSize": "custom",
-				"markdown": "### BEHAVIORAL CLUSTERING MODEL",
-				"customFontSize": 24,
-				"fontFamily": "Splunk Data Sans"
-			},
-			"type": "splunk.markdown"
-		},
-		"viz_Z44WDzKB": {
-			"type": "splunk.singlevalue",
-			"dataSources": {
-				"primary": "ds_i6kgJNka_ds_2YOW63hy"
-			},
-			"options": {
-				"backgroundColor": "transparent"
-			}
-		},
-		"viz_vkykPhjl": {
-			"options": {
-				"fontColor": "#ffffff",
-				"fontSize": "custom",
-				"markdown": "- Open Splunk Web\n- Navigate to Apps → Splunk Machine Learning Toolkit\n- Click on the Settings button\n- Search for DensityFunction and click on it\n- Change the max_groups value from 1024 to a higher value (e.g., 2048 or more, depending on your use case)\n- Change the max_inputs value from 100000 to 500000",
-				"customFontSize": 18
-			},
-			"type": "splunk.markdown"
-		},
-		"viz_WYBnYgFP": {
-			"options": {
-				"fontColor": "#ffffff",
-				"fontSize": "custom",
-				"markdown": "Error in 'fit' command: Error while fitting \"DensityFunction\" model: The number of groups can not exceed 1024; the current number of groups is XXXX. Please find detailed information about the number of groups in docs.",
-				"customFontSize": 18
-			},
-			"type": "splunk.markdown"
-		},
-		"viz_PeedSP2z": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#ffffff",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_zx3k2yTn": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#ffffff",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
-			},
-			"type": "splunk.rectangle"
-		},
-		"viz_EFtE13A0": {
-			"eventHandlers": [],
-			"options": {
-				"fillColor": "#ffffff",
-				"fillOpacity": 0.89,
-				"rx": 10,
-				"strokeColor": "transparent"
 			},
 			"type": "splunk.rectangle"
 		},
@@ -1217,6 +1150,311 @@
 				"fillColor": "transparent",
 				"strokeColor": "transparent"
 			}
+		},
+		"viz_w41gcoiv": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#dc4e41",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_He94G5qm": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Density Function Algorithm",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_NdWCKisW": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#53a051",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_LVA8rPxw": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_J8bEDX3s": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_RFVBksWE": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Record Type Anomalies",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_6fDKWRYr": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_wahErERv_ds_2YOW63hy"
+			},
+			"options": {
+				"backgroundColor": "transparent"
+			}
+		},
+		"viz_a0uYW0qr": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Anomaly Detection Algorithm",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_EnKhPUJk": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#53a051",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_rOUHeJGx": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_0ZExug7A": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_p2Ip9YTV": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### C2 Tunneling Detection",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_sKTHCD2N": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_vJXg1jfX_ds_2YOW63hy"
+			},
+			"options": {
+				"backgroundColor": "transparent"
+			}
+		},
+		"viz_1s2vbOwF": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Anomaly Detection Algorithm",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_HNdsHpwK": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#f1813f",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_LDf7YldM": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_NJrl2r8C": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_Nh5uRAU6": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Behavioral Clustering",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_4pWncLnn": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_mJgIOgjf_ds_2YOW63hy"
+			},
+			"options": {
+				"backgroundColor": "transparent"
+			}
+		},
+		"viz_6XBVTRxf": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### K Means Algorithm",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_Y0VfD1Dg": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#53a051",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_dt6Of0W4": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_tbHafLkW": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_lMWOKOKZ": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Query Length Anomalies",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_M8xcq28k": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_0d278tIx_ds_wahErERv_ds_2YOW63hy"
+			},
+			"options": {
+				"backgroundColor": "transparent"
+			}
+		},
+		"viz_jo2anPAh": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Anomaly Detection Algorithm",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_FqMjGeMm": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#53a051",
+				"fillOpacity": 0.89,
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_oPO8Idno": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#000000",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_Nw4dn9vG": {
+			"eventHandlers": [],
+			"options": {
+				"fillColor": "#013062",
+				"rx": 10,
+				"strokeColor": "transparent"
+			},
+			"type": "splunk.rectangle"
+		},
+		"viz_92Qkoc7l": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Domain Shadowing",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
+		},
+		"viz_sIroUmoL": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_Ehp5TvbG_ds_vJXg1jfX_ds_2YOW63hy"
+			},
+			"options": {
+				"backgroundColor": "transparent"
+			}
+		},
+		"viz_7K3hgULp": {
+			"options": {
+				"fontColor": "#ffffff",
+				"fontSize": "custom",
+				"markdown": "### Anomaly Detection Algorithm",
+				"customFontSize": 16,
+				"fontFamily": "Splunk Data Sans"
+			},
+			"type": "splunk.markdown"
 		}
 	},
 	"dataSources": {
@@ -1263,6 +1501,138 @@
 				}
 			},
 			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 1"
+		},
+		"ds_fvCY6727_ds_i6kgJNka_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 2"
+		},
+		"ds_9ntQovTi_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 3"
+		},
+		"ds_sVEkFXkG_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 4"
+		},
+		"ds_Y1ugCACn_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 5"
+		},
+		"ds_wahErERv_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 6"
+		},
+		"ds_vJXg1jfX_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 7"
+		},
+		"ds_mJgIOgjf_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 8"
+		},
+		"ds_0d278tIx_ds_wahErERv_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 9"
+		},
+		"ds_Ehp5TvbG_ds_vJXg1jfX_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 10"
+		},
+		"ds_NrOxc85D_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 11"
+		},
+		"ds_cv2gM0Ut_ds_wahErERv_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 12"
+		},
+		"ds_1IGA3Wda_ds_vJXg1jfX_ds_2YOW63hy": {
+			"type": "ds.search",
+			"options": {
+				"query": "| `dns_data` | `extract_sub_domain` | streamstats current=f last(_time) as last_time by src, domain | eval gap = last_time - _time | fit DensityFunction gap by \"src,domain\" dist=norm threshold=0.01 into dns_beacon_gap_model\n| search dummy=\"dummy\"\n| append \n    [| makeresults | eval result = \"Model Trained\"]\n",
+				"queryParameters": {
+					"earliest": "$time_beaconing_model_training.earliest$",
+					"latest": "$time_beaconing_model_training.latest$"
+				}
+			},
+			"name": "setup_mltk_configuration_setup_beaconing_detection_model copy 13"
 		}
 	},
 	"layout": {
@@ -1667,7 +2037,8 @@
 				"options": {
 					"backgroundColor": "#002345",
 					"display": "fit-to-width",
-					"width": 1430
+					"width": 1430,
+					"height": 1000
 				},
 				"structure": [
 					{
@@ -1685,21 +2056,31 @@
 						"type": "line"
 					},
 					{
+						"item": "viz_w41gcoiv",
+						"position": {
+							"x": 180,
+							"y": 180,
+							"w": 340,
+							"h": 80
+						},
+						"type": "block"
+					},
+					{
 						"item": "viz_mEfaUWMK",
 						"type": "block",
 						"position": {
-							"x": 850,
-							"y": 210,
-							"w": 520,
+							"x": 40,
+							"y": 880,
+							"w": 240,
 							"h": 100
 						}
 					},
 					{
 						"item": "viz_6ZwnqvHt",
 						"position": {
-							"x": 60,
+							"x": 190,
 							"y": 220,
-							"w": 770,
+							"w": 340,
 							"h": 250
 						},
 						"type": "block"
@@ -1707,9 +2088,9 @@
 					{
 						"item": "viz_MUQtJZIF",
 						"position": {
-							"x": 50,
+							"x": 180,
 							"y": 210,
-							"w": 770,
+							"w": 340,
 							"h": 250
 						},
 						"type": "block"
@@ -1807,9 +2188,9 @@
 					{
 						"item": "viz_HinU0nhO",
 						"position": {
-							"x": 200,
+							"x": 300,
 							"y": 220,
-							"w": 470,
+							"w": 120,
 							"h": 40
 						},
 						"type": "block"
@@ -1818,9 +2199,9 @@
 						"item": "viz_7wswIm29",
 						"type": "block",
 						"position": {
-							"x": 850,
-							"y": 320,
-							"w": 520,
+							"x": 260,
+							"y": 870,
+							"w": 370,
 							"h": 150
 						}
 					},
@@ -1828,108 +2209,18 @@
 						"item": "viz_jEBLChAd",
 						"type": "block",
 						"position": {
-							"x": 880,
-							"y": 220,
-							"w": 480,
+							"x": 50,
+							"y": 890,
+							"w": 240,
 							"h": 80
 						}
-					},
-					{
-						"item": "viz_RfVkSPAX",
-						"type": "block",
-						"position": {
-							"x": 850,
-							"y": 530,
-							"w": 520,
-							"h": 100
-						}
-					},
-					{
-						"item": "viz_7aKpjFMN",
-						"position": {
-							"x": 60,
-							"y": 540,
-							"w": 770,
-							"h": 250
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_kK1Ahdba",
-						"position": {
-							"x": 50,
-							"y": 530,
-							"w": 770,
-							"h": 250
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_obkxKm0b",
-						"position": {
-							"x": 190,
-							"y": 540,
-							"w": 490,
-							"h": 40
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_vkykPhjl",
-						"type": "block",
-						"position": {
-							"x": 850,
-							"y": 640,
-							"w": 520,
-							"h": 150
-						}
-					},
-					{
-						"item": "viz_WYBnYgFP",
-						"type": "block",
-						"position": {
-							"x": 880,
-							"y": 540,
-							"w": 480,
-							"h": 80
-						}
-					},
-					{
-						"item": "viz_PeedSP2z",
-						"position": {
-							"x": 50,
-							"y": 500,
-							"w": 1320,
-							"h": 20
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_zx3k2yTn",
-						"position": {
-							"x": 50,
-							"y": 180,
-							"w": 1320,
-							"h": 20
-						},
-						"type": "block"
-					},
-					{
-						"item": "viz_EFtE13A0",
-						"position": {
-							"x": 50,
-							"y": 800,
-							"w": 1320,
-							"h": 20
-						},
-						"type": "block"
 					},
 					{
 						"item": "viz_vR2Wzl5d",
 						"type": "block",
 						"position": {
-							"x": 550,
-							"y": 840,
+							"x": 570,
+							"y": 810,
 							"w": 300,
 							"h": 40
 						}
@@ -1938,8 +2229,8 @@
 						"item": "viz_0Gx4tAQ8",
 						"type": "block",
 						"position": {
-							"x": 610,
-							"y": 845,
+							"x": 630,
+							"y": 817,
 							"w": 190,
 							"h": 30
 						}
@@ -1949,18 +2240,18 @@
 						"type": "block",
 						"position": {
 							"x": 0,
-							"y": 0,
+							"y": -500,
 							"w": 1430,
-							"h": 900
+							"h": 580
 						}
 					},
 					{
 						"item": "viz_Eh2sPTBu",
 						"type": "block",
 						"position": {
-							"x": 200,
+							"x": 190,
 							"y": 320,
-							"w": 450,
+							"w": 320,
 							"h": 140
 						}
 					},
@@ -1968,28 +2259,8 @@
 						"item": "input_fpTlec8i",
 						"type": "input",
 						"position": {
-							"x": 340,
+							"x": 270,
 							"y": 250,
-							"w": 170,
-							"h": 66
-						}
-					},
-					{
-						"item": "viz_Z44WDzKB",
-						"type": "block",
-						"position": {
-							"x": 200,
-							"y": 640,
-							"w": 450,
-							"h": 140
-						}
-					},
-					{
-						"item": "input_Qm50k0cy",
-						"type": "input",
-						"position": {
-							"x": 340,
-							"y": 570,
 							"w": 170,
 							"h": 66
 						}
@@ -1998,11 +2269,371 @@
 						"item": "viz_H4xMqFDj",
 						"type": "block",
 						"position": {
-							"x": 550,
-							"y": 840,
+							"x": 570,
+							"y": 810,
 							"w": 300,
 							"h": 40
 						}
+					},
+					{
+						"item": "viz_He94G5qm",
+						"position": {
+							"x": 230,
+							"y": 180,
+							"w": 260,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_NdWCKisW",
+						"position": {
+							"x": 550,
+							"y": 180,
+							"w": 340,
+							"h": 80
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_LVA8rPxw",
+						"position": {
+							"x": 560,
+							"y": 220,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_J8bEDX3s",
+						"position": {
+							"x": 550,
+							"y": 210,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_RFVBksWE",
+						"position": {
+							"x": 610,
+							"y": 220,
+							"w": 240,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_6fDKWRYr",
+						"type": "block",
+						"position": {
+							"x": 560,
+							"y": 320,
+							"w": 320,
+							"h": 140
+						}
+					},
+					{
+						"item": "input_k2qjyFGg",
+						"type": "input",
+						"position": {
+							"x": 640,
+							"y": 250,
+							"w": 170,
+							"h": 66
+						}
+					},
+					{
+						"item": "viz_a0uYW0qr",
+						"position": {
+							"x": 590,
+							"y": 180,
+							"w": 290,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_EnKhPUJk",
+						"position": {
+							"x": 920,
+							"y": 180,
+							"w": 340,
+							"h": 80
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_rOUHeJGx",
+						"position": {
+							"x": 930,
+							"y": 220,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_0ZExug7A",
+						"position": {
+							"x": 920,
+							"y": 210,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_p2Ip9YTV",
+						"position": {
+							"x": 980,
+							"y": 220,
+							"w": 240,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_sKTHCD2N",
+						"type": "block",
+						"position": {
+							"x": 930,
+							"y": 320,
+							"w": 320,
+							"h": 140
+						}
+					},
+					{
+						"item": "input_ovQaELCL",
+						"type": "input",
+						"position": {
+							"x": 1010,
+							"y": 250,
+							"w": 170,
+							"h": 66
+						}
+					},
+					{
+						"item": "viz_1s2vbOwF",
+						"position": {
+							"x": 950,
+							"y": 180,
+							"w": 290,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_HNdsHpwK",
+						"position": {
+							"x": 180,
+							"y": 490,
+							"w": 340,
+							"h": 80
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_LDf7YldM",
+						"position": {
+							"x": 190,
+							"y": 530,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_NJrl2r8C",
+						"position": {
+							"x": 180,
+							"y": 520,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Nh5uRAU6",
+						"position": {
+							"x": 250,
+							"y": 530,
+							"w": 220,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_4pWncLnn",
+						"type": "block",
+						"position": {
+							"x": 190,
+							"y": 630,
+							"w": 320,
+							"h": 140
+						}
+					},
+					{
+						"item": "input_gN0ZPedw",
+						"type": "input",
+						"position": {
+							"x": 270,
+							"y": 560,
+							"w": 170,
+							"h": 66
+						}
+					},
+					{
+						"item": "viz_6XBVTRxf",
+						"position": {
+							"x": 260,
+							"y": 490,
+							"w": 180,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Y0VfD1Dg",
+						"position": {
+							"x": 550,
+							"y": 490,
+							"w": 350,
+							"h": 80
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_dt6Of0W4",
+						"position": {
+							"x": 560,
+							"y": 530,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_tbHafLkW",
+						"position": {
+							"x": 550,
+							"y": 520,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_lMWOKOKZ",
+						"position": {
+							"x": 610,
+							"y": 530,
+							"w": 250,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_M8xcq28k",
+						"type": "block",
+						"position": {
+							"x": 560,
+							"y": 630,
+							"w": 320,
+							"h": 140
+						}
+					},
+					{
+						"item": "input_ALwRG8E2",
+						"type": "input",
+						"position": {
+							"x": 640,
+							"y": 560,
+							"w": 170,
+							"h": 66
+						}
+					},
+					{
+						"item": "viz_jo2anPAh",
+						"position": {
+							"x": 590,
+							"y": 490,
+							"w": 290,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_FqMjGeMm",
+						"position": {
+							"x": 920,
+							"y": 490,
+							"w": 340,
+							"h": 80
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_oPO8Idno",
+						"position": {
+							"x": 930,
+							"y": 530,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Nw4dn9vG",
+						"position": {
+							"x": 920,
+							"y": 520,
+							"w": 340,
+							"h": 250
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_92Qkoc7l",
+						"position": {
+							"x": 1000,
+							"y": 530,
+							"w": 190,
+							"h": 40
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_sIroUmoL",
+						"type": "block",
+						"position": {
+							"x": 930,
+							"y": 630,
+							"w": 320,
+							"h": 140
+						}
+					},
+					{
+						"item": "input_1R5DyTWD",
+						"type": "input",
+						"position": {
+							"x": 1010,
+							"y": 560,
+							"w": 170,
+							"h": 66
+						}
+					},
+					{
+						"item": "viz_7K3hgULp",
+						"position": {
+							"x": 950,
+							"y": 490,
+							"w": 290,
+							"h": 40
+						},
+						"type": "block"
 					}
 				],
 				"type": "absolute"
